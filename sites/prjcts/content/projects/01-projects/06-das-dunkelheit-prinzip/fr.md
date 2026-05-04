@@ -1,0 +1,1 @@
+<p>das_dunkelheit_prinzip explore la nuit comme force active. Non comme vide, non comme silence, mais comme un principe qui engloutit les formes, les ralentit et les réordonne. Les images cherchent le moment où la lumière n'explique plus, mais commence à douter. Ce qui reste n'est pas un enregistrement de la nuit, mais une collaboration avec son obscurité.</p>

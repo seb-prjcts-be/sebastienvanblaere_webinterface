@@ -1,0 +1,8 @@
+<p>In 1984, I was 10. <br>My father got us our first &#8220;Personal Computer&#8221; from <b>IBM</b>, the 5155, with a rattling matrix printer.</p>
+<p>The imposing &#8220;portable&#8221; computer started with loud buzzing and on a black screen, a flickering cursor appeared after a long start-up.</p>
+<p>It seemed like the computer wanted to say: <br>&#8220;Well, I have successfully loaded <b>MS DOS</b>, now it&#8217;s up to you!&#8221;.</p>
+<p>I learned a lot from a thick book in <b>BASIC</b> programming. I learned to make games, drawings and loads of other, mostly useless programs.</p>
+<p>In those days kids could go to a &quot;Tennis / programming camp &quot;, where I went in summer, to improve my skills.</p>
+<p>Later, as the PC and clones became increasingly cheaper, more and more ready-made programs came out. <br>There was no mention of copyright whatsoever. </p>
+<p>On a Wednesday afternoon I went to a computer store in Ghent with a friend. <br>In exchange for the purchase of a box of floppy disks, we were allowed to copy everything that was available in the store. Between Digger, Pacman, Frogger, <a href='https://youtu.be/d6gUZxIYXg4' target='_blank'>Decathlon</a> and the first <a href='https://youtu.be/1H9BEyHmq_I' target='_blank'>Flight Simulator</a>, I found a copy of Autocad. With that program, you could magically print out a wire model of the Space Shuttle!</p>
+<p>That is how the love started.</p>

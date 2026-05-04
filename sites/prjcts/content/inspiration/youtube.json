@@ -1,0 +1,41 @@
+{
+    "groups": [
+        {
+            "name_nl": "Inspirerend / Creativiteit",
+            "name_en": "Inspiring / Creativity",
+            "name_fr": "Inspirant / Créativité",
+            "items": [
+                {"code": "6avJHaC3C2U", "title": "The art of code - Dylan Beattie"},
+                {"code": "molt7gOY4b0", "title": "Dada Sprüche - Hans Arp"},
+                {"code": "Pb5oIIPO62g", "title": "John Cleese - Creativity in management"}
+            ]
+        },
+        {
+            "name_nl": "Pioniers",
+            "name_en": "Pioneers",
+            "name_fr": "Pionniers",
+            "items": [
+                {"code": "MKvh1mAcLjw", "title": "Bruno Munari nel suo studio e al Laboratorio di Beba Restelli"},
+                {"code": "9JU3GFgMWh8", "title": "Oskar Fischinger - Study no 8 (excerpt)"},
+                {"code": "GeyrKu34vIQ", "title": "Aldo Tambellini - Blackout (1965)"},
+                {"code": "C79O3VooqQg", "title": "Corti surrealisti Man Ray - Fernand Leger - Marcel Duchamp (1923-1929)"},
+                {"code": "gHy3DCpZM6o", "title": "Vasulkas: Transformations"},
+                {"code": "_wBu_q3cRrI", "title": "Vasulkas: Objects"},
+                {"code": "iji_cT9L6RQ", "title": "Arte programmata"},
+                {"code": "56gzV0od6DU", "title": "The Mandelbrot Set"}
+            ]
+        },
+        {
+            "name_nl": "Nostalgisch",
+            "name_en": "Nostalgia",
+            "name_fr": "Nostalgie",
+            "items": [
+                {"code": "szdbKz5CyhA", "title": "How to send an 'E mail' - Database (1984)"},
+                {"code": "ZsV1e1XCmWk", "title": "Internet shopping - Database (1984)"},
+                {"code": "EjPTMfVBDh0", "title": "John Warnock Introduces Adobe Illustrator (1987)"},
+                {"code": "_Tx6TYnPat8", "title": "Introducing The Amazing Compact Disc (1982)"},
+                {"code": "HG2CKrl9tvg", "title": "Moving Pictures - Graphics & Animation (1982)"}
+            ]
+        }
+    ]
+}

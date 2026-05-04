@@ -1,0 +1,2 @@
+<p>Comme j'ai déjà subi plusieurs lésions cérébrales graves dans ma vie, il était inévitable qu'elles deviennent un jour le sujet de mes projets. Dans cette vidéo, je parle de la vie avec une mémoire endommagée et de tous les outils possibles.</p>
+<p>L'entropie comme thème et métaphore semble particulièrement à sa place ici.</p>

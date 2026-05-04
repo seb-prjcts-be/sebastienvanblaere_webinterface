@@ -1,0 +1,38 @@
+RewriteEngine On
+
+# === Hardening ===
+# Disable directory listing (geen index.html → 403 i.p.v. file-tree)
+Options -Indexes
+
+# Block toegang tot dotfiles (.git/, .env, .htaccess zelf, .DS_Store, etc.)
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Security headers (vereist mod_headers — standaard op Apache)
+<IfModule mod_headers.c>
+    # Geen MIME-sniffing → forceer Content-Type-respect
+    Header always set X-Content-Type-Options "nosniff"
+    # Clickjacking-defence: enkel zelfde origin mag in iframe
+    Header always set X-Frame-Options "SAMEORIGIN"
+    # Referer-info beperken bij cross-origin navigatie
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    # FLoC / topics opt-out
+    Header always set Permissions-Policy "interest-cohort=(), browsing-topics=()"
+    # HSTS — alleen sturen op HTTPS-verbindingen
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" "expr=%{HTTPS} == 'on'"
+</IfModule>
+
+# === Host-based routing voor productie ===
+# prjcts.be             → sites/prjcts/
+# kunstmijnoren.be      → sites/kunstmijnoren/
+
+RewriteCond %{HTTP_HOST} ^(www\.)?prjcts\.be$ [NC]
+RewriteCond %{REQUEST_URI} !^/sites/
+RewriteCond %{REQUEST_URI} !^/_shared/
+RewriteRule ^(.*)$ sites/prjcts/$1 [L]
+
+RewriteCond %{HTTP_HOST} ^(www\.)?kunstmijnoren\.be$ [NC]
+RewriteCond %{REQUEST_URI} !^/sites/
+RewriteCond %{REQUEST_URI} !^/_shared/
+RewriteRule ^(.*)$ sites/kunstmijnoren/$1 [L]

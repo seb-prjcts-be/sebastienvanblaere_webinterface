@@ -1,0 +1,1 @@
+<p>das_dunkelheit_prinzip explores the night as an active force. Not as emptiness, not as silence, but as a principle that swallows forms, slows them down, and reorders them. The images seek the moment when light no longer explains, but begins to doubt. What remains is not a recording of the night, but a collaboration with its illegibility.</p>

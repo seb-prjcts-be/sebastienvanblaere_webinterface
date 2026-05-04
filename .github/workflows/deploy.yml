@@ -1,0 +1,42 @@
+name: Deploy hub to one.com
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.SFTP_HOST }}
+          username: ${{ secrets.SFTP_USER }}
+          password: ${{ secrets.SFTP_PASS }}
+          protocol: ftps
+          port: 21
+          # one.com webroot voor sebastienvanblaere.be
+          # Verifieer: login via FileZilla → ga naar sebastienvanblaere.be/httpd.www/
+          server-dir: /sebastienvanblaere.be/httpd.www/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/.github/**
+            **/_shared/**
+            **/services/**
+            **/.thumb/**
+            **/*.log
+            **/node_modules/**
+            **/.DS_Store
+            **/Thumbs.db
+            **/CLAUDE.md
+            **/cloud.md
+            **/MIGRATION.md
+            **/README.md
+            **/.env
+            **/.env.*

@@ -1,0 +1,4 @@
+<p>Digitaal geprogrammeerde beelden krijgen analoge kwaliteiten die tot de verbeelding spreken en je in staat stellen te mediteren, rond te dwalen.</p>
+<hr>
+<p><b>Random walkers</b></p>
+<p>Een <b>Random walker</b> is een object dat één stap in een bepaalde richting kan zetten, afhankelijk van de resultaten van een virtuele dobbelsteenworp. 1 is boven, 2 is beneden, enz.<br>De willekeurige wandelaars in dit project worden gedwongen om meestal naar rechts te lopen.<br>Als een walker aan de rechterkant arriveert, wordt een unieke afbeelding naar uw computer gedownload.<br><br><a href='https://editor.p5js.org/sebvanb/sketches/uWgsitKS7' target='_blank'>Random walker in P5.js</a>.</p>

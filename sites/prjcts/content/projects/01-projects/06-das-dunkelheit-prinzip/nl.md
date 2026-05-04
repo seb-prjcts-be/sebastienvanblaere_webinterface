@@ -1,0 +1,1 @@
+<p>das_dunkelheit_prinzip onderzoekt de nacht als actieve kracht. Niet als leegte, niet als stilte, maar als een principe dat vormen opslokt, vertraagt en opnieuw ordent. De beelden zoeken naar het moment waarop licht niet langer verklaart, maar begint te twijfelen. Wat overblijft is geen registratie van de nacht, maar een samenwerking met haar onleesbaarheid.</p>

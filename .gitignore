@@ -1,0 +1,41 @@
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.vscode/
+.idea/
+
+# Eigen backups van .git (mag niet getrackt worden)
+.git_BACKUP*/
+*_BACKUP/
+*_BACKUP_*/
+
+# Thumbnail cache (auto-gegenereerd door _shared/thumb.php)
+**/.thumb/
+**/thumb/
+
+# Services hebben eigen repo's — niet meeloggen in hub-repo
+/services/
+
+# _shared/ is een eigen repo — niet meeloggen in hub-repo
+/_shared/
+
+# Lokale logs / dev-output
+*.log
+
+# Symlinks/junctions die naar buiten de hub wijzen worden best niet getracked
+# (bv. /sites/p5/ als die ooit junction wordt)
+
+# Video-extensies: te groot voor GitHub (100MB-limiet) — manueel via SFTP
+*.mp4
+*.mov
+*.webm
+*.avi
+*.mkv
+*.m4v
+*.ogv
+
+# Zware kunst/film/animatie-folders — manueel via SFTP, niet in git-historie
+sites/prjcts/content/projects/01-projects/01-graphiques-machiniques/
+sites/prjcts/content/projects/02-archief/03-experiments/

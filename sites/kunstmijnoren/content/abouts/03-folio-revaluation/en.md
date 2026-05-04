@@ -1,0 +1,1 @@
+<p>Notes on revaluing found folio and printed matter. Snippets, postcards, and paper textures gathered and re-shared.</p>

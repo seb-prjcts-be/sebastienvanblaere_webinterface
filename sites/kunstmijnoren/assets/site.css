@@ -1,0 +1,38 @@
+/* === kunstmijnoren.be — site-specific tweaks ===
+ * Inherits everything from /_shared/assets/shared.css.
+ */
+
+/* Eigen warmere achtergrond — onderscheid tov prjcts (#f5f5f5) */
+:root {
+    --site-bg: #fffdf6;   /* content: warm off-white */
+    --menu-bg: #efefec;   /* menu: iets dieper cream */
+}
+
+/* Site-titel (home-link) — Oswald, groot */
+.menu-overlay a.home-link h1 {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 2.2rem;
+    line-height: 1;
+    letter-spacing: 0.01em;
+}
+
+/* Sub-titel "Sebastien Vanblaere" — Oswald, kleiner dan h1 */
+.menu-overlay a.menu-link h4 {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.3;
+    margin-bottom: 0.5rem;
+}
+
+/* Hoofdmap-header (artform) in het zijmenu — rood accent zoals oude site. */
+.menu-category {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 1.5rem;
+    line-height: 1.4;
+    margin-top: 1.25rem;
+    margin-bottom: 0.25rem;
+    color: var(--accent);
+}

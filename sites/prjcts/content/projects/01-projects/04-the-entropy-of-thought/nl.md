@@ -1,0 +1,1 @@
+<p>Omdat ik in mijn leven al enkele zware hersenbeschadigingen heb opgelopen, was het onvermijdelijk dat deze ooit het onderwerp zouden worden van mijn projecten. In deze video praat ik over het leven met een beschadigd geheugen en alle mogelijke hulpmiddelen.</p><p>Entropie als thema en metafoor voelt in dit geval erg op zijn plaats.</p>
