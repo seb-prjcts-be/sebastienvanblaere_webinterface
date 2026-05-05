@@ -45,8 +45,8 @@ $svc_url  = function (string $name) use ($config, $mode_now): string {
 
 // Ordered linktree-items — match sebastienvanblaere.be/index.php
 $items = [
-    ['type' => 'sat',      'label' => 'prjcts.be',                  'key'  => 'prjcts',         'desc' => 'het werk'],
-    ['type' => 'sat',      'label' => 'kunstmijnoren.be',           'key'  => 'kunstmijnoren',  'desc' => 'alter ego'],
+    ['type' => 'sat',      'label' => 'prjcts.be',                  'key'  => 'prjcts'],
+    ['type' => 'sat',      'label' => 'kunstmijnoren.be',           'key'  => 'kunstmijnoren'],
     ['type' => 'sat',      'label' => 'p5.waves (library)',         'key'  => 'waves'],
     ['type' => 'sat',      'label' => 'p5.export (service)',        'key'  => 'export'],
     ['type' => 'external', 'label' => 'SVG_converter (service)',    'href' => $svc_url('svg')],
