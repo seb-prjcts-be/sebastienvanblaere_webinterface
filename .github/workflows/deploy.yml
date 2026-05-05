@@ -12,31 +12,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy via FTPS
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Deploy via SFTP
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           server: ${{ secrets.SFTP_HOST }}
           username: ${{ secrets.SFTP_USER }}
-          password: ${{ secrets.SFTP_PASS }}
-          protocol: ftps
-          port: 21
-          # one.com webroot voor sebastienvanblaere.be
-          # Verifieer: login via FileZilla → ga naar sebastienvanblaere.be/httpd.www/
-          server-dir: /sebastienvanblaere.be/httpd.www/
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/.github/**
-            **/_shared/**
-            **/services/**
-            **/.thumb/**
-            **/*.log
-            **/node_modules/**
-            **/.DS_Store
-            **/Thumbs.db
-            **/CLAUDE.md
-            **/cloud.md
-            **/MIGRATION.md
-            **/README.md
-            **/.env
-            **/.env.*
+          ssh_private_key: ${{ secrets.SFTP_PASS }}
+          port: 22
+          local_path: './*'
+          remote_path: '/sebastienvanblaere.be/httpd.www/'
+          delete_remote_files: false
+          sftpArgs: '-o ConnectTimeout=10 -o StrictHostKeyChecking=no'
