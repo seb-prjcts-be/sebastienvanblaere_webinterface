@@ -41,12 +41,12 @@
     function currentKey() {
         if (host === 'prjcts.be' || host === 'www.prjcts.be') return 'prjcts';
         if (host === 'kunstmijnoren.be' || host === 'www.kunstmijnoren.be') return 'kunstmijnoren';
-        if (host === 'p5.prjcts.be') return 'p5';
+        if (host === 'creativecoding.prjcts.be' || host === 'p5.prjcts.be') return 'p5';
         if (host === 'waves.prjcts.be') return 'waves';
         if (host === 'export.prjcts.be') return 'export';
         // Lokaal: detect via path — elke site is folder onder htdocs/
         var path = window.location.pathname;
-        if (path.indexOf('/p5.prjcts.be') === 0 || path.indexOf('/services/creative_coding_site') === 0) return 'p5';
+        if (path.indexOf('/creativecoding.prjcts.be') === 0 || path.indexOf('/p5.prjcts.be') === 0 || path.indexOf('/services/creative_coding_site') === 0) return 'p5';
         if (path.indexOf('/prjcts.be') === 0) return 'prjcts';
         if (path.indexOf('/kunstmijnoren.be') === 0) return 'kunstmijnoren';
         if (path.indexOf('/waves.prjcts.be') === 0) return 'waves';
@@ -61,7 +61,7 @@
     var sats = [
         { key: 'prjcts',        host: 'prjcts.be',         label: 'prjcts.be',         desc: 'het werk' },
         { key: 'kunstmijnoren', host: 'kunstmijnoren.be',  label: 'kunstmijnoren.be',  desc: 'alter ego' },
-        { key: 'p5',            host: 'p5.prjcts.be',      label: 'p5 cursus',         desc: 'creative coding' },
+        { key: 'p5',            host: 'creativecoding.prjcts.be',  label: 'p5 cursus',         desc: 'creative coding' },
         { key: 'waves',         host: 'waves.prjcts.be',   label: 'p5.waves library',  desc: 'wave-formules',
                                 external: 'https://seb-prjcts-be.github.io/p5.waves/' },
         { key: 'export',        host: 'export.prjcts.be',  label: 'p5.export',         desc: 'export-utility' }

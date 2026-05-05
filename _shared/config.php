@@ -62,7 +62,7 @@ return [
             ],
         ],
         'p5' => [
-            'host'        => 'p5.prjcts.be',
+            'host'        => 'creativecoding.prjcts.be',
             'title'       => 'p5 cursus',
             'description' => 'creative coding handleiding',
             'register'    => 'educational',
