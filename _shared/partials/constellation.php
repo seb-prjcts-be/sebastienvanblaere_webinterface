@@ -65,7 +65,6 @@ $items = [
     <div class="constellation-inner">
         <div class="constellation-heading">
             <strong>Sebastien Vanblaere</strong>
-            <small>teacher · coder · maker · artist</small>
         </div>
 
         <ul class="constellation-list">
