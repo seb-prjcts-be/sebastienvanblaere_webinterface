@@ -1,1 +1,0 @@
-<p>Deze website is veel, véél ernstiger dan ik mijzelf en mijn werk ooit zou nemen. Dat is misschien belangrijk om weten.</p>

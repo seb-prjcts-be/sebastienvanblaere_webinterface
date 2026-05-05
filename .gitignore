@@ -6,28 +6,26 @@ desktop.ini
 .vscode/
 .idea/
 
-# Eigen backups van .git (mag niet getrackt worden)
+# Eigen backups
 .git_BACKUP*/
 *_BACKUP/
 *_BACKUP_*/
+_BACKUP_pivot/
 
-# Thumbnail cache (auto-gegenereerd door _shared/thumb.php)
+# Thumbnail cache (auto-gegenereerd)
 **/.thumb/
 **/thumb/
 
-# Services hebben eigen repo's — niet meeloggen in hub-repo
+# Sites + services + _shared = eigen repo's, niet hier meecommitten
+/sites/
 /services/
-
-# _shared/ is een eigen repo — niet meeloggen in hub-repo
 /_shared/
+/_shared
 
 # Lokale logs / dev-output
 *.log
 
-# Symlinks/junctions die naar buiten de hub wijzen worden best niet getracked
-# (bv. /sites/p5/ als die ooit junction wordt)
-
-# Video-extensies: te groot voor GitHub (100MB-limiet) — manueel via SFTP
+# Video-extensies: manueel via SFTP
 *.mp4
 *.mov
 *.webm
@@ -36,6 +34,12 @@ desktop.ini
 *.m4v
 *.ogv
 
-# Zware kunst/film/animatie-folders — manueel via SFTP, niet in git-historie
-sites/prjcts/content/projects/01-projects/01-graphiques-machiniques/
-sites/prjcts/content/projects/02-archief/03-experiments/
+# Images — manueel via SFTP (optie B: alle visuele content los van git)
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+*.bmp
+*.tiff
+*.ico

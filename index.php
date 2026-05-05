@@ -20,8 +20,8 @@ foreach ($config['satellites'] as $key => $sat) {
 $is_local = $host === 'localhost' || str_starts_with($host, 'localhost:') || $host === '127.0.0.1';
 
 /** Bouw URL naar een satelliet (mode-aware).
- *  Lokaal: hub-satellieten via /sebastienvanblaere.be/sites/<key>/, solo via /<host>/.
- *  Productie: altijd //<host>/. */
+ *  Lokaal: /<host>/ — elke site is eigen folder onder htdocs/.
+ *  Productie: https://<host>/ — elk domein heeft eigen webspace. */
 $site_url = function (string $key) use ($config, $is_local): string {
     $sat = $config['satellites'][$key] ?? null;
     if ($sat === null) return '#';
@@ -30,12 +30,9 @@ $site_url = function (string $key) use ($config, $is_local): string {
         return $sat['external_url'];
     }
     if ($is_local) {
-        if (!empty($sat['in_hub'])) {
-            return '/sebastienvanblaere.be/sites/' . $key . '/';
-        }
         return '/' . $sat['host'] . '/';
     }
-    return '//' . $sat['host'] . '/';
+    return 'https://' . $sat['host'] . '/';
 };
 
 // External-flag aan template doorgeven (voor target=_blank)
@@ -94,6 +91,16 @@ $site_external = function (string $key) use ($config): bool {
     .socials a:hover { color: #ff0000; }
 
     nav { display: flex; flex-direction: column; gap: 0.75rem; width: 100%; }
+    .nav-header {
+        font-size: 0.7rem;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #888;
+        margin-top: 1rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 1px solid #ddd;
+        text-align: center;
+    }
     nav a {
         color: #121212;
         text-decoration: none;
@@ -151,8 +158,12 @@ $site_external = function (string $key) use ($config): bool {
         <a href="<?= $site_url('kunstmijnoren') ?>">kunstmijnoren.be</a>
         <a href="<?= $site_url('waves') ?>"<?= $site_external('waves') ? ' target="_blank" rel="noopener"' : '' ?>>p5.waves (library)</a>
         <a href="<?= $site_url('export') ?>">p5.export (service)</a>
+        <a href="<?= $is_local ? '/services/svg/' : 'https://prjcts.be/services/svg/' ?>">SVG_converter (service)</a>
+
+        <div class="nav-header">Education</div>
         <a href="<?= $site_url('p5') ?>">Creative coding<br>for creative people.</a>
-        <a href="https://www.linkedin.com/in/sebvanb" target="_blank" rel="noopener">www.linkedin.com</a>
+        <a href="<?= $is_local ? '/services/p5.blocks/' : 'https://prjcts.be/services/p5.blocks/' ?>">p5.blocks (concept)</a>
+        <a href="<?= $is_local ? '/services/fidk/' : 'https://prjcts.be/services/fidk/' ?>">FIDK (Photography)</a>
     </nav>
 
     <footer>seb@prjcts.be</footer>

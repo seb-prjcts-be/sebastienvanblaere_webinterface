@@ -1,4 +1,0 @@
-<p>It does say 'photography' above, but it is meant to be more humble than it seems. I don't feel like a photographer, but rather someone who is very observant and likes to <b>gather evidence</b> of events unfolding.</p>
-<p> Everything I do does seem <b>connected</b>, both in form as in concept, in some way. I look through the viewfinder of a camera with the eye of a graphic designer and vice versa. Obviously, I think, is my love for surfaces, geometry, light and shadow and for strange compositions and positions. Occasionally I sometimes catch a fascinating human moment, but people usually don't play a leading part.</p>
-<hr style='border: 1px solid #e0e0e0;'>
-<p>Please follow <a href='https://www.instagram.com/prjcts.be/' target='_blank'>@prjcts.be</a> for recent memberings.</p>

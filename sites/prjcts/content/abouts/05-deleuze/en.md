@@ -1,5 +1,0 @@
-<p>Since first making acquaintance with the most courant of his philosophical principles in school, they have been an important part of my life, work and being.</p><p>The work of <b>Gilles Deleuze</b> is a box with endless concepts to use and abuse at will. He taught me, among countless other things, to always be on the move, mentally and artistically and never to acquire in a comfortable well-known habitat. To deterritorialize, to become, in mind and practice is the only thing that makes sense.</p>
-<p>As a kid, I was long blessed with a wide-open mindset and attitude towards new technologies and any kind of hard- and software.</p><p>The only way was forwards. It still is.</p>
-<p>In this already acquired mindset, Deleuze fitted in instantly.</p>
-<p>“Don’t be scared”, he whispered, “Everything is connected anyway.”<br>
-“Remix! Experiment! Read! Plunder!”</p>

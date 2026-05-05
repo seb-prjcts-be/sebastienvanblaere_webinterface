@@ -1,1 +1,0 @@
-<p>Notes sur la réévaluation de folio et d'imprimés trouvés. Découpages, petites cartes et textures de papier collectés et partagés à nouveau.</p>

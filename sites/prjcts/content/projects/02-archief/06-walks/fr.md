@@ -1,4 +1,0 @@
-<p>Des images programmées numériquement acquièrent des qualités analogiques qui parlent à l'imagination et permettent de méditer, de divaguer.</p>
-<hr>
-<p><b>Random walkers</b></p>
-<p>Un <b>Random walker</b> (marcheur aléatoire) est un objet qui peut faire un pas dans une direction donnée, en fonction des résultats d'un lancer de dé virtuel. 1 c'est en haut, 2 c'est en bas, etc.<br>Les marcheurs aléatoires de ce projet sont contraints de marcher principalement vers la droite.<br>Quand un walker arrive à droite, une image unique est téléchargée vers ton ordinateur.<br><br><a href='https://editor.p5js.org/sebvanb/sketches/uWgsitKS7' target='_blank'>Random walker dans P5.js</a>.</p>

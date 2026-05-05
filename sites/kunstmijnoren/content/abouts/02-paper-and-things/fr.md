@@ -1,1 +1,0 @@
-<p>Réévaluer du folio et des imprimés trouvés. Découpages, petites cartes et textures de papier collectés et partagés à nouveau.</p>

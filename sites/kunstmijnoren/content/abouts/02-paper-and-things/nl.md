@@ -1,1 +1,0 @@
-<p>Herwaarderen van gevonden folio en drukwerk. Knipsels, kaartjes en papieren texturen verzameld en opnieuw gedeeld.</p>

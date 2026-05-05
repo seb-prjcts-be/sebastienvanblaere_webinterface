@@ -1,5 +1,0 @@
-<p>Des <b>fractales</b> générées avec du code P5.js récursif, traitées en couches, donnant ces images majestueuses aux propriétés apparemment matérielles, poudreuses. Elles te font peut-être vaguement penser à quelque chose de naturel. Des arbres peut-être ?</p>
-<hr>
-<p><b>Récursivité</b></p>
-<p>La récursivité est un principe incroyablement puissant. On demande à l'ordinateur de faire quelque chose dans une zone délimitée, une <b>fonction</b>. Par exemple, dessiner un carré. Puis on fait référence dans la fonction à elle-même quelques fois avec d'autres paramètres. On obtient ainsi des fractales, qui continuent jusqu'à ce qu'on les arrête. Voir le principe dans l'exemple ci-dessous.<br><br>
-<a href='https://editor.p5js.org/sebvanb/sketches/VZt9v_CgW' target='_blank'>Récursivité dans P5.js</a></p>

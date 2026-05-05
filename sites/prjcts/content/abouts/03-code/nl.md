@@ -1,4 +1,0 @@
-<p>Code is magisch.<br>Een toverkracht.<br>Het is een superkracht van schepping.<br>Het is grafische serendipiteit.</p>
-<p>Het zijn mijn hersenen die code schrijven die vervolgens wiskundig en op wonderbaarlijke wijze verandert in complexe beelden, die ik anders nooit had kunnen maken.</p>
-<p>Het lijkt alsof de hersenen rechtstreeks met het hart praten.</p>
-<p>Terwijl ik  telkens nieuwe en betere manieren ontdek om animaties, afbeeldingen of websites te coderen, voel ik een grote vreugde.<br> Omdat mijn brein in een slechte toestand verkeert, vind ik het heerlijk als het af en toe nog steeds met geweldige inzichten op de proppen komt, hoewel ze in de echte wereld misschien volledig onbeduidend zijn en niemand anders dan mijzelf verheugen.</p>

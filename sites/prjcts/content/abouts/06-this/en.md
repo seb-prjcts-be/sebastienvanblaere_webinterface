@@ -1,1 +1,0 @@
-<p>The website is far, far more serious than I would ever take myself or my work. This is important to know.</p>

@@ -1,6 +1,0 @@
-<p>In 1992 my childhood was suddenly and permanently interrupted by two <b>brain tumors</b>, right on top of the  pituitary gland, which is the great director of all glands in the body. Long periods of radiation and rehabilitation made the tumors disappear, but they caused a lot of damage. I depend on pills and syringes to replace the natural functions that have been failing for thirty years now. This is called panhypopituitarism, a word I have grown to like.</p>
-<p>
-In 2017 my paradigms were again brutally shifted by a <b>cerebral infarction</b>. At times I can no longer put down my own signature, have a constant nagging to severe headache, balance problems and a terrible fatigue. </p>
-<p>The fear of further losing skills and knowledge that I have gained earlier in life is endless. I am obsessed with digitizing, organizing and holding onto the beauty, inspiration and possibilities  that still reside in my brain.</p>
-<p>In 2022 I lost all hearing in my left ear, isolating me even more from normal, casual verbal exchanges with other people.</p>
-<p>Making these little projects (or <b>prjcts</b>) helps a lot to cherish this forgetful, easily overstimulated and mostly fatigued brain.</p><p>It's probably clear that the brain, especially my very own failing one, is the main driver for my little creative endeavors, the things I do.</p>

@@ -1,1 +1,0 @@
-<p>As I suffered some major brain injuries in the past it was inevitable that it would become an inspiration of some kind. I was looking for a way to show some of the side-effects, so in this video, my personal memory-loss takes center stage.</p>
