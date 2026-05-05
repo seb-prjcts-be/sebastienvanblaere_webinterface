@@ -64,7 +64,11 @@ $items = [
 <aside class="constellation-overlay" id="prjcts-constellation" aria-hidden="true">
     <div class="constellation-inner">
         <div class="constellation-heading">
-            <strong>Sebastien Vanblaere</strong>
+            <h2 class="constellation-name">Sebastien Vanblaere</h2>
+            <div class="constellation-socials">
+                <a href="https://www.instagram.com/prjcts.be/" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/sebvanb" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            </div>
         </div>
 
         <ul class="constellation-list">

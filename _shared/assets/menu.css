@@ -186,13 +186,33 @@ html[data-constellation-state="open"] .constellation-toggler {
 }
 
 .constellation-heading {
-    color: #888;
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
+    text-align: center;
     margin-bottom: 1.5rem;
     border-bottom: 1px solid #ddd;
-    padding-bottom: 0.75rem;
+    padding-bottom: 1rem;
+}
+.constellation-name {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    line-height: 1.1;
+    letter-spacing: -0.005em;
+    margin: 0 0 0.75rem 0;
+    color: #121212;
+}
+.constellation-socials {
+    display: flex;
+    justify-content: center;
+    gap: 1.25rem;
+    font-size: 1.3rem;
+}
+.constellation-socials a {
+    color: #121212;
+    text-decoration: none;
+    transition: color 0.15s;
+}
+.constellation-socials a:hover {
+    color: var(--accent, #ff0000);
 }
 
 .constellation-list {
