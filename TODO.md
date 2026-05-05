@@ -2,18 +2,58 @@
 
 Living document. Strepen-of-verwijderen wat klaar is.
 
-## Direct (voor eerste live-deploy)
+## Vandaag uitgevoerd (5 mei 2026) — grote aanpassingen
 
-- [ ] **GitHub Secrets** toevoegen in alle 3 repos:
+### Architectuur-pivot ×2
+
+1. **Eerste pivot** (ochtend): van merged hub (alles in `htdocs/sebastienvanblaere.be/`) naar **plat per-domein** (`htdocs/<host>/` per site). Folders verhuisd, helpers omgezet, junctions per site naar canonical `_shared`.
+
+2. **Tweede pivot** (namiddag): plat → **nested** terug onder `htdocs/sebastienvanblaere.be/`. Reden: gebruiker wilde lokaal alle sites visueel onder de hub-folder. Helpers nog eens omgezet voor `/<hub_root>/<host>/` URL-patroon in path-mode. Productie blijft host-mode (relatieve `/_shared/`).
+
+### Productie-deploy bewezen werkend
+
+3. **GitHub Actions FTPS → SFTP via wlixcc**. Iteratie: FTPS faalde (one.com ondersteunt geen FTPS), key-auth faalde (key-format invalid), password-auth werkte, leading-slash-pad faalde (read-only fs), relative-pad werkte, `webroots/<hash>/` was juiste pad (niet `kunstmijnoren.be/httpd.www/`).
+
+4. **`kunstmijnoren.be` is LIVE** met content + assets via auto-deploy. Images manueel via FTP geupload (Option B gitignore: alle images uitgesloten van git).
+
+### Code-aanpassingen
+
+5. **Per-site `_shared` als kopie** in elk site-repo (was junction, werd kopie omdat productie eigen `_shared/` per webspace nodig heeft). Wijzigingen in canonical `_shared/` moeten manueel gesynct naar elke site-kopie — TODO: sync-script.
+
+6. **Constellation in sync gebracht met linktree** — service-links + Education-sectie + bijgewerkte labels. Render-loop ondersteunt nu ook `header`-type.
+
+7. **Helpers omgezet voor nested paths**: `link_to`, `shared_asset_url`, `thumb_url`, `dispatch`, `detect_satellite`, `header.php $path_pref`, `index.php $site_url`.
+
+8. **`hub_url()` expliciet `https://`** in productie (was protocol-relative `//`).
+
+### one.com inzichten
+
+9. **Modern webroot-layout**: per domein een hash-folder onder `webroots/<hash>/` (bv. `webroots/0aac7cb1/` voor kunstmijnoren). Niet `<domein>/httpd.www/` zoals oudere accounts.
+
+10. **`put -r ./*`-quirk**: SFTP overschrijft niet altijd default placeholder-files (one.com plaatst stub `index.php` 12 bytes + stub `.htaccess` 72 bytes bij webspace-activatie). Workaround: webspace eerst leeg maken via FileZilla, dan deployen.
+
+## TODO — nog te doen
+
+### Sync `_shared` automatisch
+
+- [ ] **Sync-script** schrijven (`sync-shared.sh` in hub-root). Eén commando dat canonical `_shared/` kopieert naar elke site-repo. Voor gebruik na elke `_shared/` wijziging.
+  - Alternatieven: git submodule, of CI-driven cross-repo push (vergt `_shared` public OF PAT).
+
+### Productie-deploy uitbreiden
+
+- [ ] **GitHub Secrets** toevoegen in 3 nog-niet-deployable repos:
   - `seb-prjcts-be/sebastienvanblaere_webinterface` (hub)
   - `seb-prjcts-be/sebastienvanblaere_shared`
+  - `seb-prjcts-be/sebastienvanblaere_prjcts.be`
   - `seb-prjcts-be/sebastienvanblaere_creative_coding_site`
-  - Per repo: `SFTP_HOST`, `SFTP_USER`, `SFTP_PASS`
-- [ ] **Services-repos koppelen** (allemaal gemapt — zie tabel onderaan)
+  - Per repo: `SFTP_HOST`, `SFTP_USER`, `SFTP_PASS`. Of organisatie-secrets als seb-prjcts-be een org is.
+- [ ] **Webroot-hash ophalen** via FileZilla voor elk domein: `prjcts.be`, `sebastienvanblaere.be`, `creativecoding.prjcts.be`. Update `remote_path` in elke `deploy.yml`.
+- [ ] **Webspace activeren** op one.com voor `prjcts.be` als die nog op legacy/forward staat (zoals kunstmijnoren in 't begin).
+- [ ] **Eerste deploys uitvoeren** voor prjcts.be + linktree + cursus.
+
+### Services-repos koppelen
 - [ ] **Cursus-repo pushen** (staat op feature-branch, oude commit-history). Strategie: zelfde fresh-init als hub als history te zwaar is.
-- [ ] **Eerste deploy testen** na secrets — controleer of GitHub Actions groen wordt en de site daadwerkelijk leeft.
-- [ ] **Server-pad bevestigen** op one.com — `/sebastienvanblaere.be/httpd.www/` is nu in alle drie de YAML-files. Check eerste deploy of dat werkt.
-- [ ] **Manuele SFTP-upload** voor video-folders (gitignored): `01-graphiques-machiniques/`, `02-archief/03-experiments/`, alle `*.mp4` elders. Zijn al online → enkel bij toekomstige nieuwe video's manueel uploaden.
+- [ ] **Manuele SFTP-upload** voor afbeeldingen + video's (gitignored). Optie B-keuze: alle images los van git → bij elke nieuwe content-batch via FileZilla.
 
 ## Domein-config te beslissen / verifiëren
 
