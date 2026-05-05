@@ -1,0 +1,555 @@
+/* === prjcts.be 2.0 — gedeelde baseline (look & feel van prjcts) ===
+ * IBM Plex Mono everywhere, Oswald headers, rood accent.
+ * Per-satelliet variaties leven in /assets/site.css op satelliet-niveau.
+ */
+
+:root {
+    --accent: #ff0000;
+    --density: 0.5;
+    --frame-padding: 2rem;
+    --menu-bg: #f5f5f5;
+    --site-bg: #f5f5f5;       /* prjcts-grijs (245) */
+    --text: #121212;
+
+    --font-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --font-sans:    "Oswald", system-ui, -apple-system, sans-serif;
+    --font-serif:   "Alegreya", Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+/* Lettergrootte op :root — alle rem-waarden + inherited tekst schalen mee.
+ * Default = medium = 16px (de leesgrootte die zich natuurlijk aanvoelt). */
+:root { font-size: 16px; }
+:root[data-fontsize="klein"]  { font-size: 14px; }
+:root[data-fontsize="medium"] { font-size: 16px; }
+:root[data-fontsize="groot"]  { font-size: 20px; }
+
+body {
+    margin: 0;
+    color: var(--text);
+    background: var(--site-bg);
+    font-family: var(--font-mono);
+    font-weight: 300;
+    line-height: 1.6;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text);
+    font-family: var(--font-sans);
+    line-height: 1.25;
+    margin: 1.4em 0 0.5em;
+}
+h1 { font-weight: 700; }
+h2 { font-weight: 600; }
+h3 { font-weight: 400; }
+h4 { font-weight: 300; }
+
+p { margin: 0 0 1em; line-height: 1.6; }
+small { font-size: 0.85em; }
+ul { padding-left: 1.25em; }
+
+img { max-width: 100%; height: auto; }
+
+code, pre {
+    font-family: var(--font-mono);
+    font-size: 0.95em;
+}
+
+/* === het kader (frame rond main) === */
+
+.main-wrapper {
+    transition: margin-left 0.3s ease-in-out;
+}
+
+header.prjcts-frame,
+footer.prjcts-frame {
+    /* Vaste px-maten: bovenbalk reageert NIET op fontsize-tool */
+    padding: 24px 100px;
+    color: var(--text);
+}
+
+header.prjcts-frame {
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    font-family: var(--font-sans);
+    font-weight: 200;
+    font-size: 19px;
+    letter-spacing: 0.05em;
+}
+
+.prjcts-frame-trail {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5ch;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+header.prjcts-frame strong {
+    font-weight: 500;
+}
+
+/* === TOOLS in de top-balk: lang-switch + font-size ===
+ * Universeel identiek over alle satellieten — geen accent-kleur per site.
+ * Exact het p5-cursus patroon: individuele borders, neutrale tinten,
+ * actief = bottom-border in main text-color. */
+
+.prjcts-tools {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 0 0 auto;
+}
+
+.lang-tool,
+.fontsize-tool {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.lang-btn,
+.fontsize-btn {
+    border: 1px solid #d4d4d4;
+    background: var(--site-bg, #f5f5f5);
+    color: #777;
+    cursor: pointer;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: normal;
+    line-height: 1;
+    padding: 5px 8px;
+    text-decoration: none;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.lang-btn {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* De A-knoppen behouden visueel oplopend formaat — vast in px,
+ * dus klikken verandert NIET de grootte van de knop zelf. */
+.fontsize-btn[data-size="klein"]  { font-size: 12px; }
+.fontsize-btn[data-size="medium"] { font-size: 16px; }
+.fontsize-btn[data-size="groot"]  { font-size: 22px; }
+
+.lang-btn:hover,
+.fontsize-btn:hover {
+    color: var(--text);
+    border-color: var(--text);
+}
+
+.lang-btn.is-active,
+.fontsize-btn.is-active {
+    color: var(--text);
+    border-color: var(--text);
+    border-bottom: 2px solid var(--text);
+}
+
+@media (max-width: 720px) {
+    header.prjcts-frame {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+    .prjcts-tools { gap: 0.5rem; }
+}
+
+footer.prjcts-frame {
+    border-top: 1px solid #eee;
+    margin-top: 4rem;
+    color: #999;
+    font-size: 0.85rem;
+}
+
+main {
+    padding: 1rem 5rem 2rem;
+    max-width: 1600px;
+}
+
+/* Eerste blok-element in main raakt geen extra top-margin op te tellen
+ * bij de main-padding — voorkomt dubbele lege ruimte boven h1. */
+main > *:first-child { margin-top: 0; }
+.prjcts-row > .prjcts-col-main > *:first-child { margin-top: 0; }
+
+main.narrow { max-width: 70ch; }
+
+/* === GRID SYSTEEM — dependency-vrij, 2-kolom (Bootstrap-achtig) === */
+
+.prjcts-row {
+    display: grid;
+    /* main maxt op 800px (leesbaarheid); sidebar (1fr) pakt al de overschot
+     * zodat foto/feed de volledige rest-breedte vullen. Min 400px voor leesbaarheid. */
+    grid-template-columns: minmax(0, 800px) minmax(400px, 1fr);
+    gap: 3rem;
+    align-items: start;
+}
+
+.prjcts-col-main {
+    min-width: 0;        /* fix flex/grid overflow met long lines */
+}
+
+.prjcts-col-side {
+    min-width: 0;
+    color: #555;
+    font-size: 0.9em;
+    border-left: 1px solid #eee;
+    padding-left: 2rem;
+}
+
+.prjcts-col-side h3 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #999;
+    font-weight: 400;
+    margin-top: 0;
+}
+
+.prjcts-col-side ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.prjcts-col-side li {
+    margin: 0.4em 0;
+    line-height: 1.4;
+}
+
+/* responsief: collapse naar 1 kolom onder 720px */
+@media (max-width: 720px) {
+    .prjcts-row {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    .prjcts-col-side {
+        border-left: 0;
+        border-top: 1px solid #eee;
+        padding-left: 0;
+        padding-top: 1.5rem;
+    }
+}
+
+/* register-tweaks voor sidebar */
+[data-register="poetic"] .prjcts-col-side {
+    font-style: italic;
+    border-left-color: transparent;
+}
+[data-register="technical"] .prjcts-col-side {
+    font-family: var(--font-mono);
+    font-size: 0.82em;
+}
+
+/* Sidebar: puur media, ingetogen (geen border-left, geen padding-left) */
+.prjcts-col-side.media-sidebar {
+    border-left: 0;
+    padding-left: 0;
+}
+
+.about-media {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0 0 1.5rem;
+}
+
+/* Inline video-embed (YouTube/Vimeo) — 16:9, volle breedte van content. */
+.video-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin: 1.5rem 0;
+    background: #000;
+}
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+/* In een padded sidebar: media breekt uit de left-padding/border zodat hij
+ * de volledige toegewezen kolom-breedte vult — onafhankelijk van tekstgrootte. */
+.prjcts-col-side .about-media {
+    width: calc(100% + 2rem + 1px);
+    max-width: calc(100% + 2rem + 1px);
+    margin-left: calc(-2rem - 1px);
+}
+
+/* Decoration-canvas (p5 balletjes) — overlay over content, klik gaat door.
+ * Brede selector: p5play kan de canvas in een wrapper plaatsen, dus geen
+ * `body >`-prefix — anders blijft de canvas in de document flow staan en
+ * krijgt de pagina scrollbars in alle richtingen. */
+canvas.p5Canvas {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* p5play v3 prikt automatisch een credit-link onderaan body — verbergen,
+ * anders verlengt die de pagina-hoogte met loze ruimte. */
+body > a[href='https://p5play.org'] {
+    display: none !important;
+}
+
+/* === works-list-item: clickable file in sidebar === */
+.works-list .works-list-item {
+    background: none;
+    border: 0;
+    padding: 0;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+    font: inherit;
+    display: block;
+    width: 100%;
+}
+.works-list .works-list-item:hover code,
+.works-list .works-list-item:hover small {
+    color: var(--accent);
+}
+
+/* === thumbnail-grid voor project-detail (uit prjcts3.0) === */
+
+.works-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 2rem;
+}
+
+.thumbnail-container {
+    position: relative;
+    display: inline-block;
+    width: 155px;
+    height: 155px;
+    margin: 0 2px 4px;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.thumbnail-container img,
+.thumbnail-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 1px solid var(--accent);
+    display: block;
+}
+
+.thumbnail-container.is-video::after {
+    content: "\25BA";  /* ► play icon */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 48px;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+}
+
+/* === Audio + PDF tile in works-grid (icon + filename) === */
+.thumbnail-container.is-audio,
+.thumbnail-container.is-pdf {
+    background: #fafafa;
+    border: 1px solid var(--accent);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    gap: 0.4rem;
+}
+.thumbnail-container.is-audio:hover,
+.thumbnail-container.is-pdf:hover {
+    background: #ffffff;
+}
+.thumbnail-container .thumb-icon {
+    font-size: 36px;
+    line-height: 1;
+    color: var(--accent);
+}
+.thumbnail-container .thumb-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    line-height: 1.2;
+    color: #555;
+    word-break: break-all;
+    text-align: center;
+    max-height: 2.4em;
+    overflow: hidden;
+}
+
+/* Lightbox audio-player — gecentreerd, niet fullscreen */
+.lightbox-content .lightbox-audio {
+    width: min(90vw, 600px);
+    max-width: 600px;
+}
+
+/* === Lightbox: fullscreen overlay voor klikken op thumbnail === */
+
+.lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.92);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.lightbox-overlay.is-open { display: flex; }
+
+.lightbox-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lightbox-content img,
+.lightbox-content video {
+    max-width: 100vw;
+    max-height: 100vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.lightbox-content .lightbox-iframe {
+    width: 90vw;
+    height: 80vh;
+    max-width: 1280px;
+    max-height: 720px;
+    border: 0;
+}
+
+.lightbox-close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2001;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+@media (max-width: 720px) {
+    .prjcts-col-side.media-sidebar {
+        border-top: 0;
+        padding-top: 0;
+    }
+}
+
+main img.about-logo {
+    max-width: 80px;
+    margin: 0 0 1rem;
+    opacity: 0.8;
+}
+main img.about-image {
+    max-height: 300px;
+    margin: 1rem 0;
+    border: 1px solid #eee;
+    padding: 4px;
+}
+
+main .abouts-list,
+main .quick-links {
+    list-style: none;
+    padding-left: 0;
+}
+main .abouts-list li,
+main .quick-links li {
+    margin: 0.4em 0;
+}
+
+main section.artform {
+    margin-bottom: 2.5rem;
+}
+
+main .works ul {
+    list-style: none;
+    padding-left: 0;
+    font-size: 0.85em;
+    color: #666;
+}
+
+main .works li {
+    margin: 0.2em 0;
+}
+
+/* === register-overrides === */
+
+[data-register="poetic"] body {
+    line-height: 1.75;
+    font-family: var(--font-serif);
+    font-weight: 400;
+}
+[data-register="poetic"] main {
+    max-width: 60ch;
+    font-family: var(--font-serif);
+}
+[data-register="poetic"] header.prjcts-frame,
+[data-register="poetic"] footer.prjcts-frame {
+    font-style: italic;
+    border-color: transparent;
+}
+
+[data-register="educational"] body { line-height: 1.7; }
+[data-register="educational"] main { font-family: var(--font-serif); }
+[data-register="educational"] header.prjcts-frame {
+    border-bottom: 2px solid var(--accent);
+}
+
+[data-register="technical"] {
+    font-weight: 300;
+    line-height: 1.45;
+}
+[data-register="technical"] h1,
+[data-register="technical"] h2,
+[data-register="technical"] h3 {
+    font-family: var(--font-mono);
+    font-weight: 400;
+}
+[data-register="technical"] header.prjcts-frame {
+    border-bottom: 1px solid var(--accent);
+    font-size: 0.9em;
+}
+[data-register="technical"] main {
+    max-width: 80ch;
+}
+
+[data-register="meta"] header.prjcts-frame strong {
+    font-weight: 400;
+}
+
+/* === toegankelijkheid === */
+
+a:focus-visible,
+button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+    header.prjcts-frame, footer.prjcts-frame { padding: 1rem 1.5rem; }
+    main { padding: 3rem 1.5rem 1.5rem; }
+}

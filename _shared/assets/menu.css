@@ -1,0 +1,315 @@
+/* === sidepanel menu — gedeeld kader === */
+
+.menu-toggler {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    z-index: 1001;
+    background: none;
+    border: none;
+    font-size: 28px;
+    line-height: 1;
+    cursor: pointer;
+    color: #121212;
+    padding: 5px 10px;
+}
+
+/* Icoon switch — geen flicker dankzij inline data-menu-state init */
+.menu-toggler-icon::before { content: '\2715'; }              /* ✕ open-state default */
+html[data-menu-state="closed"] .menu-toggler-icon::before { content: '\2630'; } /* ☰ */
+
+/* Wanneer menu open is, schuif de toggler mee */
+html[data-menu-state="open"] .menu-toggler { left: calc(350px + 25px); }
+@media (max-width: 720px) {
+    html[data-menu-state="open"] .menu-toggler { left: 25px; }
+}
+
+.menu-toggler:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 350px;
+    max-width: 90vw;
+    height: 100%;
+    background: var(--menu-bg, #f1f1f1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 2rem 0;
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.08);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+/* Open-state komt nu van het <html data-menu-state="open"> attribuut.
+ * Dat wordt vóór paint gezet door de inline script in header.php,
+ * dus geen flash. Default = open. */
+html[data-menu-state="open"] .menu-overlay,
+.menu-overlay.is-open {
+    transform: translateX(0);
+}
+
+.menu-overlay nav {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+.menu-scrollable {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 1rem;
+    margin-right: -1rem;
+    scrollbar-width: thin;
+    scrollbar-color: #bbb transparent;
+}
+
+.menu-scrollable::-webkit-scrollbar { width: 8px; }
+.menu-scrollable::-webkit-scrollbar-thumb { background: #bbb; border-radius: 4px; }
+
+.menu-overlay a {
+    display: block;
+    color: #121212;
+    text-decoration: none;
+    margin: 0.5rem 0;
+    text-align: left;
+    /* Geen font-family hier — dat is een satelliet-keuze in site.css */
+}
+
+/* Eerste item (home-logo) raakt geen extra top-margin op te tellen
+ * bij de menu-overlay padding — voorkomt dubbele lege ruimte. */
+.menu-scrollable > :first-child {
+    margin-top: 0;
+}
+.menu-scrollable > :first-child > h1,
+.menu-scrollable > :first-child > h2,
+.menu-scrollable > :first-child > h3,
+.menu-scrollable > :first-child > h4 {
+    margin-top: 0;
+}
+
+.menu-overlay a.menu-link.selected,
+.menu-overlay a.menu-link[aria-current="page"] {
+    color: var(--accent);
+}
+
+.menu-divider {
+    height: 1px;
+    background: #121212;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.menu-category {
+    margin-top: 1.5rem;
+    text-align: left;
+    /* Geen font-family/size hier — dat is een satelliet-keuze in site.css */
+}
+
+.menu-fixed-bottom {
+    flex-shrink: 0;
+    width: 100%;
+    padding: 1rem 0 1.25rem;
+    border-top: 1px solid #ddd;
+    background: var(--menu-bg, #f1f1f1);
+}
+
+/* === CONSTELLATION — rechts-offcanvas, portalen naar andere universa === */
+
+.constellation-toggler {
+    position: fixed;
+    top: 25px;
+    right: 25px;
+    z-index: 1001;
+    background: none;
+    border: 1px solid #121212;
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    color: #121212;
+    padding: 6px 8px;
+    letter-spacing: 0;
+}
+.constellation-toggler:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
+.constellation-toggler:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Icon-swap op basis van paneel-staat */
+.constellation-toggler .icon-open { display: none; }
+.constellation-toggler[aria-expanded="true"] .icon-closed { display: none; }
+.constellation-toggler[aria-expanded="true"] .icon-open   { display: inline-block; }
+
+.constellation-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 420px;
+    max-width: 92vw;
+    height: 100%;
+    background: #fafafa;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 5rem 2rem 2rem;
+    box-shadow: -2px 0 20px rgba(0, 0, 0, 0.1);
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.constellation-overlay.is-open,
+html[data-constellation-state="open"] .constellation-overlay {
+    transform: translateX(0);
+}
+
+/* Constellation duwt main-wrapper opzij — symmetrisch aan menu links */
+html[data-constellation-state="open"] .main-wrapper {
+    margin-right: 420px;
+}
+html[data-constellation-state="open"] .constellation-toggler {
+    right: calc(420px + 25px);
+}
+@media (max-width: 720px) {
+    html[data-constellation-state="open"] .main-wrapper { margin-right: 0; }
+    html[data-constellation-state="open"] .constellation-toggler { right: 25px; }
+}
+
+.constellation-inner {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.constellation-heading {
+    color: #888;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 0.75rem;
+}
+
+.constellation-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+}
+
+.constellation-card {
+    display: block;
+    text-decoration: none;
+    color: #121212;
+    padding: 0.75rem 0;
+    border: 0;
+    border-bottom: 1px solid #e8e8e8;
+    background: transparent;
+    transition: color 0.15s;
+}
+
+/* Section-header in constellation (bv. "Education") */
+.constellation-header {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #888;
+    margin-top: 1.2rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+.constellation-card:hover {
+    color: var(--accent, #ff0000);
+}
+
+/* Huidige site — gedimd, niet klikbaar */
+.constellation-card.is-current {
+    color: #999;
+    pointer-events: none;
+    cursor: default;
+}
+.constellation-card.is-current .constellation-card-desc {
+    color: #b8b8b8;
+}
+
+.constellation-card-title {
+    display: block;
+    font-size: 1.05rem;
+    line-height: 1.3;
+}
+
+.constellation-card-desc {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: #888;
+}
+
+.constellation-card:hover .constellation-card-desc {
+    color: #555;
+}
+
+.constellation-list { gap: 0; }
+
+/* register-typografie binnen elke kaart — voorproefje van het universum (zonder achtergrondkleur, sober) */
+.constellation-card[data-register="poetic"] .constellation-card-title {
+    font-family: var(--font-sans, sans-serif);
+    font-style: italic;
+}
+.constellation-card[data-register="technical"] .constellation-card-title {
+    font-family: var(--font-mono, monospace);
+}
+.constellation-card[data-register="educational"] .constellation-card-title {
+    font-family: var(--font-sans, sans-serif);
+    font-weight: 500;
+}
+.constellation-card[data-register="personal"] .constellation-card-title {
+    font-family: var(--font-serif, serif);
+}
+
+@media (max-width: 600px) {
+    .constellation-overlay { width: 92vw; padding: 5rem 1.25rem 1.5rem; }
+    .constellation-card-title { font-size: 1rem; }
+}
+
+.language-switch {
+    text-align: center;
+    margin-top: 2rem;
+}
+.language-switch a { display: inline-block; margin: 0 0.5rem; }
+.language-switch a.selected b { color: var(--accent); }
+
+/* main-wrapper schuift wanneer menu of constellation open is */
+.main-wrapper {
+    transition: margin-left 0.3s ease-in-out, margin-right 0.3s ease-in-out;
+}
+html[data-menu-state="open"] .main-wrapper,
+.main-wrapper.content-pushed {
+    margin-left: 350px;
+}
+
+/* Menu-typografie is universeel: IBM Plex Mono items + Oswald categorieën.
+ * Géén register-fork — één systeem, één look. (Eerder verwijderd.) */
+
+@media (max-width: 600px) {
+    .main-wrapper.content-pushed { margin-left: 0; }
+    .menu-overlay { width: 90vw; }
+}
+
+/* Op mobile: menu/constellation vullen het scherm — body niet meer scrollen.
+ * Op desktop: menu en content staan naast elkaar (push-effect), body mag scrollen. */
+@media (max-width: 720px) {
+    html[data-menu-state="open"] body,
+    html[data-constellation-state="open"] body {
+        overflow: hidden;
+    }
+}

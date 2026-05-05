@@ -16,10 +16,10 @@ _BACKUP_pivot/
 **/.thumb/
 **/thumb/
 
-# Per-site + services + _shared = eigen repo's, niet hier meecommitten
+# Sites + services = eigen repo's per stuk, niet hier meecommitten.
+# (_shared is GEMERGED in deze repo — hub bevat nu zowel linktree als shared library)
 /sites/
 /services/
-/_shared/
 /kunstmijnoren.be/
 /prjcts.be/
 
