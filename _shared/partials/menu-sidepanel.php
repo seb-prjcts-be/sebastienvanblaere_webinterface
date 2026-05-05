@@ -52,14 +52,15 @@ declare(strict_types=1);
             <?php elseif ($type === 'satellite'):
                 $sat = $config['satellites'][$item['key']] ?? null;
                 if ($sat):
-                    // Geef huidige taal mee aan cross-satelliet links
+                    // Bouw cross-satelliet URL: link_to() voor base + page-param,
+                    // dan '&lang=...' voor cross-satelliet taal-overdracht.
                     $sat_lang = $GLOBALS['_prjcts_lang'] ?? '';
-                    $sat_page = $item['page'] ?? '';
+                    $sat_href = link_to($sat['host'], $item['page'] ?? '', $config);
                     if ($sat_lang) {
-                        $sat_page .= (strpos($sat_page, '?') === false ? '?' : '&') . 'lang=' . urlencode($sat_lang);
+                        $sat_href .= (strpos($sat_href, '?') === false ? '?' : '&') . 'lang=' . rawurlencode($sat_lang);
                     }
             ?>
-                <a href="<?= e(link_to($sat['host'], $sat_page, $config)) ?>" class="menu-link">
+                <a href="<?= e($sat_href) ?>" class="menu-link">
                     <?= e($item['label'] ?? $sat['title']) ?>
                 </a>
             <?php endif; ?>

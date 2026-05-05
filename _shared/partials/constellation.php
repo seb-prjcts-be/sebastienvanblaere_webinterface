@@ -13,22 +13,27 @@ declare(strict_types=1);
 $pref_qs_parts = [];
 $current_lang = $GLOBALS['_prjcts_lang'] ?? '';
 if ($current_lang !== '') {
-    $pref_qs_parts[] = 'lang=' . urlencode($current_lang);
+    $pref_qs_parts[] = 'lang=' . rawurlencode($current_lang);
 }
 $current_fs = $_COOKIE['prjcts_fontsize'] ?? '';
 if (in_array($current_fs, ['klein', 'medium', 'groot'], true)) {
-    $pref_qs_parts[] = 'fontsize=' . urlencode($current_fs);
+    $pref_qs_parts[] = 'fontsize=' . rawurlencode($current_fs);
 }
-$lang_qs = $pref_qs_parts ? '?' . implode('&', $pref_qs_parts) : '';
+$pref_qs = $pref_qs_parts ? implode('&', $pref_qs_parts) : '';
 
 $current_key = $cfg['key'] ?? '';
 
-/** Helper: link naar een satelliet-key (via shared link_to). External wint. */
-$sat_url = function (string $key) use ($config, $lang_qs): string {
+/** Helper: link naar een satelliet-key (via shared link_to). External wint.
+ *  Voegt user-prefs (lang/fontsize) als extra query-string toe. */
+$sat_url = function (string $key) use ($config, $pref_qs): string {
     $sat = $config['satellites'][$key] ?? null;
     if ($sat === null) return '#';
     if (!empty($sat['external_url'])) return $sat['external_url'];
-    return link_to($sat['host'], $lang_qs, $config);
+    $url = link_to($sat['host'], '', $config);
+    if ($pref_qs !== '') {
+        $url .= (strpos($url, '?') === false ? '?' : '&') . $pref_qs;
+    }
+    return $url;
 };
 $sat_external = function (string $key) use ($config): bool {
     return !empty($config['satellites'][$key]['external_url']);
