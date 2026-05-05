@@ -34,6 +34,10 @@ Living document. Strepen-of-verwijderen wat klaar is.
 
 ## TODO — nog te doen
 
+### FIDK header + sidebar integreren
+
+- [ ] **`services/fidk/`** — header en constellation-sidebar toevoegen zodat het visueel matcht met prjcts.be / kunstmijnoren.be (top-bar "← sebastien", rechter-sidebar met cross-site nav). FIDK werkt nu functioneel maar staat los visueel.
+
 ### Sync `_shared` automatisch
 
 - [ ] **Sync-script** schrijven (`sync-shared.sh` in hub-root). Eén commando dat canonical `_shared/` kopieert naar elke site-repo. Voor gebruik na elke `_shared/` wijziging.
