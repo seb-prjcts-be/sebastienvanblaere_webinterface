@@ -20,9 +20,10 @@ foreach ($config['satellites'] as $key => $sat) {
 $is_local = $host === 'localhost' || str_starts_with($host, 'localhost:') || $host === '127.0.0.1';
 
 /** Bouw URL naar een satelliet (mode-aware).
- *  Lokaal: /<host>/ — elke site is eigen folder onder htdocs/.
+ *  Lokaal nested: /sebastienvanblaere.be/<host>/ — elke site is folder onder hub.
  *  Productie: https://<host>/ — elk domein heeft eigen webspace. */
-$site_url = function (string $key) use ($config, $is_local): string {
+$hub_root = $config['hub_root'] ?? 'sebastienvanblaere.be';
+$site_url = function (string $key) use ($config, $is_local, $hub_root): string {
     $sat = $config['satellites'][$key] ?? null;
     if ($sat === null) return '#';
     // External-only satellieten (bv. GitHub Pages) — altijd absolute URL
@@ -30,7 +31,7 @@ $site_url = function (string $key) use ($config, $is_local): string {
         return $sat['external_url'];
     }
     if ($is_local) {
-        return '/' . $sat['host'] . '/';
+        return '/' . $hub_root . '/' . $sat['host'] . '/';
     }
     return 'https://' . $sat['host'] . '/';
 };
@@ -158,12 +159,12 @@ $site_external = function (string $key) use ($config): bool {
         <a href="<?= $site_url('kunstmijnoren') ?>">kunstmijnoren.be</a>
         <a href="<?= $site_url('waves') ?>"<?= $site_external('waves') ? ' target="_blank" rel="noopener"' : '' ?>>p5.waves (library)</a>
         <a href="<?= $site_url('export') ?>">p5.export (service)</a>
-        <a href="<?= $is_local ? '/services/svg/' : 'https://prjcts.be/services/svg/' ?>">SVG_converter (service)</a>
+        <a href="<?= $is_local ? '/sebastienvanblaere.be/services/svg/' : 'https://prjcts.be/services/svg/' ?>">SVG_converter (service)</a>
 
         <div class="nav-header">Education</div>
         <a href="<?= $site_url('p5') ?>">Creative coding<br>for creative people.</a>
-        <a href="<?= $is_local ? '/services/p5.blocks/' : 'https://prjcts.be/services/p5.blocks/' ?>">p5.blocks (concept)</a>
-        <a href="<?= $is_local ? '/services/fidk/' : 'https://prjcts.be/services/fidk/' ?>">FIDK (Photography)</a>
+        <a href="<?= $is_local ? '/sebastienvanblaere.be/services/p5.blocks/' : 'https://prjcts.be/services/p5.blocks/' ?>">p5.blocks (concept)</a>
+        <a href="<?= $is_local ? '/sebastienvanblaere.be/services/fidk/' : 'https://prjcts.be/services/fidk/' ?>">FIDK (Photography)</a>
     </nav>
 
     <footer>seb@prjcts.be</footer>

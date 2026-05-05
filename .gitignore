@@ -16,11 +16,12 @@ _BACKUP_pivot/
 **/.thumb/
 **/thumb/
 
-# Sites + services + _shared = eigen repo's, niet hier meecommitten
+# Per-site + services + _shared = eigen repo's, niet hier meecommitten
 /sites/
 /services/
 /_shared/
-/_shared
+/kunstmijnoren.be/
+/prjcts.be/
 
 # Lokale logs / dev-output
 *.log
