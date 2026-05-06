@@ -251,6 +251,7 @@ function discover_writings(string $content_root, string $lang = 'nl', string $ty
     $items = [];
     foreach (glob($base . '/*', GLOB_ONLYDIR) ?: [] as $dir) {
         $key  = basename($dir);
+        if ($key[0] === '.' || $key[0] === '_') continue; // hidden / draft
         $meta = read_meta($dir . '/meta.json');
         $type = $meta['type'] ?? '';
         if ($type_filter !== '' && $type !== $type_filter) continue;
