@@ -64,6 +64,7 @@ DNS-record nodig: `*.prjcts.be` → A `<server-IP>` (één keer instellen, dekt 
 - p5play voegt automatisch een credit-link `<a href="https://p5play.org">` toe; verbergen via CSS, anders verlengt die de pagina.
 - Naming: folder-prefix `NN-` voor manuele volgorde (sortering = `strnatcmp` op folder-naam). Slug `[a-z0-9-]` only. Display-naam komt uit `meta.json`.
 - localStorage `ballsState` is per-origin → lokaal delen prjcts en kunstmijnoren dezelfde key. Acceptabel: count-mismatch triggert reset. Te overwegen: per-satelliet key indien echt storend.
+- **Schrijfsels (`content/writings/*`) NOOIT inhoudelijk of vormelijk aanpassen zonder overleg.** Geen styling, classes, bold, italic, hr, kleurverschillen of paragraaf-herschikkingen toevoegen of verwijderen op eigen initiatief. Stijl-elementen alleen op expliciete vraag.
 
 ## Notities
 - 2026-05-03: p5-decoratie van prjcts3.0 geport naar gemerdge `_shared/` — lokale p5play.js, CSS-fixes (canvas selector + credit-link suppression), `world.gravity.y = 10` hardcoded matching origineel.
