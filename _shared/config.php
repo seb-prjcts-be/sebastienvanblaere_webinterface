@@ -4,6 +4,19 @@ declare(strict_types=1);
 return [
     'shared_url' => '/_shared',
     'hub_root'   => 'sebastienvanblaere.be',  // folder-naam voor de hub-DocumentRoot
+
+    // Persoon-hub: linktree-pagina (sebastienvanblaere.be) — niet een satelliet.
+    // Wordt gebruikt voor SEO + Open Graph + page-tagline.
+    'hub' => [
+        'title'       => 'Sebastien Vanblaere',
+        'tagline'     => 'Neurodiverse liefhebber van koffie, kunst en filosofie. Liefst in die volgorde...',
+        'description' => 'Sebastien Vanblaere — digitaal kunstenaar, creative coder en leerkracht. Neurodiverse liefhebber van koffie, kunst en filosofie.',
+        'keywords'    => ['sebastien', 'vanblaere', 'digitaal kunstenaar', 'creative coder', 'leerkracht', 'p5.js', 'processing', 'p5.waves', 'generative art', 'audiovisueel', 'installaties', 'lab44', 'neurodivergent', 'koffie', 'kunst', 'filosofie'],
+        'author'      => 'Sebastien Vanblaere',
+        'og_title'    => 'Sebastien Vanblaere',
+        'og_image'    => '',  // upload later naar /assets/og-portrait.jpg (1200×630)
+    ],
+
     'satellites' => [
         'prjcts' => [
             'host'        => 'prjcts.be',

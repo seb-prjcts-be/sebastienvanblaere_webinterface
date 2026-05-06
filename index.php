@@ -40,13 +40,57 @@ $site_url = function (string $key) use ($config, $is_local, $hub_root): string {
 $site_external = function (string $key) use ($config): bool {
     return !empty($config['satellites'][$key]['external_url']);
 };
+
+// Hub-meta — SEO + Open Graph
+$hub        = $config['hub'] ?? [];
+$page_title = $hub['title']       ?? 'Sebastien Vanblaere';
+$page_desc  = $hub['description'] ?? '';
+$page_kws   = isset($hub['keywords']) ? implode(', ', $hub['keywords']) : '';
+$page_tag   = $hub['tagline']     ?? '';
+$page_auth  = $hub['author']      ?? '';
+$og_title   = $hub['og_title']    ?? $page_title;
+$og_image   = $hub['og_image']    ?? '';
+$canonical  = ($is_local ? '/' . $hub_root . '/' : 'https://' . $hub_root . '/');
+
+// Helper voor escape in HTML attributes
+$esc = fn(string $s) => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sebastien Vanblaere</title>
+<title><?= $esc($page_title) ?></title>
+
+<?php if ($page_desc): ?>
+<meta name="description" content="<?= $esc($page_desc) ?>">
+<?php endif; ?>
+<?php if ($page_kws): ?>
+<meta name="keywords" content="<?= $esc($page_kws) ?>">
+<?php endif; ?>
+<?php if ($page_auth): ?>
+<meta name="author" content="<?= $esc($page_auth) ?>">
+<?php endif; ?>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="<?= $esc($canonical) ?>">
+<meta property="og:title" content="<?= $esc($og_title) ?>">
+<?php if ($page_desc): ?>
+<meta property="og:description" content="<?= $esc($page_desc) ?>">
+<?php endif; ?>
+<?php if ($og_image): ?>
+<meta property="og:image" content="<?= $esc($og_image) ?>">
+<?php endif; ?>
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary<?= $og_image ? '_large_image' : '' ?>">
+<meta name="twitter:title" content="<?= $esc($og_title) ?>">
+<?php if ($page_desc): ?>
+<meta name="twitter:description" content="<?= $esc($page_desc) ?>">
+<?php endif; ?>
+
+<link rel="canonical" href="<?= $esc($canonical) ?>">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=IBM+Plex+Mono:wght@300;400&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -146,8 +190,10 @@ $site_external = function (string $key) use ($config): bool {
 </head>
 <body>
     <header>
-        <h1>Sebastien Vanblaere</h1>
-        <p class="tagline">Teacher. Coder. Maker. Artist. Instigator. Inspirator. Usually more modest.</p>
+        <h1><?= $esc($page_title) ?></h1>
+        <?php if ($page_tag): ?>
+        <p class="tagline"><?= $esc($page_tag) ?></p>
+        <?php endif; ?>
         <div class="socials">
             <a href="https://www.instagram.com/prjcts.be/" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
             <a href="https://www.linkedin.com/in/sebvanb" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
