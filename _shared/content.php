@@ -238,11 +238,11 @@ function read_home_body(string $content_root, string $lang = 'nl'): string
 }
 
 /**
- * Long-form geschriften — essays, verhalen, onderzoek, brieven.
+ * Long-form geschriften — essays, verhalen, onderzoek, brieven, fysiolostrofieën.
  * content/writings/<NN-slug>/ met meta.json {title_*, subtitle_*, date, type}.
  *
  * Returns array gesorteerd op meta.date desc (recente bovenaan), fallback strnatcmp folder-naam desc.
- * Optioneel filter op `type` (essay|story|research|letter); leeg = alle.
+ * Optioneel filter op `type` (essay|story|research|letter|physiolostrophy); leeg = alle.
  */
 function discover_writings(string $content_root, string $lang = 'nl', string $type_filter = ''): array
 {
