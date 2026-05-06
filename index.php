@@ -52,6 +52,12 @@ $og_title   = $hub['og_title']    ?? $page_title;
 $og_image   = $hub['og_image']    ?? '';
 $canonical  = ($is_local ? '/' . $hub_root . '/' : 'https://' . $hub_root . '/');
 
+// Maak og_image absolute (social-media crawlers vereisen volledige URL)
+if ($og_image !== '' && !preg_match('#^https?://#', $og_image)) {
+    $abs_base = $is_local ? '/' . $hub_root : 'https://' . $hub_root;
+    $og_image = $abs_base . '/' . ltrim($og_image, '/');
+}
+
 // Helper voor escape in HTML attributes
 $esc = fn(string $s) => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 ?>

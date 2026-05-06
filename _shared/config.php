@@ -14,7 +14,7 @@ return [
         'keywords'    => ['sebastien', 'vanblaere', 'digitaal kunstenaar', 'creative coder', 'leerkracht', 'p5.js', 'processing', 'p5.waves', 'generative art', 'audiovisueel', 'installaties', 'lab44', 'neurodivergent', 'koffie', 'kunst', 'filosofie'],
         'author'      => 'Sebastien Vanblaere',
         'og_title'    => 'Sebastien Vanblaere',
-        'og_image'    => '',  // upload later naar /assets/og-portrait.jpg (1200×630)
+        'og_image'    => '/assets/og-portrait.jpg',  // relatief; wordt absolute in <meta>
     ],
 
     'satellites' => [
