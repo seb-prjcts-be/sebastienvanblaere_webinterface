@@ -54,8 +54,11 @@ $_fb_app     = $cfg['fb_app_id']     ?? '';
         return m ? decodeURIComponent(m[1]) : null;
     }
     try {
-        var menu = localStorage.getItem('prjcts_menu') || 'open';        // default OPEN
-        if (menu !== 'open' && menu !== 'closed') menu = 'open';
+        var stored = localStorage.getItem('prjcts_menu');
+        var isMobile = window.matchMedia && window.matchMedia('(max-width: 720px)').matches;
+        // Eerste bezoek: mobile = closed (anders covert overlay alle content), desktop = open.
+        // Eens gebruiker bewust kiest, blijft die keuze (localStorage).
+        var menu = (stored === 'open' || stored === 'closed') ? stored : (isMobile ? 'closed' : 'open');
         document.documentElement.setAttribute('data-menu-state', menu);
 
         // Fontsize: cookie > localStorage > default. Cookie is cross-site (via constellation ?fontsize=).
