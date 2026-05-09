@@ -20,6 +20,6 @@ jobs:
           password: ${{ secrets.SFTP_PASS }}
           port: 22
           local_path: './*'
-          remote_path: './httpd.www/'
+          remote_path: './'
           delete_remote_files: false
           sftpArgs: '-o ConnectTimeout=10 -o StrictHostKeyChecking=no'
