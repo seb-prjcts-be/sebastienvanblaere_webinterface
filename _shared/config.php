@@ -92,6 +92,16 @@ return [
             // External: geen lokale folder/satelliet — geserveerd via GitHub Pages
             'external_url' => 'https://seb-prjcts-be.github.io/p5.waves/',
         ],
+        'waves_lab' => [
+            'host'         => 'waves-lab.prjcts.be',
+            'title'        => 'p5.waves_lab',
+            'description'  => 'p5.waves experimenten + showcase',
+            'register'     => 'technical',
+            'density'      => 0.7,
+            'accent'       => '#ff0000',
+            // External: GitHub Pages, pendant van p5.waves
+            'external_url' => 'https://seb-prjcts-be.github.io/p5.waves_lab/',
+        ],
         'export' => [
             'host'        => 'export.prjcts.be',
             'title'       => 'p5.export',
