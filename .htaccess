@@ -9,6 +9,11 @@ Options -Indexes
     Require all denied
 </FilesMatch>
 
+# Block markdown-docs (cloud.md, MEMORY.md, README's, STARTERs)
+<FilesMatch "\.md$">
+    Require all denied
+</FilesMatch>
+
 # Security headers (vereist mod_headers — standaard op Apache)
 <IfModule mod_headers.c>
     # Geen MIME-sniffing → forceer Content-Type-respect
