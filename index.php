@@ -210,7 +210,7 @@ $esc = fn(string $s) => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8
         <a href="<?= $site_url('prjcts') ?>">prjcts.be</a>
         <a href="<?= $site_url('kunstmijnoren') ?>">kunstmijnoren.be</a>
         <a href="<?= $site_url('waves') ?>"<?= $site_external('waves') ? ' target="_blank" rel="noopener"' : '' ?>>p5.waves (library)</a>
-        <a href="<?= $site_url('waves_lab') ?>"<?= $site_external('waves_lab') ? ' target="_blank" rel="noopener"' : '' ?>>p5.waves_lab</a>
+        <a href="<?= $site_url('waves_lab') ?>"<?= $site_external('waves_lab') ? ' target="_blank" rel="noopener"' : '' ?>>p5.waves_lab (service)</a>
         <a href="<?= $site_url('export') ?>">p5.export (service)</a>
         <a href="<?= $is_local ? '/sebastienvanblaere.be/services/svg/' : 'https://prjcts.be/services/svg/' ?>">SVG_converter (service)</a>
 
