@@ -1,38 +1,40 @@
 # sebastienvanblaere.be — hub
 
 ## Missie
-Eén gedeeld skelet (`_shared/`) draagt 5 satellieten met identieke code en uniform schema; verschil tussen satellieten = content (`.md` per taal), `menu_items.php`, optionele `assets/site.css`. Lokaal draait alles via `localhost/sebastienvanblaere.be/sites/<key>/`; productie draait host-based op `<host>`.
+`sebastienvanblaere.be` heeft een **dubbele aard**:
+- **Online** = de *schijnbare* overkoepelende site: één linktree-voordeur (`index.php`) die naar prjcts, kunstmijnoren én p5waves leidt. Bezoekers zien één geheel.
+- **Offline** = een *letterlijke* paraplu-map: de hub-folder bevat álle satelliet-mappen + de canonieke `_shared/`.
+
+Eén gedeeld skelet (`_shared/`) draagt alle satellieten met identieke code en uniform schema; verschil tussen satellieten = content (`.md` per taal), `menu_items.php`, `lib/*`, optionele `assets/site.css`. Lokaal draait alles genest via `localhost/sebastienvanblaere.be/<host>/`; productie draait host-based op `<host>` (elk domein eigen one.com-webspace).
+
+**Kern-invariant:** elke satelliet is een *eigen git-repo met eigen GitHub-remote en eigen webspace*. Features worden offline uit `_shared/` geleend/hergebruikt, maar `_shared/` bestaat **dubbel**: canoniek in de hub-repo én als **kopie per satelliet** (`<host>/_shared/`). Een geleende feature is pas live als de satelliet-kopie mee-gecommit, mee-gepusht én mee-geftpt is.
 
 ## Boom
 ```
-C:\server\htdocs\
-├── _shared\
-│   ├── bootstrap.php           host+folder-detectie, lang-redirect, mode-detect
-│   ├── config.php              5 satellieten (host, title, register, density, accent, decoration)
-│   ├── helpers.php             e(), link_to(), dispatch(), detect_satellite()
-│   ├── content.php             discover_abouts/projects/works(), read_meta/body()
-│   ├── partials\               header, footer, menu-sidepanel, constellation, decoration
-│   ├── DECORATION.md           ← p5-balletjes technische doc
-│   ├── UI.md                   ← header/constellation/menu/lightbox reference voor nieuwe satellieten
-│   ├── SECURITY.md             ← audit-log + checklist
-│   ├── Parsedown.php           ← markdown→HTML parser (vendor)
-│   ├── thumb.php               ← on-demand cached thumbnail-generator
-│   └── assets\
-│       ├── shared.css          baseline + register-overrides + canvas styling
-│       ├── menu.css            sidepanel + push-effect
-│       ├── menu.js             togglers + state-persistence
-│       ├── decoration.js       p5play-balletjes (cfg-driven, optionele image-sprite)
-│       └── p5play.js           lokale kopie (uit LIVE_prjcts3.0/js/, 277 KB)
-│
-└── sebastienvanblaere.be\
-    ├── index.php               landing (linktree)
-    └── sites\
-        ├── prjcts\             3 rode bouncing balls
-        ├── kunstmijnoren\      2 oor-balletjes (image-sprite, één gespiegeld)
-        └── (p5/waves/export)   geen decoratie
+C:\server\htdocs\sebastienvanblaere.be\   ← HUB-map = de paraplu (offline)
+├── index.php          landing/linktree (online: schijnbare overkoepelende site)
+├── _shared\           CANONIEKE bron van het skelet (leeft in de hub-repo)
+│   ├── bootstrap.php · config.php · helpers.php · content.php · thumb.php · Parsedown.php
+│   ├── partials\      header, footer, menu-sidepanel, constellation, decoration
+│   ├── assets\        shared.css · menu.css · menu.js · decoration.js · p5play.js · hub-injection.js
+│   └── *.md           DECORATION.md · UI.md · SECURITY.md (referentie-docs)
+├── assets\            hub-eigen assets (og-portrait, …)
+├── services\          autonome services — NIET in hub-repo (.gitignore), elk eigen repo
+├── prjcts.be\         satelliet ─┐
+├── kunstmijnoren.be\  satelliet ─┤ elk: eigen repo + eigen .github/workflows/deploy.yml
+└── p5waves.org\       satelliet ─┘        + eigen KOPIE van _shared\
 ```
 
-Per satelliet uniform: `index.php` (3-regel bootstrap), `menu_items.php`, `pages/{home,about,projects,...}.php`, `content/<sectie>/<NN-slug>/{nl,en,fr}.md + meta.json`, `assets/site.css`.
+Eigen GitHub-remote per map (alle branch `master`):
+
+| Map | Repo |
+|---|---|
+| hub (`sebastienvanblaere.be/`) | `seb-prjcts-be/sebastienvanblaere_webinterface` |
+| `prjcts.be/` | `seb-prjcts-be/sebastienvanblaere_prjcts.be` |
+| `kunstmijnoren.be/` | `seb-prjcts-be/sebastienvanblaere_kunstmijnoren.be` |
+| `p5waves.org/` | `seb-prjcts-be/p5.wave.org` |
+
+Per satelliet uniform: `index.php` (3-regel bootstrap → `_shared/bootstrap.php`), `menu_items.php`, `pages/{home,about,projects,writings,guides,…}.php`, optioneel `lib/*` (satelliet-specifiek), `content/<sectie>/<NN-slug>/{nl,en,fr}.md + meta.json`, `assets/site.css`, `.github/workflows/deploy.yml` (SFTP → one.com `webroots/<hash>/`).
 
 ## Domeinen (productie)
 
@@ -41,6 +43,7 @@ Per satelliet uniform: `index.php` (3-regel bootstrap), `menu_items.php`, `pages
 | `sebastienvanblaere.be` | Persoon-hub (linktree) | `index.php` direct |
 | `prjcts.be` (+ www) | Identiteit 1 | hub-`.htaccess` → `sites/prjcts/` |
 | `kunstmijnoren.be` (+ www) | Identiteit 2 (alter ego) | hub-`.htaccess` → `sites/kunstmijnoren/` |
+| `p5waves.org` (+ www) | p5.waves-vitrine (volwaardige satelliet) | host-based → `p5waves.org/` |
 | `p5.prjcts.be` | Cursus (creative coding) | junction → `htdocs/LIVE_p5_cursus_site/` |
 | `*.prjcts.be` (overige) | Libraries / utilities | wildcard, eigen DocumentRoots |
 | `lab44.be` | Onderwijs (los, eigen identiteit) | direct, eigen kader, geen koppeling |
@@ -57,6 +60,7 @@ certbot certonly --dns-cloudflare \
 DNS-record nodig: `*.prjcts.be` → A `<server-IP>` (één keer instellen, dekt alle toekomstige subdomeinen).
 
 ## Regels
+- **Shared-invariant:** wijzig je de canonieke `_shared/` (hub-repo), sync dan naar elke `<host>/_shared/`-kopie en commit+push+ftp die mee — anders lopen satellieten uiteen. Sync-script (`sync-shared.sh`) staat op TODO. Elke satelliet = eigen repo + eigen one.com-webspace; nooit aannemen dat een hub-wijziging vanzelf live is.
 - Alle dynamische output via `e()` (in helpers.php). `declare(strict_types=1)` bovenaan elk PHP-bestand.
 - Content-isolatie: elke satelliet heeft eigen `content/`. Geen pool delen.
 - p5play moet **lokaal** geserveerd via `_shared/assets/p5play.js`. CDN `p5play.org/v3/` kan stilzwijgend updaten en API-changes brengen → niet gebruiken.
@@ -87,3 +91,4 @@ DNS-record nodig: `*.prjcts.be` → A `<server-IP>` (één keer instellen, dekt 
 - 2026-05-05: **`_shared` als kopie binnen elk site-repo** (was junction). Reden: productie-deploy heeft eigen `_shared/` per webspace nodig. Trade-off: lokale wijzigingen aan canonical `_shared/` moeten gesynct worden naar elke site-kopie. Sync-script (`sync-shared.sh`) staat op TODO.
 - 2026-05-05: **Constellation gesynct met linktree** (services + Education-sectie + bijgewerkte labels). Render-loop ondersteunt nu `header`-type voor section-dividers. CSS class `.constellation-header` toegevoegd in menu.css.
 - 2026-05-05: Optie B gitignore in alle site-repos: alle images + videos uitgesloten van git. Visuele content uploaden via FileZilla per content-batch. Logo's, icons, kleine assets ook → manuele upload.
+- 2026-05-17: **p5waves.org is een volwaardige satelliet** (apex-domein, géén `external_url`, echt via `_shared/` geserveerd) — coexist naast de externe GitHub-Pages library-docs. Verweven "nooit out of date"-laag: `lib/manifest.php` leest de canonieke `p5.waves.manifest.json` mode-aware (path-mode → lokaal `htdocs/[library] … p5.waves/docs/…`; host-mode → GitHub-Pages-URL) + cache + last-good fallback. Nieuw: `pages/lib.php` ("De library") rendert versie/34 waves/API-changes/examples/ecosysteem live uit de manifest, met canonieke deeplinks afgeleid uit `pages_url` (geen hardcoded URL's). §0-check: canoniek v3.3.0. Boom/Missie hierboven gecorrigeerd naar de geneste realiteit (oude versie beschreef nog `sites/<key>/` van vóór de pivot).
