@@ -132,6 +132,13 @@ Auto-bootstrapped overlay voor klik op elementen met `data-src` + `data-type`. V
 ```
 Klik → fullscreen overlay opent, Esc/klik buiten/×-knop sluit. Geen extra JS nodig.
 
+### Micro-animaties (GSAP)
+`footer.php` laadt GSAP core via CDN (gsap@3.13.0, defer, vóór menu.js). `menu.js` gebruikt het voor twee discrete touches:
+- **Lightbox**: fade-in (0.25s) + subtiele scale van de content (0.97 → 1) bij openen, fade-out (0.2s) bij sluiten.
+- **Works-grid**: thumbnails staggeren bij paginalaad (fade + 10px omhoog, totale intro ≤ ~1s ook bij grote grids).
+
+Beide degraderen netjes: faalt de CDN of staat `prefers-reduced-motion: reduce` aan, dan gedraagt alles zich exact zoals voorheen (instant/CSS-only). De menu- en constellation-slides blijven bewust pure CSS-transities.
+
 ---
 
 ## 5. Persistence-keys (localStorage + cookies)

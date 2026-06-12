@@ -1,6 +1,13 @@
 (function () {
     'use strict';
 
+    // GSAP is optioneel: zonder gsap (CDN faalt) of met reduced-motion
+    // valt alles terug op de bestaande instant/CSS-gedreven UI.
+    function motionOK() {
+        return typeof window.gsap !== 'undefined' &&
+            !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+
     /* === LEFT MENU — open by default, persisted in localStorage === */
 
     function setupMenu() {
@@ -125,13 +132,35 @@
             overlay.classList.add('is-open');
             overlay.setAttribute('aria-hidden', 'false');
             document.body.style.overflow = 'hidden';
+            if (motionOK()) {
+                gsap.killTweensOf([overlay, content]);
+                gsap.fromTo(overlay, { opacity: 0 },
+                    { opacity: 1, duration: 0.25, ease: 'power1.out', clearProps: 'opacity' });
+                gsap.fromTo(content, { scale: 0.97 },
+                    { scale: 1, duration: 0.35, ease: 'power2.out', clearProps: 'scale' });
+            }
         }
 
+        var closing = false;
         function close() {
-            overlay.classList.remove('is-open');
-            overlay.setAttribute('aria-hidden', 'true');
-            content.innerHTML = '';
-            document.body.style.overflow = '';
+            function finish() {
+                closing = false;
+                overlay.classList.remove('is-open');
+                overlay.setAttribute('aria-hidden', 'true');
+                content.innerHTML = '';
+                document.body.style.overflow = '';
+            }
+            if (motionOK()) {
+                if (closing) return;
+                closing = true;
+                gsap.killTweensOf([overlay, content]);
+                gsap.to(overlay, {
+                    opacity: 0, duration: 0.2, ease: 'power1.in',
+                    clearProps: 'opacity', onComplete: finish
+                });
+            } else {
+                finish();
+            }
         }
 
         // klik op elk element met data-src + data-type → open lightbox
@@ -154,11 +183,29 @@
         return { open: open, close: close };
     }
 
+    /* === WORKS-GRID REVEAL — discrete stagger bij paginalaad === */
+
+    function setupGridReveal() {
+        if (!motionOK()) return;
+        var items = document.querySelectorAll('.works-grid .thumbnail-container');
+        if (!items.length) return;
+        // Totale intro blijft kort, ook bij grote grids
+        gsap.from(items, {
+            autoAlpha: 0,
+            y: 10,
+            duration: 0.45,
+            ease: 'power2.out',
+            stagger: Math.min(0.06, 0.8 / items.length),
+            clearProps: 'all'
+        });
+    }
+
     function init() {
         var menu = setupMenu();
         var constellation = setupConstellation(menu);
         setupFontSize();
         setupLightbox();
+        setupGridReveal();
 
         // Esc sluit elke open paneel
         document.addEventListener('keydown', function (e) {
