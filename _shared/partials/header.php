@@ -73,9 +73,9 @@ $_fb_app     = $cfg['fb_app_id']     ?? '';
 </script>
 
 <?php
-// Path-prefix: in path-modus zit elke site op /<host>/, in host-modus is alles relatief.
-$mode      = $GLOBALS['_prjcts_mode'] ?? 'host';
-$path_pref = $mode === 'path' ? '/' . $cfg['host'] : '';
+// Path-prefix naar de satelliet-root, mode-aware via static_url():
+// path-modus → /<hub_root>/<host>, host-modus → '' (relatief).
+$path_pref = rtrim(static_url('', $config), '/');
 
 // Favicon — alleen tonen als de satelliet een favicon.ico in z'n root heeft.
 $favicon_file = ($GLOBALS['_prjcts_root'] ?? '') . '/favicon.ico';
