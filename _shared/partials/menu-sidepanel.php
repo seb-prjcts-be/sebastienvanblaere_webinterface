@@ -43,6 +43,13 @@ declare(strict_types=1);
                 <?php endif; ?>
             <?php elseif ($type === 'category'): ?>
                 <div class="menu-category"><?= e($item['label'] ?? '') ?></div>
+            <?php elseif ($type === 'category-collapsible'): ?>
+                <details class="menu-category-collapse">
+                    <summary class="menu-category"><?= e($item['label'] ?? '') ?></summary>
+                    <?php foreach (($item['children'] ?? []) as $child): ?>
+                        <a href="<?= e($child['href'] ?? '#') ?>" class="menu-link"><?= e($child['label'] ?? '') ?></a>
+                    <?php endforeach; ?>
+                </details>
             <?php elseif ($type === 'divider'): ?>
                 <div class="menu-divider"></div>
             <?php elseif ($type === 'external'): ?>

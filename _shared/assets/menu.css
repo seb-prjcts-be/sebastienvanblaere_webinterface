@@ -111,6 +111,24 @@ html[data-menu-state="open"] .menu-overlay,
     /* Geen font-family/size hier — dat is een satelliet-keuze in site.css */
 }
 
+/* Inklapbare category (artform.json: "collapsed": true) — HTML5 details, geen JS.
+ * Reset summary default rendering (display: list-item + cursor: default) zodat
+ * het er identiek uitziet als de gewone <div class="menu-category">. */
+.menu-category-collapse > summary.menu-category {
+    display: block;
+    cursor: pointer;
+    list-style: none;
+}
+.menu-category-collapse > summary.menu-category::-webkit-details-marker { display: none; }
+.menu-category-collapse > summary.menu-category::before {
+    content: '▸ ';
+    color: #888;
+    font-size: 0.8em;
+}
+.menu-category-collapse[open] > summary.menu-category::before {
+    content: '▾ ';
+}
+
 .menu-fixed-bottom {
     flex-shrink: 0;
     width: 100%;
