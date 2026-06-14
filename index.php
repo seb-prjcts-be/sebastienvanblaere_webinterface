@@ -203,14 +203,16 @@ $esc = fn(string $s) => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8
         <div class="socials">
             <a href="https://www.instagram.com/prjcts.be/" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
             <a href="https://www.linkedin.com/in/sebvanb" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            <a href="https://www.buymeacoffee.com/prjcts" target="_blank" rel="noopener" aria-label="Buy me a coffee?" title="Buy me a coffee?"><i class="bi bi-cup-hot-fill"></i></a>
         </div>
     </header>
 
     <nav>
         <a href="<?= $site_url('prjcts') ?>">prjcts.be</a>
         <a href="<?= $site_url('kunstmijnoren') ?>">kunstmijnoren.be</a>
-        <a href="<?= $site_url('waves') ?>"<?= $site_external('waves') ? ' target="_blank" rel="noopener"' : '' ?>>p5.waves (library)</a>
-        <a href="<?= $site_url('waves_lab') ?>"<?= $site_external('waves_lab') ? ' target="_blank" rel="noopener"' : '' ?>>p5.waves_lab (service)</a>
+        <!--<a href="<?= $site_url('waves') ?>"<?= $site_external('waves') ? ' target="_blank" rel="noopener"' : '' ?>>p5.waves (library)</a>-->
+        <!--<a href="<?= $site_url('waves_lab') ?>"<?= $site_external('waves_lab') ? ' target="_blank" rel="noopener"' : '' ?>>p5.waves_lab (service)</a>-->
+        <a href="https://p5waves.org/" target="_blank" rel="noopener">p5waves.org (library + service)</a>
         <a href="<?= $site_url('export') ?>">p5.export (service)</a>
         <a href="<?= $is_local ? '/sebastienvanblaere.be/services/svg/' : 'https://prjcts.be/services/svg/' ?>">SVG_converter (service)</a>
 
@@ -218,6 +220,10 @@ $esc = fn(string $s) => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8
         <a href="<?= $site_url('p5') ?>">Creative coding<br>for creative people.</a>
         <a href="<?= $is_local ? '/sebastienvanblaere.be/services/p5.blocks/' : 'https://prjcts.be/services/p5.blocks/' ?>">p5.blocks (concept)</a>
         <a href="<?= $is_local ? '/sebastienvanblaere.be/services/fidk/' : 'https://prjcts.be/services/fidk/' ?>">FIDK (Photography)</a>
+        <div class="nav-header">Resume</div>
+        <a href="<?= $is_local ? '/sebastienvanblaere.be/services/cv/' : 'https://sebastienvanblaere.be/services/cv/' ?>">curriculum vitae</a>
+
+        
     </nav>
 
     <footer>seb@prjcts.be</footer>

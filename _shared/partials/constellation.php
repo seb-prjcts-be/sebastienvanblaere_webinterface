@@ -48,17 +48,25 @@ $svc_url  = function (string $name) use ($config, $mode_now): string {
         : 'https://prjcts.be/services/' . $name . '/';
 };
 
+// CV-service leeft op de hub (sebastienvanblaere.be), niet op prjcts.be.
+$hub_host = $config['hub_root'] ?? 'sebastienvanblaere.be';
+$cv_url   = $mode_now === 'path'
+    ? '/' . $hub_host . '/services/cv/'
+    : 'https://' . $hub_host . '/services/cv/';
+
 // Ordered linktree-items — match sebastienvanblaere.be/index.php
 $items = [
     ['type' => 'sat',      'label' => 'prjcts.be',                  'key'  => 'prjcts'],
     ['type' => 'sat',      'label' => 'kunstmijnoren.be',           'key'  => 'kunstmijnoren'],
-    ['type' => 'sat',      'label' => 'p5.waves (library)',         'key'  => 'waves'],
+    ['type' => 'sat',      'label' => 'p5waves.org (library + service)', 'key' => 'p5waves'],
     ['type' => 'sat',      'label' => 'p5.export (service)',        'key'  => 'export'],
     ['type' => 'external', 'label' => 'SVG_converter (service)',    'href' => $svc_url('svg')],
     ['type' => 'header',   'label' => 'Education'],
     ['type' => 'sat',      'label' => 'Creative coding for creative people.', 'key' => 'p5'],
     ['type' => 'external', 'label' => 'p5.blocks (concept)',        'href' => $svc_url('p5.blocks')],
     ['type' => 'external', 'label' => 'FIDK (Photography)',         'href' => $svc_url('fidk')],
+    ['type' => 'header',   'label' => 'Resume'],
+    ['type' => 'external', 'label' => 'curriculum vitae',           'href' => $cv_url],
 ];
 ?>
 <button class="constellation-toggler" aria-label="Sebastien Vanblaere — links" aria-expanded="false" aria-controls="prjcts-constellation">
@@ -73,6 +81,7 @@ $items = [
             <div class="constellation-socials">
                 <a href="https://www.instagram.com/prjcts.be/" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
                 <a href="https://www.linkedin.com/in/sebvanb" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                <a href="https://www.buymeacoffee.com/prjcts" target="_blank" rel="noopener" aria-label="Buy me a coffee?" title="Buy me a coffee?"><i class="bi bi-cup-hot-fill"></i></a>
             </div>
         </div>
 
