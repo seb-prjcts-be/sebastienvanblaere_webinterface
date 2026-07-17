@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "profile": {
+    "name": "Sebastien Vanblaere",
+    "tagline": "Neurodiverse liefhebber van koffie, kunst en filosofie. Liefst in die volgorde...",
+    "email": "seb@prjcts.be",
+    "socials": [
+      {
+        "label": "Instagram",
+        "url": "https://www.instagram.com/prjcts.be/",
+        "icon": "instagram",
+        "external": true
+      },
+      {
+        "label": "LinkedIn",
+        "url": "https://www.linkedin.com/in/sebvanb",
+        "icon": "linkedin",
+        "external": true
+      },
+      {
+        "label": "Buy me a coffee?",
+        "url": "https://www.buymeacoffee.com/prjcts",
+        "icon": "cup-hot-fill",
+        "external": true
+      }
+    ]
+  },
+  "items": [
+    {
+      "type": "link",
+      "key": "prjcts",
+      "label": "prjcts.be",
+      "url": "https://prjcts.be/"
+    },
+    {
+      "type": "link",
+      "key": "kunstmijnoren",
+      "label": "kunstmijnoren.be",
+      "url": "https://kunstmijnoren.be/"
+    },
+    {
+      "type": "link",
+      "key": "p5waves",
+      "label": "p5waves.org (library + service)",
+      "url": "https://p5waves.org/",
+      "external": true
+    },
+    {
+      "type": "link",
+      "key": "export",
+      "label": "p5.export (service)",
+      "url": "https://prjcts.be/services/export/"
+    },
+    {
+      "type": "link",
+      "label": "SVG_converter (service)",
+      "url": "https://prjcts.be/services/svg/",
+      "localPath": "/sebastienvanblaere.be/services/svg/"
+    },
+    {
+      "type": "header",
+      "label": "Education"
+    },
+    {
+      "type": "link",
+      "key": "p5",
+      "label": "Creative coding\nfor creative people.",
+      "url": "https://creativecoding.prjcts.be/"
+    },
+    {
+      "type": "link",
+      "label": "p5.blocks (concept)",
+      "url": "https://prjcts.be/services/p5.blocks/",
+      "localPath": "/sebastienvanblaere.be/services/p5.blocks/"
+    },
+    {
+      "type": "link",
+      "label": "FIDK (Photography)",
+      "url": "https://prjcts.be/services/fidk/",
+      "localPath": "/sebastienvanblaere.be/services/fidk/"
+    },
+    {
+      "type": "header",
+      "label": "Resume"
+    },
+    {
+      "type": "link",
+      "label": "curriculum vitae",
+      "url": "https://sebastienvanblaere.be/services/cv/",
+      "localPath": "/sebastienvanblaere.be/services/cv/"
+    }
+  ]
+}
