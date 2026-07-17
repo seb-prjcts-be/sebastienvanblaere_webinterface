@@ -1,15 +1,13 @@
 <?php
 /**
  * sebastienvanblaere.be — landing / linktree.
- * Toont alleen als de host géén satelliet is. Productie-routing in .htaccess
- * stuurt prjcts.be en kunstmijnoren.be al door naar sites/<key>/.
+ * De zichtbare inhoud komt uit constellation.json.
  */
 declare(strict_types=1);
 
 $config = require __DIR__ . '/_shared/config.php';
 $host   = $_SERVER['HTTP_HOST'] ?? '';
 
-// In productie: redirect naar de juiste site als deze host bij een hub-satelliet hoort
 foreach ($config['satellites'] as $key => $sat) {
     if (!empty($sat['in_hub']) && $sat['host'] === $host) {
         header('Location: /sites/' . $key . '/', true, 302);
@@ -18,48 +16,57 @@ foreach ($config['satellites'] as $key => $sat) {
 }
 
 $is_local = $host === 'localhost' || str_starts_with($host, 'localhost:') || $host === '127.0.0.1';
-
-/** Bouw URL naar een satelliet (mode-aware).
- *  Lokaal nested: /sebastienvanblaere.be/<host>/ — elke site is folder onder hub.
- *  Productie: https://<host>/ — elk domein heeft eigen webspace. */
 $hub_root = $config['hub_root'] ?? 'sebastienvanblaere.be';
+
 $site_url = function (string $key) use ($config, $is_local, $hub_root): string {
     $sat = $config['satellites'][$key] ?? null;
     if ($sat === null) return '#';
-    // External-only satellieten (bv. GitHub Pages) — altijd absolute URL
-    if (!empty($sat['external_url'])) {
-        return $sat['external_url'];
-    }
-    if ($is_local) {
-        return '/' . $hub_root . '/' . $sat['host'] . '/';
-    }
+    if (!empty($sat['external_url'])) return $sat['external_url'];
+    if ($is_local) return '/' . $hub_root . '/' . $sat['host'] . '/';
     return 'https://' . $sat['host'] . '/';
 };
 
-// External-flag aan template doorgeven (voor target=_blank)
-$site_external = function (string $key) use ($config): bool {
-    return !empty($config['satellites'][$key]['external_url']);
-};
+$constellation_path = __DIR__ . '/constellation.json';
+$constellation_raw  = is_file($constellation_path) ? file_get_contents($constellation_path) : false;
+$constellation      = is_string($constellation_raw) ? json_decode($constellation_raw, true) : null;
+if (!is_array($constellation)) $constellation = [];
 
-// Hub-meta — SEO + Open Graph
+$profile = isset($constellation['profile']) && is_array($constellation['profile'])
+    ? $constellation['profile']
+    : [];
+$items = isset($constellation['items']) && is_array($constellation['items'])
+    ? $constellation['items']
+    : [];
+$socials = isset($profile['socials']) && is_array($profile['socials'])
+    ? $profile['socials']
+    : [];
+
 $hub        = $config['hub'] ?? [];
-$page_title = $hub['title']       ?? 'Sebastien Vanblaere';
-$page_desc  = $hub['description'] ?? '';
+$page_title = (string) ($profile['name'] ?? $hub['title'] ?? 'Sebastien Vanblaere');
+$page_desc  = (string) ($hub['description'] ?? '');
 $page_kws   = isset($hub['keywords']) ? implode(', ', $hub['keywords']) : '';
-$page_tag   = $hub['tagline']     ?? '';
-$page_auth  = $hub['author']      ?? '';
-$og_title   = $hub['og_title']    ?? $page_title;
-$og_image   = $hub['og_image']    ?? '';
-$canonical  = ($is_local ? '/' . $hub_root . '/' : 'https://' . $hub_root . '/');
+$page_tag   = (string) ($profile['tagline'] ?? $hub['tagline'] ?? '');
+$page_auth  = (string) ($hub['author'] ?? '');
+$og_title   = (string) ($hub['og_title'] ?? $page_title);
+$og_image   = (string) ($hub['og_image'] ?? '');
+$canonical  = $is_local ? '/' . $hub_root . '/' : 'https://' . $hub_root . '/';
 
-// Maak og_image absolute (social-media crawlers vereisen volledige URL)
 if ($og_image !== '' && !preg_match('#^https?://#', $og_image)) {
     $abs_base = $is_local ? '/' . $hub_root : 'https://' . $hub_root;
     $og_image = $abs_base . '/' . ltrim($og_image, '/');
 }
 
-// Helper voor escape in HTML attributes
-$esc = fn(string $s) => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$esc = static fn(string $s): string => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$render_label = static fn(string $s): string => nl2br($esc($s), false);
+
+$item_url = function (array $item) use ($is_local, $site_url): string {
+    if ($is_local && !empty($item['localPath'])) return (string) $item['localPath'];
+    if ($is_local && !empty($item['key'])) {
+        $local = $site_url((string) $item['key']);
+        if ($local !== '#') return $local;
+    }
+    return (string) ($item['url'] ?? '#');
+};
 ?>
 <!DOCTYPE html>
 <html lang="nl">
@@ -78,7 +85,6 @@ $esc = fn(string $s) => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8
 <meta name="author" content="<?= $esc($page_auth) ?>">
 <?php endif; ?>
 
-<!-- Open Graph -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="<?= $esc($canonical) ?>">
 <meta property="og:title" content="<?= $esc($og_title) ?>">
@@ -89,7 +95,6 @@ $esc = fn(string $s) => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8
 <meta property="og:image" content="<?= $esc($og_image) ?>">
 <?php endif; ?>
 
-<!-- Twitter -->
 <meta name="twitter:card" content="summary<?= $og_image ? '_large_image' : '' ?>">
 <meta name="twitter:title" content="<?= $esc($og_title) ?>">
 <?php if ($page_desc): ?>
@@ -140,7 +145,6 @@ $esc = fn(string $s) => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8
         transition: color 0.15s;
     }
     .socials a:hover { color: #ff0000; }
-
     nav { display: flex; flex-direction: column; gap: 0.75rem; width: 100%; }
     .nav-header {
         font-size: 0.7rem;
@@ -167,31 +171,14 @@ $esc = fn(string $s) => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8
         border-color: #ff0000;
         background: #ffffff;
     }
-    nav a.featured {
-        padding: 0;
-        overflow: hidden;
-        position: relative;
-    }
-    nav a.featured img {
-        display: block;
-        width: 100%;
-        height: auto;
-    }
-    nav a.featured span {
-        display: block;
-        padding: 0.85rem 1.1rem;
-        border-top: 1px solid #d0d0d0;
-        background: #fafafa;
-    }
-    nav a.featured:hover span {
-        background: #ffffff;
-    }
     footer {
         margin-top: 2.5rem;
         text-align: center;
         font-size: 0.78rem;
         color: #909090;
     }
+    footer a { color: inherit; text-decoration: none; }
+    footer a:hover { color: #ff0000; }
 </style>
 </head>
 <body>
@@ -200,32 +187,40 @@ $esc = fn(string $s) => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8
         <?php if ($page_tag): ?>
         <p class="tagline"><?= $esc($page_tag) ?></p>
         <?php endif; ?>
+        <?php if ($socials): ?>
         <div class="socials">
-            <a href="https://www.instagram.com/prjcts.be/" target="_blank" rel="noopener" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-            <a href="https://www.linkedin.com/in/sebvanb" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
-            <a href="https://www.buymeacoffee.com/prjcts" target="_blank" rel="noopener" aria-label="Buy me a coffee?" title="Buy me a coffee?"><i class="bi bi-cup-hot-fill"></i></a>
+            <?php foreach ($socials as $social):
+                if (!is_array($social)) continue;
+                $label = (string) ($social['label'] ?? 'Link');
+                $url   = (string) ($social['url'] ?? '#');
+                $icon  = preg_replace('/[^a-z0-9-]/i', '', (string) ($social['icon'] ?? 'link-45deg'));
+                $external = !empty($social['external']);
+            ?>
+            <a href="<?= $esc($url) ?>"<?= $external ? ' target="_blank" rel="noopener"' : '' ?> aria-label="<?= $esc($label) ?>" title="<?= $esc($label) ?>"><i class="bi bi-<?= $esc($icon) ?>"></i></a>
+            <?php endforeach; ?>
         </div>
+        <?php endif; ?>
     </header>
 
     <nav>
-        <a href="<?= $site_url('prjcts') ?>">prjcts.be</a>
-        <a href="<?= $site_url('kunstmijnoren') ?>">kunstmijnoren.be</a>
-        <!--<a href="<?= $site_url('waves') ?>"<?= $site_external('waves') ? ' target="_blank" rel="noopener"' : '' ?>>p5.waves (library)</a>-->
-        <!--<a href="<?= $site_url('waves_lab') ?>"<?= $site_external('waves_lab') ? ' target="_blank" rel="noopener"' : '' ?>>p5.waves_lab (service)</a>-->
-        <a href="https://p5waves.org/" target="_blank" rel="noopener">p5waves.org (library + service)</a>
-        <a href="<?= $site_url('export') ?>">p5.export (service)</a>
-        <a href="<?= $is_local ? '/sebastienvanblaere.be/services/svg/' : 'https://prjcts.be/services/svg/' ?>">SVG_converter (service)</a>
-
-        <div class="nav-header">Education</div>
-        <a href="<?= $site_url('p5') ?>">Creative coding<br>for creative people.</a>
-        <a href="<?= $is_local ? '/sebastienvanblaere.be/services/p5.blocks/' : 'https://prjcts.be/services/p5.blocks/' ?>">p5.blocks (concept)</a>
-        <a href="<?= $is_local ? '/sebastienvanblaere.be/services/fidk/' : 'https://prjcts.be/services/fidk/' ?>">FIDK (Photography)</a>
-        <div class="nav-header">Resume</div>
-        <a href="<?= $is_local ? '/sebastienvanblaere.be/services/cv/' : 'https://sebastienvanblaere.be/services/cv/' ?>">curriculum vitae</a>
-
-        
+        <?php foreach ($items as $item):
+            if (!is_array($item)) continue;
+            $type  = (string) ($item['type'] ?? 'link');
+            $label = (string) ($item['label'] ?? '');
+            if ($type === 'header'): ?>
+                <div class="nav-header"><?= $esc($label) ?></div>
+            <?php else:
+                $url = $item_url($item);
+                $external = !empty($item['external']);
+            ?>
+                <a href="<?= $esc($url) ?>"<?= $external ? ' target="_blank" rel="noopener"' : '' ?>><?= $render_label($label) ?></a>
+            <?php endif; ?>
+        <?php endforeach; ?>
     </nav>
 
-    <footer>seb@prjcts.be</footer>
+    <?php $email = (string) ($profile['email'] ?? ''); ?>
+    <?php if ($email): ?>
+    <footer><a href="mailto:<?= $esc($email) ?>"><?= $esc($email) ?></a></footer>
+    <?php endif; ?>
 </body>
 </html>
