@@ -23,7 +23,12 @@
     var isLocal = host === 'localhost' || host === '127.0.0.1' || host.indexOf('localhost:') === 0;
 
     // Bouw URL naar een satelliet (mode-aware)
-    function satUrl(satHost, key) {
+    function satUrl(satHost, servicePath, serviceHost) {
+        if (servicePath) {
+            return isLocal
+                ? '/sebastienvanblaere.be/services/' + servicePath + '/'
+                : 'https://' + serviceHost + '/services/' + servicePath + '/';
+        }
         // Lokaal: elke site is folder onder htdocs/, URL = /<host>/
         // Productie: expliciete https://<host>/, elk domein eigen webspace.
         if (isLocal) {
@@ -43,13 +48,15 @@
         if (host === 'kunstmijnoren.be' || host === 'www.kunstmijnoren.be') return 'kunstmijnoren';
         if (host === 'creativecoding.prjcts.be' || host === 'p5.prjcts.be') return 'p5';
         if (host === 'waves.prjcts.be') return 'waves';
+        if (host === 'p5waves.org' || host === 'www.p5waves.org') return 'p5waves';
         if (host === 'export.prjcts.be') return 'export';
         // Lokaal: detect via path — elke site is folder onder htdocs/
         var path = window.location.pathname;
-        if (path.indexOf('/creativecoding.prjcts.be') === 0 || path.indexOf('/p5.prjcts.be') === 0 || path.indexOf('/services/creative_coding_site') === 0) return 'p5';
+        if (path.indexOf('/creativecoding.prjcts.be') === 0 || path.indexOf('/p5.prjcts.be') === 0 || path.indexOf('/services/creative_coding_p5.js') === 0) return 'p5';
         if (path.indexOf('/prjcts.be') === 0) return 'prjcts';
         if (path.indexOf('/kunstmijnoren.be') === 0) return 'kunstmijnoren';
         if (path.indexOf('/waves.prjcts.be') === 0) return 'waves';
+        if (path.indexOf('/p5waves.org') === 0) return 'p5waves';
         if (path.indexOf('/export.prjcts.be') === 0) return 'export';
         return null;
     }
@@ -61,10 +68,10 @@
     var sats = [
         { key: 'prjcts',        host: 'prjcts.be',         label: 'prjcts.be',         desc: 'het werk' },
         { key: 'kunstmijnoren', host: 'kunstmijnoren.be',  label: 'kunstmijnoren.be',  desc: 'alter ego' },
-        { key: 'p5',            host: 'creativecoding.prjcts.be',  label: 'p5 cursus',         desc: 'creative coding' },
-        { key: 'waves',         host: 'waves.prjcts.be',   label: 'p5.waves library',  desc: 'wave-formules',
-                                external: 'https://seb-prjcts-be.github.io/p5.waves/' },
-        { key: 'export',        host: 'export.prjcts.be',  label: 'p5.export',         desc: 'export-utility' }
+        { key: 'p5',            serviceHost: 'sebastienvanblaere.be', servicePath: 'creative_coding_p5.js', label: 'p5 cursus', desc: 'creative coding' },
+        { key: 'three',         serviceHost: 'sebastienvanblaere.be', servicePath: 'creative_coding_three.js', label: 'three.js handleiding', desc: 'creative coding' },
+        { key: 'p5waves',       host: 'p5waves.org',       label: 'p5.waves (libraries and services)', desc: 'library + services' },
+        { key: 'export',        serviceHost: 'prjcts.be', servicePath: 'p5.export', label: 'p5.export', desc: 'export-utility' }
     ];
 
     // === DOM elements ===
@@ -152,7 +159,7 @@
         var card = document.createElement(isCur ? 'div' : 'a');
         if (!isCur) {
             // External wint over lokale/host-detectie
-            card.href = s.external || satUrl(s.host, s.key);
+            card.href = s.external || satUrl(s.host, s.servicePath, s.serviceHost);
             if (s.external) {
                 card.target = '_blank';
                 card.rel = 'noopener';

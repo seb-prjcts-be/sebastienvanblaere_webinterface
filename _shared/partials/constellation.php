@@ -33,10 +33,10 @@ $item_url = function (array $item) use ($config, $mode_now, $pref_qs): string {
     $key = (string) ($item['key'] ?? '');
 
     if ($mode_now === 'path') {
-        if ($key !== '' && isset($config['satellites'][$key])) {
-            $url = link_to($config['satellites'][$key]['host'], '', $config);
-        } elseif (!empty($item['localPath'])) {
+        if (!empty($item['localPath'])) {
             $url = (string) $item['localPath'];
+        } elseif ($key !== '' && isset($config['satellites'][$key])) {
+            $url = link_to($config['satellites'][$key]['host'], '', $config);
         }
     }
 

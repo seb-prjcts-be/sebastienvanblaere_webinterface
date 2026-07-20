@@ -41,7 +41,7 @@
     {
       "type": "link",
       "key": "p5waves",
-      "label": "p5waves.org (library + service)",
+      "label": "p5.waves (libraries and services)",
       "url": "https://p5waves.org/",
       "external": true
     },
@@ -49,7 +49,8 @@
       "type": "link",
       "key": "export",
       "label": "p5.export (service)",
-      "url": "https://export.prjcts.be/"
+      "url": "https://prjcts.be/services/p5.export/",
+      "localPath": "/sebastienvanblaere.be/services/p5.export/"
     },
     {
       "type": "link",
@@ -65,7 +66,14 @@
       "type": "link",
       "key": "p5",
       "label": "Creative coding\nfor creative people.",
-      "url": "https://creativecoding.prjcts.be/"
+      "url": "https://sebastienvanblaere.be/services/creative_coding_p5.js/",
+      "localPath": "/sebastienvanblaere.be/services/creative_coding_p5.js/"
+    },
+    {
+      "type": "link",
+      "label": "three.js Handleiding",
+      "url": "https://sebastienvanblaere.be/services/creative_coding_three.js/",
+      "localPath": "/sebastienvanblaere.be/services/creative_coding_three.js/"
     },
     {
       "type": "link",
