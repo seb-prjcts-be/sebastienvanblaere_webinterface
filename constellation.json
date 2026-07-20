@@ -48,7 +48,7 @@
     {
       "type": "link",
       "key": "gysin",
-      "label": "p5.gysin (Library)",
+      "label": "p5.gysin (library)",
       "url": "https://seb-prjcts-be.github.io/p5.gysin/",
       "external": true
     },
@@ -78,7 +78,7 @@
     },
     {
       "type": "link",
-      "label": "Creative Coding - Three",
+      "label": "Creative Coding - three",
       "url": "https://sebastienvanblaere.be/services/creative_coding_three.js/",
       "localPath": "/sebastienvanblaere.be/services/creative_coding_three.js/"
     },
@@ -90,7 +90,7 @@
     },
     {
       "type": "link",
-      "label": "FIDK (Photography)",
+      "label": "FIDK (photography)",
       "url": "https://prjcts.be/services/fidk/",
       "localPath": "/sebastienvanblaere.be/services/fidk/"
     },
