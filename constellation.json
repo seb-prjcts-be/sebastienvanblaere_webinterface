@@ -47,6 +47,13 @@
     },
     {
       "type": "link",
+      "key": "gysin",
+      "label": "p5.gysin (Library)",
+      "url": "https://seb-prjcts-be.github.io/p5.gysin/",
+      "external": true
+    },
+    {
+      "type": "link",
       "key": "export",
       "label": "p5.export (service)",
       "url": "https://prjcts.be/services/p5.export/",
@@ -65,13 +72,13 @@
     {
       "type": "link",
       "key": "p5",
-      "label": "Creative coding\nfor creative people.",
+      "label": "Creative Coding - p5.js",
       "url": "https://sebastienvanblaere.be/services/creative_coding_p5.js/",
       "localPath": "/sebastienvanblaere.be/services/creative_coding_p5.js/"
     },
     {
       "type": "link",
-      "label": "three.js Handleiding",
+      "label": "Creative Coding - Three",
       "url": "https://sebastienvanblaere.be/services/creative_coding_three.js/",
       "localPath": "/sebastienvanblaere.be/services/creative_coding_three.js/"
     },

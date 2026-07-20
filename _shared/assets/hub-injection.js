@@ -68,9 +68,10 @@
     var sats = [
         { key: 'prjcts',        host: 'prjcts.be',         label: 'prjcts.be',         desc: 'het werk' },
         { key: 'kunstmijnoren', host: 'kunstmijnoren.be',  label: 'kunstmijnoren.be',  desc: 'alter ego' },
-        { key: 'p5',            serviceHost: 'sebastienvanblaere.be', servicePath: 'creative_coding_p5.js', label: 'p5 cursus', desc: 'creative coding' },
-        { key: 'three',         serviceHost: 'sebastienvanblaere.be', servicePath: 'creative_coding_three.js', label: 'three.js handleiding', desc: 'creative coding' },
+        { key: 'p5',            serviceHost: 'sebastienvanblaere.be', servicePath: 'creative_coding_p5.js', label: 'Creative Coding - p5.js', desc: 'creative coding' },
+        { key: 'three',         serviceHost: 'sebastienvanblaere.be', servicePath: 'creative_coding_three.js', label: 'Creative Coding - Three', desc: 'creative coding' },
         { key: 'p5waves',       host: 'p5waves.org',       label: 'p5.waves (libraries and services)', desc: 'library + services' },
+        { key: 'gysin',         label: 'p5.gysin (Library)', desc: 'library', external: 'https://seb-prjcts-be.github.io/p5.gysin/' },
         { key: 'export',        serviceHost: 'prjcts.be', servicePath: 'p5.export', label: 'p5.export', desc: 'export-utility' }
     ];
 
