@@ -1,0 +1,14 @@
+{
+  "applicationId": "com.evencare.app",
+  "version": "1.1-beta.1",
+  "versionCode": 2,
+  "channel": "beta",
+  "minimumSupportedAndroid": "10",
+  "file": "even-care-1.1-beta.1.apk",
+  "bytes": 10626008,
+  "sha256": "ec2c7691295dd2a6ec69f8112f3a74a4261a1357b33ffc70e2db8f64b4f12205",
+  "certificateSha256": "f457797aa957ab954dcb94b117ce501838acef1e8e8585a1054340c426774a80",
+  "builtAtUtc": "2026-09-19T11:47:10.7070745Z",
+  "sourceCommit": "6906041d9c5558b0d7fefa69fbe682b2d2d54985",
+  "sourceHasLocalChanges": false
+}

@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f5f5">
+  <title>Even Care - An hour of quiet. A little more space.</title>
+  <meta name="description" content="A simple rhythm for your Android phone. Even hours: quiet and a dimmer screen. Odd hours: your previous sound setting. Download the Even Care beta.">
+  <link rel="canonical" href="https://sebastienvanblaere.be/apps/even-care/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sebastien Vanblaere">
+  <meta property="og:title" content="Even Care - An hour of quiet. A little more space.">
+  <meta property="og:description" content="A simple rhythm of quiet and activity for your Android phone. Try the beta.">
+  <meta property="og:url" content="https://sebastienvanblaere.be/apps/even-care/">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=IBM+Plex+Mono:wght@300;400;600&display=swap">
+  <link rel="stylesheet" href="style.css?v=1">
+  <script src="demo.js?v=1" defer></script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Even Care","operatingSystem":"Android 10+","applicationCategory":"LifestyleApplication","softwareVersion":"1.1-beta.1","url":"https://sebastienvanblaere.be/apps/even-care/","author":{"@type":"Person","name":"Sebastien Vanblaere","url":"https://sebastienvanblaere.be/"}}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#download">Skip to download</a>
+  <header class="topbar wrap">
+    <a class="wordmark" href="#top"><span class="mark" aria-hidden="true"></span>even care</a>
+    <a class="maker" href="../../">by Sebastien Vanblaere <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="top" class="wrap">
+    <section class="hero" aria-labelledby="title">
+      <div class="hero-copy">
+        <p class="eyebrow">A little rhythm for your phone.</p>
+        <h1 id="title">An hour of quiet.<br>A little more space.</h1>
+        <p class="intro">Even hours: <b>less noise, a dimmer screen.</b> Odd hours: back to your previous sound setting. A simple rhythm, with a longer pause at night.</p>
+        <div id="download" class="download">
+          <a class="button" href="downloads/even-care-1.1-beta.1.apk" download><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"/></svg>Download for Android</a>
+          <p class="metadata">v1.1-beta.1 <span>·</span> Android 10+ <span>·</span> 10.6 MB</p>
+          <a class="install-link" href="#install">Direct APK download. How do I install it? <span aria-hidden="true">↘</span></a>
+        </div>
+      </div>
+      <figure class="demo" aria-labelledby="demo-caption">
+        <div class="demo-heading"><span class="tiny-dot" aria-hidden="true"></span>A day, at your own pace.</div>
+        <div id="clock" class="clock is-quiet" aria-hidden="true"><span class="clock-label" id="clock-label">Quiet hour</span><span id="clock-time">14:00</span><span class="clock-dot"></span></div>
+        <div class="demo-controls" id="demo-controls" hidden>
+          <label for="hour">Explore an hour <output id="hour-value" for="hour">14:00</output></label>
+          <input id="hour" type="range" min="0" max="23" step="1" value="14" aria-valuetext="14:00, quiet hour" aria-describedby="demo-caption">
+          <div class="range-labels" aria-hidden="true"><span>00</span><span>12</span><span>23</span></div>
+        </div>
+        <p class="demo-state" id="demo-state" role="status">14:00 · Quiet hour. Do Not Disturb on, screen dimmed.</p>
+        <figcaption id="demo-caption">Illustration of the default rhythm.<br>Night: 22:00–07:00. Your phone stays usable.</figcaption>
+      </figure>
+    </section>
+    <section class="rhythm-section" aria-label="How the rhythm works">
+      <p class="eyebrow">A pause, not a lock.</p>
+      <dl class="rhythm">
+        <div><dt><span class="hour-tag">08 / 10 / 12</span>Even hours</dt><dd>Do Not Disturb and a dark overlay soften the interruptions and the screen.</dd></div>
+        <div><dt><span class="hour-tag">09 / 11 / 13</span>Odd hours</dt><dd>The overlay lifts. Your previous Do Not Disturb setting is restored.</dd></div>
+        <div><dt><span class="hour-tag">22 → 07</span>Through the night</dt><dd>Continuous quiet takes priority. Adjust the start and end, or turn night mode off.</dd></div>
+      </dl>
+      <p class="important"><b>Before switching on:</b> this beta uses total silence, which can silence calls, alarms and media too. Check it on your phone before relying on a wake-up alarm.</p>
+    </section>
+    <section class="details-section" aria-label="Installation and beta details">
+      <details id="install">
+        <summary>Install &amp; get started <span aria-hidden="true">+</span></summary>
+        <div class="detail-body">
+          <p>This is a direct Android download. There is no iPhone version.</p>
+          <ol>
+            <li><b>Download the APK</b>, the Android installation file. Open it and, if asked, allow your browser or file manager to install this app.</li>
+            <li><b>Open Even Care.</b> Its setup takes you to Android settings for <b>Do Not Disturb</b> access and <b>Display over other apps</b>, which lets it draw the dim layer.</li>
+            <li><b>Allow notifications</b> when asked, so you can see the running service. Return to the app, check the permissions, choose your night hours and use the main switch.</li>
+            <li><b>Try an on/off cycle.</b> Check screen touches and sound, and make sure switching off removes the dim layer. Keep an eye on the first real hour change.</li>
+          </ol>
+          <p>You can turn off your browser's installation permission afterwards. If Android blocks installation, read its explanation and keep general security protections enabled.</p>
+          <p>No ADB, Shizuku or computer setup is needed for this dimming version. Battery management can affect background behavior; the beta has not been verified on every phone.</p>
+        </div>
+      </details>
+      <details>
+        <summary>What it does, and what stays yours <span aria-hidden="true">+</span></summary>
+        <div class="detail-body">
+          <p>Even Care dims with a dark, transparent layer. It does not turn the display grayscale or block your apps. Less screen time is an intention, not a measured or guaranteed result.</p>
+          <p>Ending a quiet period restores the Do Not Disturb setting from before it. A manual change to a different Do Not Disturb mode during the pause is preserved. Other scheduling apps can still interact with these settings.</p>
+          <p>No account, analytics or internet permission is built into the app. Android may back up its settings. The app follows your phone's language: English, Dutch, French or German.</p>
+          <p>This website has no analytics or tracking cookies. Its host processes network requests, and its fonts are loaded from Google Fonts.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Beta, updates &amp; release details <span aria-hidden="true">+</span></summary>
+        <div class="detail-body">
+          <p><b>Version 1.1-beta.1.</b> Tested in an Android 15 emulator; not yet tested on a physical phone. Real hour changes, overnight use, restart and manufacturer battery restrictions still need device testing.</p>
+          <p>For future updates, return here and install the new APK over this beta. An older development or GitHub debug build may use a different signing key. If Android refuses to update it, note your settings before removing the old build; reinstalling can reset them.</p>
+          <p>Something not quite right? <a href="mailto:seb@prjcts.be?subject=Even%20Care%20-%20feedback">Send Sebastien feedback</a>, including your phone model, Android version and what happened.</p>
+          <p>APK SHA-256:</p>
+          <p class="hash">ec2c7691295dd2a6ec69f8112f3a74a4261a1357b33ffc70e2db8f64b4f12205</p>
+          <p><a href="downloads/even-care-1.1-beta.1.apk.sha256" download>Download checksum</a> · <a href="downloads/release.json">Release metadata</a></p>
+        </div>
+      </details>
+    </section>
+  </main>
+  <footer class="wrap"><a href="../../">An app by Sebastien Vanblaere <span aria-hidden="true">↗</span></a><a href="mailto:seb@prjcts.be?subject=Even%20Care">Say hello</a></footer>
+</body>
+</html>

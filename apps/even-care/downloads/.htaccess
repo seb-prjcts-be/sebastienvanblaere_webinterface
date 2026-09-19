@@ -1,0 +1,8 @@
+Options -Indexes
+AddType application/vnd.android.package-archive .apk
+AddType text/plain .sha256
+<IfModule mod_headers.c>
+    <FilesMatch "\.apk$">
+        Header set Content-Disposition "attachment"
+    </FilesMatch>
+</IfModule>

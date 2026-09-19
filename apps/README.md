@@ -8,7 +8,11 @@ The first app lives at `/apps/a-shot-in-the-dark/`. Add future landing pages and
 
 The page follows the hub's restrained visual identity: #f5f5f5, Oswald headings, IBM Plex Mono text, thin rules and small red accents. Fonts use the same Google Fonts stylesheet as the homepage. Keep the download prominent without introducing oversized promotional panels.
 
-The APK, release metadata and checksum are copied unchanged from `C:\server\htdocs\ashotinthedark-site\dist\downloads`. Never include signing credentials or replace published APK bytes under an existing version name. Source and signing procedure remain in `C:\server\htdocs\ashotinthedark\RELEASING.md`.
+Even Care lives at `/apps/even-care/` and follows the same visual identity. Its hour slider illustrates the default 22:00-07:00 night and alternating daytime hours; it does not control a phone. Keep the main download and rhythm explanation usable without JavaScript. The page must describe dimming, not grayscale, and retain the visible warning about total-silence DND and the beta's limited device testing.
+
+Even Care's signed release, checksum and metadata come from `C:\server\htdocs\even_care\releases\<version>`. Its release procedure is `C:\server\htdocs\even_care\RELEASING.md`. Copy only the signed APK and its public metadata, preserve versioned filenames, and update the page's version, bytes and SHA-256 together.
+
+A Shot in the Dark's APK, release metadata and checksum are copied unchanged from `C:\server\htdocs\ashotinthedark-site\dist\downloads`. Never include signing credentials or replace published APK bytes under an existing version name. Source and signing procedure remain in `C:\server\htdocs\ashotinthedark\RELEASING.md`.
 
 Run locally with `C:\server\php\php.exe -S 127.0.0.1:8768 -t C:\server\htdocs\sebastienvanblaere_webinterface`, or use the existing Apache folder URL. The app page uses relative assets and a relative link back to the hub.
 
