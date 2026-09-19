@@ -63,6 +63,63 @@ $profile = isset($constellation['profile']) && is_array($constellation['profile'
 $items = isset($constellation['items']) && is_array($constellation['items'])
     ? $constellation['items']
     : [];
+
+// Expose the individual wave projects instead of the combined launcher card.
+$wave_libraries = [
+    ['key' => 'p5waves', 'label' => 'p5.waves', 'url' => 'https://seb-prjcts-be.github.io/p5.waves/', 'external' => true],
+    ['key' => 'processingwaves', 'label' => 'processing.waves', 'url' => 'https://seb-prjcts-be.github.io/processing.waves/', 'external' => true],
+    ['key' => 'vanillawaves', 'label' => 'vanilla.waves', 'url' => 'https://seb-prjcts-be.github.io/vanilla.waves/', 'external' => true],
+];
+$wave_tools = [
+    ['key' => 'waves_lab', 'label' => 'p5.waves_lab', 'url' => 'https://seb-prjcts-be.github.io/p5.waves_lab/', 'external' => true],
+    ['key' => 'waves_snippets', 'label' => 'p5.waves_snippets', 'url' => 'https://seb-prjcts-be.github.io/p5.waves_snippets/', 'external' => true],
+];
+$expanded_items = [];
+foreach ($items as $item) {
+    if (!is_array($item)) continue;
+    if (($item['key'] ?? '') === 'p5waves') {
+        array_push($expanded_items, ...$wave_libraries);
+        continue;
+    }
+    if (($item['key'] ?? '') === 'export') {
+        array_push($expanded_items, ...$wave_tools);
+    }
+    // The section heading already states whether a project is a library or service.
+    $item['label'] = preg_replace('/ \((?:library|service)\)$/', '', (string) ($item['label'] ?? ''));
+    $expanded_items[] = $item;
+}
+$items = $expanded_items;
+
+// Apps travel with the hub, even when services supplies the live project list.
+$apps_path = __DIR__ . '/apps/catalog.php';
+$apps = is_file($apps_path) ? require $apps_path : [];
+$apps_position = count($items);
+foreach ($items as $position => $item) {
+    if (is_array($item) && (($item['key'] ?? '') === 'p5waves' || ($item['type'] ?? '') === 'header')) {
+        $apps_position = $position;
+        break;
+    }
+}
+if ($apps) {
+    array_splice($items, $apps_position, 0, array_merge(
+        [['type' => 'header', 'label' => 'Apps']],
+        $apps
+    ));
+}
+
+// Group the existing leading links without rewriting the shared catalog.
+$section_starts = ['prjcts' => 'Art', 'p5waves' => 'Libraries', 'waves_lab' => 'Services'];
+$grouped_items = [];
+foreach ($items as $item) {
+    if (!is_array($item)) continue;
+    $section = $section_starts[(string) ($item['key'] ?? '')] ?? null;
+    if ($section !== null) {
+        $grouped_items[] = ['type' => 'header', 'label' => $section];
+    }
+    $grouped_items[] = $item;
+}
+$items = $grouped_items;
+
 $socials = isset($profile['socials']) && is_array($profile['socials'])
     ? $profile['socials']
     : [];
@@ -71,7 +128,8 @@ $hub = isset($config['hub']) && is_array($config['hub']) ? $config['hub'] : [];
 
 $page_title = (string) ($profile['name'] ?? $hub['title'] ?? 'Sebastien Vanblaere');
 $page_desc  = (string) ($hub['description'] ?? '');
-$page_tag   = (string) ($profile['tagline'] ?? $hub['tagline'] ?? '');
+// Keep the hub's introductory copy independent of the shared project catalog.
+$page_tag   = (string) ($hub['tagline'] ?? $profile['tagline'] ?? '');
 $page_auth  = (string) ($hub['author'] ?? '');
 $og_title   = (string) ($hub['og_title'] ?? $page_title);
 $og_image   = (string) ($hub['og_image'] ?? '');
@@ -103,7 +161,7 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
 };
 ?>
 <!DOCTYPE html>
-<html lang="nl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -121,7 +179,7 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="<?= $esc($page_title) ?>">
-<meta property="og:locale" content="nl_BE">
+<meta property="og:locale" content="en_GB">
 <meta property="og:url" content="<?= $esc($canonical) ?>">
 <meta property="og:title" content="<?= $esc($og_title) ?>">
 <?php if ($page_desc): ?>
@@ -213,6 +271,7 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
         border-color: #ff0000;
         background: #ffffff;
     }
+    .app-description { display: block; margin-top: 0.35rem; font-size: 0.75rem; color: #606060; }
     a:focus-visible {
         outline: 2px solid #ff0000;
         outline-offset: 3px;
@@ -234,7 +293,7 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
     <header>
         <h1><?= $esc($page_title) ?></h1>
         <?php if ($page_tag): ?>
-        <p class="tagline"><?= $esc($page_tag) ?></p>
+        <p class="tagline"><?= $render_label($page_tag) ?></p>
         <?php endif; ?>
         <?php if ($socials): ?>
         <div class="socials">
@@ -251,7 +310,7 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
         <?php endif; ?>
     </header>
 
-    <nav aria-label="Projecten">
+    <nav aria-label="Projects">
         <?php foreach ($items as $item):
             if (!is_array($item)) continue;
             $type  = (string) ($item['type'] ?? 'link');
@@ -261,8 +320,9 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
             <?php else:
                 $url = $item_url($item);
                 $external = !empty($item['external']);
+                $description = (string) ($item['description'] ?? '');
             ?>
-                <a href="<?= $esc($url) ?>"<?= $external ? ' target="_blank" rel="noopener"' : '' ?>><?= $render_label($label) ?></a>
+                <a href="<?= $esc($url) ?>"<?= $description !== '' ? ' class="app-link"' : '' ?><?= $external ? ' target="_blank" rel="noopener"' : '' ?>><?= $render_label($label) ?><?php if ($description !== ''): ?><span class="app-description"><?= $esc($description) ?></span><?php endif; ?></a>
             <?php endif; ?>
         <?php endforeach; ?>
     </nav>

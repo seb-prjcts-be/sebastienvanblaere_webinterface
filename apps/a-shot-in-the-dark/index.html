@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f5f5">
+  <title>a shot in the dark - Oops! I lit up the room again!</title>
+  <meta name="description" content="Oops! I lit up the room again! An Android camera for concerts, theatre and performance. A dark screen, a small viewfinder, a volume button for the shot.">
+  <link rel="canonical" href="https://sebastienvanblaere.be/apps/a-shot-in-the-dark/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Sebastien Vanblaere">
+  <meta property="og:title" content="a shot in the dark - Oops! I lit up the room again!">
+  <meta property="og:description" content="A considerate camera for concerts, theatre and performance. Download the Android beta.">
+  <meta property="og:url" content="https://sebastienvanblaere.be/apps/a-shot-in-the-dark/">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=IBM+Plex+Mono:wght@300;400;600&display=swap">
+  <link rel="stylesheet" href="style.css?v=5">
+  <script src="demo.js?v=1" defer></script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"a shot in the dark","operatingSystem":"Android 10+","applicationCategory":"MultimediaApplication","softwareVersion":"1.0 beta","url":"https://sebastienvanblaere.be/apps/a-shot-in-the-dark/","author":{"@type":"Person","name":"Sebastien Vanblaere","url":"https://sebastienvanblaere.be/"}}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#download">Skip to download</a>
+  <header class="topbar wrap">
+    <a class="wordmark" href="#top"><span class="mark" aria-hidden="true"></span>a shot in the dark</a>
+    <a class="maker" href="../../">by Sebastien Vanblaere <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="top" class="wrap">
+    <section class="hero" aria-labelledby="title">
+      <div class="hero-copy">
+        <p class="eyebrow">For the love of live.</p>
+        <h1 id="title">Oops! I lit up<br>the room again!</h1>
+        <p class="intro">An Android camera for concerts, theatre and performance. A <b>dark screen</b>, a <b>small viewfinder</b>, a volume button for the shot.</p>
+        <div id="download" class="download">
+          <a class="button" href="downloads/ashotinthedark-1.0.apk" download><svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20"><path d="M12 3v12m-5-5 5 5 5-5M5 17v4h14v-4"/></svg>Download for Android</a>
+          <p class="metadata">v1.0 beta <span>·</span> Android 10+ <span>·</span> 16.7 MB</p>
+          <a class="install-link" href="#install">Direct APK download. How do I install it? <span aria-hidden="true">↘</span></a>
+        </div>
+      </div>
+      <figure class="demo" aria-labelledby="demo-caption">
+        <div class="demo-heading"><span class="tiny-dot" aria-hidden="true"></span><span id="demo-status" aria-live="polite">Less screen. More stage.</span></div>
+        <div class="phone" id="phone-demo" aria-hidden="true">
+          <div class="phone-camera"></div>
+          <div class="phone-screen">
+            <div class="viewfinder">
+              <svg class="stage" viewBox="0 0 200 260" xmlns="http://www.w3.org/2000/svg">
+                <defs><linearGradient id="light" x1="0" y1="0" x2="0.7" y2="1"><stop stop-color="#ea9e5d" stop-opacity=".9"/><stop offset="1" stop-color="#ea9e5d" stop-opacity="0"/></linearGradient></defs>
+                <rect width="200" height="260" fill="#30231d"/>
+                <path d="M25 0 5 225 185 225 47 0" fill="url(#light)"/>
+                <path d="m164 0-110 220h130L179 0" fill="#d4864d" opacity=".13"/>
+                <path d="M0 218h200v42H0z" fill="#181713"/>
+                <ellipse cx="114" cy="225" rx="40" ry="5" fill="#0e0e0b"/>
+                <circle cx="110" cy="111" r="12" fill="#131512"/>
+                <path d="m102 122-12 42 10 11-7 48h11l10-44 6 44h11l-5-68-7-31z" fill="#131512"/>
+                <path d="m101 130-18 28 8 7 24-26m2-8 22 17 12-9 5 5-18 17-27-19" fill="none" stroke="#131512" stroke-width="9" stroke-linejoin="round"/>
+                <path d="m144 124 3 97m-12 3h24" stroke="#121411" stroke-width="3"/>
+                <path d="m139 126 13-4" stroke="#121411" stroke-width="5" stroke-linecap="round"/>
+                <g fill="#0c0e0b"><circle cx="10" cy="250" r="20"/><circle cx="49" cy="252" r="17"/><circle cx="155" cy="255" r="20"/><circle cx="194" cy="250" r="22"/></g>
+              </svg>
+              <span class="viewfinder-corner"></span>
+            </div>
+            <span class="camera-shutter"></span>
+          </div>
+          <span class="phone-button"></span>
+        </div>
+        <div class="demo-bottom">
+          <button class="compare" id="compare" type="button" aria-pressed="false" aria-controls="phone-demo" hidden><span class="switch" aria-hidden="true"></span>Compare with a bright screen</button>
+          <figcaption id="demo-caption">Illustration of the screen layout.</figcaption>
+        </div>
+      </figure>
+    </section>
+    <section class="controls-section" aria-label="Camera controls">
+      <div class="section-intro"><p class="eyebrow">Ready before the lights go down.</p><p class="quiet">For occasions where photography is welcome.</p></div>
+      <p class="ready-note"><b>Open the app before the show</b> and keep it open. <b>Hold volume down</b> to lock its controls and hide the viewfinder. <b>Hold again</b> when you're ready to shoot, without searching through a bright home screen.</p>
+      <dl class="controls">
+        <div><dt><span class="key" aria-hidden="true">+</span><b>Volume up</b></dt><dd>Press for a photo.<br>Hold to start or stop silent video.</dd></div>
+        <div><dt><span class="key" aria-hidden="true">−</span><b>Volume down</b></dt><dd>Hold to lock or unlock.<br>A vibration confirms.</dd></div>
+        <div><dt><span class="key tap" aria-hidden="true">··</span><b>Double tap</b></dt><dd>When unlocked, adjust brightness and the viewfinder's size and position.</dd></div>
+      </dl>
+    </section>
+    <section class="details-section" aria-label="Before your first show">
+      <details id="install">
+        <summary>Install &amp; update <span aria-hidden="true">+</span></summary>
+        <div class="detail-body">
+          <p>This is a direct Android download, available here while Google Play publication is pending. There is no iPhone version.</p>
+          <p>The dark screen works while this app is open. It does not dim your phone's home screen or other apps. Set it up before the room goes dark; the volume-button lock controls the app, not your phone's screen lock.</p>
+          <ol>
+            <li><b>Download the APK</b> (the app's installation file) on your Android phone.</li>
+            <li>Open it. If prompted, allow your browser or file manager to install this app.</li>
+            <li>Open the app and <b>allow camera access</b>. Take a test photo and <b>check that it saves</b> before the show.</li>
+          </ol>
+          <p>Afterwards, you can turn off your browser's permission to install apps. If Android blocks installation, read the warning and keep general security protections enabled. <a href="https://developer.android.com/developer-verification">Android installation guidance</a>.</p>
+          <p>For updates, return here and install the latest APK over the existing app. An older development build may have a different signing key. Check that your media is safely stored before removing it; reinstalling may reset settings.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Your photos, your phone <span aria-hidden="true">+</span></summary>
+        <div class="detail-body">
+          <p>No account, no analytics, no internet permission. The app saves photos and silent videos in <code>Pictures/ShotInTheDark</code>. It does not record microphone audio.</p>
+          <p>Your gallery or backup service may sync your media; Android may back up app settings. This page has no analytics or tracking cookies. The hosting provider processes network requests.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Beta &amp; release details <span aria-hidden="true">+</span></summary>
+        <div class="detail-body">
+          <p>Version 1.0, released 16 September 2026. <b>First public beta</b>; tested in an Android emulator, not yet widely tested on physical phones. Check photo and video saving on your own device before relying on it at a performance.</p>
+          <p>Something not quite right? <a href="mailto:seb@prjcts.be?subject=a%20shot%20in%20the%20dark%20-%20feedback">Send Sebastien feedback</a>, ideally with your phone model and Android version.</p>
+          <p>APK SHA-256:</p>
+          <p class="hash">08ddca9d3c32c25f2a74fee94dfb22ebc9b11726d4eada25a0d7734ca0607671</p>
+          <p><a href="downloads/ashotinthedark-1.0.apk.sha256" download>Download checksum</a></p>
+        </div>
+      </details>
+    </section>
+  </main>
+  <footer class="wrap"><a href="../../">An app by Sebastien Vanblaere <span aria-hidden="true">↗</span></a><a href="mailto:seb@prjcts.be?subject=a%20shot%20in%20the%20dark">Say hello</a></footer>
+</body>
+</html>

@@ -9,8 +9,8 @@ return [
     // Wordt gebruikt voor SEO + Open Graph + page-tagline.
     'hub' => [
         'title'       => 'Sebastien Vanblaere',
-        'tagline'     => 'Neurodiverse liefhebber van koffie, kunst en filosofie. Liefst in die volgorde...',
-        'description' => 'Sebastien Vanblaere — digitaal kunstenaar, creative coder en leerkracht. Neurodiverse liefhebber van koffie, kunst en filosofie.',
+        'tagline'     => "Neurodiverse lover of coffee, art and philosophy.\nPreferably in that order...",
+        'description' => 'Sebastien Vanblaere - digital artist, creative coder and teacher. Neurodiverse lover of coffee, art and philosophy.',
         'keywords'    => ['sebastien', 'vanblaere', 'digitaal kunstenaar', 'creative coder', 'leerkracht', 'p5.js', 'processing', 'p5.waves', 'generative art', 'audiovisueel', 'installaties', 'lab44', 'neurodivergent', 'koffie', 'kunst', 'filosofie'],
         'author'      => 'Sebastien Vanblaere',
         'og_title'    => 'Sebastien Vanblaere',
