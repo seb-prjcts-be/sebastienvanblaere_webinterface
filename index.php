@@ -120,6 +120,12 @@ foreach ($items as $item) {
 }
 $items = $grouped_items;
 
+$library_listings = [
+    'p5waves' => ['label' => 'Listed in p5.js Libraries', 'url' => 'https://p5js.org/libraries/directory/'],
+    'gysin' => ['label' => 'Listed in p5.js Libraries', 'url' => 'https://p5js.org/libraries/directory/'],
+    'processingwaves' => ['label' => 'Listed in Processing Contributions', 'url' => 'https://github.com/processing/processing-contributions/blob/main/contributions.yaml'],
+];
+
 $socials = isset($profile['socials']) && is_array($profile['socials'])
     ? $profile['socials']
     : [];
@@ -272,6 +278,11 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
         background: #ffffff;
     }
     .app-description { display: block; margin-top: 0.35rem; font-size: 0.75rem; color: #606060; }
+    .listed-project { border: 1px solid #d0d0d0; background: #fafafa; text-align: center; }
+    .listed-project > a { display: block; border: 0; background: transparent; }
+    .listed-project > .project-link { padding-bottom: 0.25rem; }
+    .listed-project > .listing-link { padding: 0.25rem 1rem 0.85rem; font-size: 0.65rem; color: #121212; }
+    .listed-project > .listing-link:hover { color: #ff0000; text-decoration: underline; }
     a:focus-visible {
         outline: 2px solid #ff0000;
         outline-offset: 3px;
@@ -321,8 +332,13 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
                 $url = $item_url($item);
                 $external = !empty($item['external']);
                 $description = (string) ($item['description'] ?? '');
+                $listing = $library_listings[(string) ($item['key'] ?? '')] ?? null;
             ?>
-                <a href="<?= $esc($url) ?>"<?= $description !== '' ? ' class="app-link"' : '' ?><?= $external ? ' target="_blank" rel="noopener"' : '' ?>><?= $render_label($label) ?><?php if ($description !== ''): ?><span class="app-description"><?= $esc($description) ?></span><?php endif; ?></a>
+                <?php if ($listing): ?><div class="listed-project"><?php endif; ?>
+                <a class="project-link" href="<?= $esc($url) ?>"<?= $external ? ' target="_blank" rel="noopener"' : '' ?>><?= $render_label($label) ?><?php if ($description !== ''): ?><span class="app-description"><?= $esc($description) ?></span><?php endif; ?></a>
+                <?php if ($listing): ?>
+                    <a class="listing-link" href="<?= $esc($listing['url']) ?>" target="_blank" rel="noopener" aria-label="<?= $esc($label . ': ' . $listing['label']) ?>"><?= $esc($listing['label']) ?> <span aria-hidden="true">↗</span></a>
+                </div><?php endif; ?>
             <?php endif; ?>
         <?php endforeach; ?>
     </nav>
