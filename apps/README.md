@@ -1,5 +1,7 @@
 # Apps on sebastienvanblaere.be
 
+Homepage app entries display their name and description as plain, non-clickable cards. The app pages remain available at their existing URLs.
+
 The homepage inserts `catalog.php` after Art, before Libraries (or before the first existing section header if the library group is absent). This works with both the root fallback constellation and the production `services/constellation.json`, which belongs to a separate project. Existing project data is not rewritten.
 
 The homepage expands the original p5waves.org entry into direct links to p5.waves, processing.waves and vanilla.waves under Libraries. It places p5.waves_lab and p5.waves_snippets under Services, followed by the existing services. These destinations come from the p5waves.org launcher and were checked on 19 September 2026.

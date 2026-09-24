@@ -262,7 +262,7 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
         border-bottom: 1px solid #ddd;
         text-align: center;
     }
-    nav a {
+    nav a, .app-summary {
         color: #121212;
         text-decoration: none;
         font-size: 1rem;
@@ -328,6 +328,8 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
             $label = (string) ($item['label'] ?? '');
             if ($type === 'header'): ?>
                 <h2 class="nav-header"><?= $esc($label) ?></h2>
+            <?php elseif ($type === 'description'): ?>
+                <div class="app-summary"><?= $render_label($label) ?><span class="app-description"><?= $esc((string) ($item['description'] ?? '')) ?></span></div>
             <?php else:
                 $url = $item_url($item);
                 $external = !empty($item['external']);
