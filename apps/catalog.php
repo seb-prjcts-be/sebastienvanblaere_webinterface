@@ -11,6 +11,6 @@ return [
     [
         'type' => 'description',
         'label' => 'Even Care (Android)',
-        'description' => 'A rhythm of quiet hours and a dimmer screen.',
+        'description' => 'Halve your screen time without even realising.',
     ],
 ];
