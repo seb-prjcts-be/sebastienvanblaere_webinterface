@@ -54,6 +54,13 @@
     },
     {
       "type": "link",
+      "key": "blocks.system",
+      "label": "blocks.system (library)",
+      "url": "https://seb-prjcts-be.github.io/blocks.system/",
+      "external": true
+    },
+    {
+      "type": "link",
       "key": "export",
       "label": "p5.export (service)",
       "url": "https://prjcts.be/services/p5.export/",
