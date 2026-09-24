@@ -278,11 +278,21 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
         background: #ffffff;
     }
     .app-description { display: block; margin-top: 0.35rem; font-size: 0.75rem; color: #606060; }
-    .listed-project { border: 1px solid #d0d0d0; background: #fafafa; text-align: center; }
+    .listed-project {
+        border: 1px solid #d0d0d0;
+        background: #fafafa;
+        text-align: center;
+        transition: border-color 0.15s, background 0.15s;
+    }
     .listed-project > a { display: block; border: 0; background: transparent; }
     .listed-project > .project-link { padding-bottom: 0.25rem; }
     .listed-project > .listing-link { padding: 0.25rem 1rem 0.85rem; font-size: 0.65rem; color: #121212; }
     .listed-project > .listing-link:hover { color: #ff0000; text-decoration: underline; }
+    .listed-project:hover, .listed-project:focus-within {
+        border-color: #ff0000;
+        background: #ffffff;
+    }
+    .listed-project:hover > a, .listed-project:focus-within > a { color: #ff0000; }
     a:focus-visible {
         outline: 2px solid #ff0000;
         outline-offset: 3px;
