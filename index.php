@@ -84,6 +84,12 @@ foreach ($items as $item) {
     if (($item['key'] ?? '') === 'export') {
         array_push($expanded_items, ...$wave_tools);
     }
+    // Update the homepage even when services still supplies the older FIDK entry.
+    if (rtrim((string) ($item['url'] ?? ''), '/') === 'https://prjcts.be/services/fidk') {
+        $item['label'] = 'Audiovisueel';
+        $item['url'] = 'https://sebastienvanblaere.be/services/audiovisueel/';
+        unset($item['localPath']);
+    }
     // The section heading already states whether a project is a library or service.
     $item['label'] = preg_replace('/ \((?:library|service)\)$/', '', (string) ($item['label'] ?? ''));
     $expanded_items[] = $item;
