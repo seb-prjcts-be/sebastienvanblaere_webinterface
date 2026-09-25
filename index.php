@@ -99,9 +99,13 @@ $items = $expanded_items;
 // Apps travel with the hub, even when services supplies the live project list.
 $apps_path = __DIR__ . '/apps/catalog.php';
 $apps = is_file($apps_path) ? require $apps_path : [];
+// Place apps just before the CV (its Resume heading when present).
 $apps_position = count($items);
 foreach ($items as $position => $item) {
-    if (is_array($item) && (($item['key'] ?? '') === 'p5waves' || ($item['type'] ?? '') === 'header')) {
+    if (!is_array($item)) continue;
+    $is_resume_header = ($item['type'] ?? '') === 'header' && strtolower((string) ($item['label'] ?? '')) === 'resume';
+    $is_cv_link = str_contains((string) ($item['url'] ?? ''), '/services/cv');
+    if ($is_resume_header || $is_cv_link) {
         $apps_position = $position;
         break;
     }
