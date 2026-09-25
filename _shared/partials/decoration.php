@@ -9,7 +9,7 @@
  *     $decoration = [
  *         'count'        => 3,
  *         'colors'       => ['#ff0000'],
- *         'fill'         => '#f1f1f1',
+ *         'fill'         => '#faf9f5',
  *         'diameter'     => 80,
  *         'gravity'      => 10,
  *         'enableCursor' => true,

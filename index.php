@@ -219,7 +219,7 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { min-height: 100%; }
     body {
-        background: #f5f5f5;
+        background: #faf9f5;
         color: #121212;
         font-family: 'IBM Plex Mono', 'Courier New', monospace;
         font-weight: 300;
@@ -274,7 +274,7 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
         font-size: 1rem;
         padding: 1rem 1.1rem;
         border: 1px solid #d0d0d0;
-        background: #fafafa;
+        background: #fdfcf9;
         text-align: center;
         transition: border-color 0.15s, color 0.15s, background 0.15s;
     }
@@ -286,7 +286,7 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
     .app-description { display: block; margin-top: 0.35rem; font-size: 0.75rem; color: #606060; }
     .listed-project {
         border: 1px solid #d0d0d0;
-        background: #fafafa;
+        background: #fdfcf9;
         text-align: center;
         transition: border-color 0.15s, background 0.15s;
     }

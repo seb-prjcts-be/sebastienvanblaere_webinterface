@@ -13,7 +13,7 @@
  *     window.DECORATION_CONFIG = {
  *       count:         3,                       // aantal balletjes
  *       colors:        ['#ff0000'],             // randkleur(en); cyclet per bal
- *       fill:          '#f1f1f1',               // vulkleur (matcht achtergrond → outline-effect)
+ *       fill:          '#faf9f5',               // vulkleur (matcht achtergrond → outline-effect)
  *       diameter:      80,
  *       gravity:       10,
  *       enableCursor:  true,                    // muis-volger ball aanmaken
@@ -32,7 +32,7 @@
     var cfg = Object.assign({
         count:            3,
         colors:           ['#ff0000'],
-        fill:             '#f1f1f1',
+        fill:             '#faf9f5',
         diameter:         80,
         gravity:          10,
         enableCursor:     true,
