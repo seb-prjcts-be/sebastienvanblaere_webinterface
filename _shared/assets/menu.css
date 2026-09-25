@@ -33,7 +33,7 @@ html[data-menu-state="open"] .menu-toggler { left: calc(350px + 25px); }
     width: 350px;
     max-width: 90vw;
     height: 100%;
-    background: var(--menu-bg, #faf9f5);
+    background: var(--menu-bg, #f0eee6);
     z-index: 1000;
     display: flex;
     flex-direction: column;
@@ -134,7 +134,7 @@ html[data-menu-state="open"] .menu-overlay,
     width: 100%;
     padding: 1rem 0 1.25rem;
     border-top: 1px solid #ddd;
-    background: var(--menu-bg, #faf9f5);
+    background: var(--menu-bg, #f0eee6);
 }
 
 /* === CONSTELLATION — rechts-offcanvas, portalen naar andere universa === */
