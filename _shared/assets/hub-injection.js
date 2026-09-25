@@ -139,7 +139,7 @@
     overlay.style.cssText = [
         'position:fixed', 'top:0', 'right:0', 'width:340px', 'max-width:92vw', 'height:100vh',
         'z-index:99997',
-        'background:#fafafa',
+        'background:#fdfcf9',
         'box-shadow:-2px 0 18px rgba(0,0,0,0.12)',
         'padding:60px 24px 24px',
         'box-sizing:border-box',

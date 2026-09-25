@@ -18,7 +18,7 @@ Voeg in `_shared/config.php` onder de satelliet:
 'decoration' => [
     'count'         => 3,                       // aantal balletjes
     'colors'        => ['#ff0000'],             // randkleur(en); cyclet per index
-    'fill'          => '#f1f1f1',               // vulkleur (matcht achtergrond → outline-effect)
+    'fill'          => '#faf9f5',               // vulkleur (matcht achtergrond → outline-effect)
     'diameter'      => 80,                      // px
     'gravity'       => 10,                      // (informatief — sketch hardcoded op 10)
     'enableCursor'  => true,                    // cursorBall aanmaken (kinematic)

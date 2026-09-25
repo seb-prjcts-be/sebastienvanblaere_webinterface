@@ -8,7 +8,7 @@ The homepage expands the original p5waves.org entry into direct links to p5.wave
 
 The first app lives at `/apps/a-shot-in-the-dark/`. Add future landing pages and catalog entries here. The current page keeps the English wording of the original download site and identifies the APK as a beta. The interactive phone is explicitly an illustration, not a screenshot or a functioning camera.
 
-The page follows the hub's restrained visual identity: #f5f5f5, Oswald headings, IBM Plex Mono text, thin rules and small red accents. Fonts use the same Google Fonts stylesheet as the homepage. Keep the download prominent without introducing oversized promotional panels.
+The page follows the hub's restrained visual identity: #faf9f5, Oswald headings, IBM Plex Mono text, thin rules and small red accents. Fonts use the same Google Fonts stylesheet as the homepage. Keep the download prominent without introducing oversized promotional panels.
 
 Even Care lives at `/apps/even-care/` and follows the same visual identity. Its hour slider illustrates the default 22:00-07:00 night and alternating daytime hours; it does not control a phone. Keep the main download and rhythm explanation usable without JavaScript. The page must describe dimming, not grayscale, and retain the visible warning about total-silence DND and the beta's limited device testing.
 
