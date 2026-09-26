@@ -65,14 +65,16 @@ $items = isset($constellation['items']) && is_array($constellation['items'])
     : [];
 
 // Expose the individual wave projects instead of the combined launcher card.
-$wave_libraries = [
-    ['key' => 'p5waves', 'label' => 'p5.waves', 'url' => 'https://seb-prjcts-be.github.io/p5.waves/', 'external' => true],
-    ['key' => 'processingwaves', 'label' => 'processing.waves', 'url' => 'https://seb-prjcts-be.github.io/processing.waves/', 'external' => true],
-    ['key' => 'vanillawaves', 'label' => 'vanilla.waves', 'url' => 'https://seb-prjcts-be.github.io/vanilla.waves/', 'external' => true],
-];
 $wave_tools = [
     ['key' => 'waves_lab', 'label' => 'p5.waves_lab', 'url' => 'https://seb-prjcts-be.github.io/p5.waves_lab/', 'external' => true],
     ['key' => 'waves_snippets', 'label' => 'p5.waves_snippets', 'url' => 'https://seb-prjcts-be.github.io/p5.waves_snippets/', 'external' => true],
+];
+$wave_libraries = [
+    ['key' => 'p5waves', 'label' => 'p5.waves', 'url' => 'https://seb-prjcts-be.github.io/p5.waves/', 'external' => true],
+    // Lab and snippets sit directly under p5.waves as two half-width cards.
+    ['type' => 'pair', 'items' => $wave_tools],
+    ['key' => 'processingwaves', 'label' => 'processing.waves', 'url' => 'https://seb-prjcts-be.github.io/processing.waves/', 'external' => true],
+    ['key' => 'vanillawaves', 'label' => 'vanilla.waves', 'url' => 'https://seb-prjcts-be.github.io/vanilla.waves/', 'external' => true],
 ];
 $expanded_items = [];
 foreach ($items as $item) {
@@ -80,9 +82,6 @@ foreach ($items as $item) {
     if (($item['key'] ?? '') === 'p5waves') {
         array_push($expanded_items, ...$wave_libraries);
         continue;
-    }
-    if (($item['key'] ?? '') === 'export') {
-        array_push($expanded_items, ...$wave_tools);
     }
     // Update the homepage even when services still supplies the older FIDK entry.
     if (rtrim((string) ($item['url'] ?? ''), '/') === 'https://prjcts.be/services/fidk') {
@@ -118,7 +117,7 @@ if ($apps) {
 }
 
 // Group the existing leading links without rewriting the shared catalog.
-$section_starts = ['prjcts' => 'Art', 'p5waves' => 'Libraries', 'waves_lab' => 'Services'];
+$section_starts = ['prjcts' => 'Art', 'p5waves' => 'Libraries', 'export' => 'Services'];
 $grouped_items = [];
 foreach ($items as $item) {
     if (!is_array($item)) continue;
@@ -287,6 +286,8 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
         border-color: #ff0000;
         background: #ffffff;
     }
+    .project-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .project-pair a { font-size: 0.85rem; padding: 0.8rem 0.5rem; overflow-wrap: anywhere; }
     .app-description { display: block; margin-top: 0.35rem; font-size: 0.75rem; color: #606060; }
     .listed-project {
         border: 1px solid #d0d0d0;
@@ -348,6 +349,13 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
             $label = (string) ($item['label'] ?? '');
             if ($type === 'header'): ?>
                 <h2 class="nav-header"><?= $esc($label) ?></h2>
+            <?php elseif ($type === 'pair'): ?>
+                <div class="project-pair">
+                    <?php foreach (($item['items'] ?? []) as $pair_item):
+                        if (!is_array($pair_item)) continue; ?>
+                    <a href="<?= $esc($item_url($pair_item)) ?>"<?= !empty($pair_item['external']) ? ' target="_blank" rel="noopener"' : '' ?>><?= $render_label((string) ($pair_item['label'] ?? '')) ?></a>
+                    <?php endforeach; ?>
+                </div>
             <?php elseif ($type === 'description'): ?>
                 <div class="app-summary"><?= $render_label($label) ?><span class="app-description"><?= $esc((string) ($item['description'] ?? '')) ?></span></div>
             <?php else:
