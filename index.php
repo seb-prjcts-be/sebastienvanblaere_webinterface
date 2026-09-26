@@ -109,12 +109,13 @@ foreach ($items as $position => $item) {
         break;
     }
 }
-if ($apps) {
-    array_splice($items, $apps_position, 0, array_merge(
-        [['type' => 'header', 'label' => 'Apps']],
-        $apps
-    ));
-}
+// Inspiration follows Education, ahead of the apps.
+$inspiration = [
+    ['type' => 'header', 'label' => 'Inspiration'],
+    ['label' => 'Seb_prjcts_most loved', 'url' => 'https://www.youtube.com/playlist?list=PLbJ6hUkwmWttjtUlWWRQKycCGI6iFxFP0', 'external' => true],
+];
+$apps_section = $apps ? array_merge([['type' => 'header', 'label' => 'Apps']], $apps) : [];
+array_splice($items, $apps_position, 0, array_merge($inspiration, $apps_section));
 
 // Group the existing leading links without rewriting the shared catalog.
 $section_starts = ['prjcts' => 'Art', 'p5waves' => 'Libraries', 'export' => 'Services'];
