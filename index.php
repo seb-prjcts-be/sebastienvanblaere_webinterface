@@ -92,7 +92,7 @@ foreach ($items as $item) {
     // The section heading already states whether a project is a library or service.
     $item['label'] = preg_replace('/ \((?:library|service)\)$/', '', (string) ($item['label'] ?? ''));
     $expanded_items[] = $item;
-    if (($item['key'] ?? '') === 'blocks.system') {
+    if (($item['key'] ?? '') === 'gysin') {
         $expanded_items[] = ['type' => 'pair', 'items' => [
             ['label' => 'vanilla.penplotter', 'url' => 'https://seb-prjcts-be.github.io/vanilla.penplotter/', 'external' => true],
             ['label' => 'p5.penplotter', 'url' => 'https://seb-prjcts-be.github.io/p5.penplotter/', 'external' => true],
