@@ -10,8 +10,8 @@ return [
     'hub' => [
         'title'       => 'Sebastien Vanblaere',
         'tagline'     => "Neurodiverse lover of coffee, art and philosophy.\nPreferably in that order...",
-        'description' => 'Sebastien Vanblaere - digital artist, creative coder and teacher. Neurodiverse lover of coffee, art and philosophy.',
-        'keywords'    => ['sebastien', 'vanblaere', 'digitaal kunstenaar', 'creative coder', 'leerkracht', 'p5.js', 'processing', 'p5.waves', 'generative art', 'audiovisueel', 'installaties', 'lab44', 'neurodivergent', 'koffie', 'kunst', 'filosofie'],
+        'description' => 'Explore Sebastien Vanblaere\'s digital art, creative coding libraries and Android apps, alongside audiovisual projects and educational resources.',
+        'keywords'    => ['Sebastien Vanblaere', 'prjcts', 'digital art', 'digitaal kunstenaar', 'creative coding', 'generative art', 'audiovisual art', 'p5.js', 'Processing', 'p5.waves', 'Android apps', 'kunstonderwijs'],
         'author'      => 'Sebastien Vanblaere',
         'og_title'    => 'Sebastien Vanblaere',
         'og_image'    => '/assets/og-portrait.jpg',  // relatief; wordt absolute in <meta>
