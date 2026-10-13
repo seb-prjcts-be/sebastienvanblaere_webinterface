@@ -188,6 +188,56 @@ function hub_url(array $config): string
     return $mode === 'path' ? '/' . $hub_root . '/' : 'https://' . $hub_root . '/';
 }
 
+/**
+ * Voegt ?lang=en of ?lang=fr toe aan een interne URL wanneer een niet-standaardtaal actief is.
+ * Laat externe URLs, anchors (#) en mailto: ongemoeid.
+ */
+function with_lang_url(string $href, ?string $lang = null): string
+{
+    $lang = $lang ?? (string) ($GLOBALS['_prjcts_lang'] ?? 'nl');
+    if ($lang === '' || $lang === 'nl') return $href;
+    if ($href === '' || $href[0] === '#' || preg_match('~^(?:https?:|mailto:|tel:|javascript:)~i', $href)) {
+        return $href;
+    }
+    if (preg_match('~([?&])lang=~', $href)) {
+        return $href;
+    }
+    return $href . (strpos($href, '?') === false ? '?' : '&') . 'lang=' . rawurlencode($lang);
+}
+
+/**
+ * Bouw een deterministische, schone canonieke URL (of hreflang-variant) voor de huidige satelliet-pagina.
+ * Filtert tracking- en UI-parameters weg en behoudt alleen relevante content-parameters.
+ */
+function build_canonical_url(array $cfg, array $config = [], ?string $for_lang = null): string
+{
+    $mode = $GLOBALS['_prjcts_mode'] ?? 'host';
+    $host = (string) ($cfg['host'] ?? ($_SERVER['HTTP_HOST'] ?? 'sebastienvanblaere.be'));
+    $base = $mode === 'path'
+        ? 'http://' . ($_SERVER['HTTP_HOST'] ?? 'localhost')
+        : 'https://' . $host;
+
+    $uri_path = (string) (parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?? '/');
+    if ($uri_path === '') $uri_path = '/';
+
+    // Alleen canonieke content-parameters toestaan (geen utm_*, fbclid, fontsize, etc.)
+    $allowed_params = ['page', 'key', 'artform', 'project', 'type'];
+    $clean_qs = [];
+    foreach ($allowed_params as $p) {
+        if (isset($_GET[$p]) && is_string($_GET[$p]) && $_GET[$p] !== '') {
+            $clean_qs[$p] = (string) preg_replace('/[^a-zA-Z0-9_-]/', '', $_GET[$p]);
+        }
+    }
+
+    $target_lang = $for_lang ?? (string) ($GLOBALS['_prjcts_lang'] ?? 'nl');
+    if ($target_lang !== '' && $target_lang !== 'nl') {
+        $clean_qs['lang'] = $target_lang;
+    }
+
+    $qs_str = !empty($clean_qs) ? '?' . http_build_query($clean_qs) : '';
+    return $base . $uri_path . $qs_str;
+}
+
 function dispatch(string $satellite_root, array $cfg, array $config): void
 {
     $GLOBALS['_prjcts_root'] = $satellite_root;
@@ -217,12 +267,10 @@ function dispatch(string $satellite_root, array $cfg, array $config): void
     }
 
     $page_file = $satellite_root . '/pages/' . $key . '.php';
-    $title     = $key === 'home' ? null : $key;
-
     if (!is_file($page_file)) {
         http_response_code(404);
         $page_file = $satellite_root . '/pages/404.php';
-        $title     = '404';
+        $key       = '404';
     }
 
     // Optioneel: per-satelliet menu-items
@@ -232,7 +280,14 @@ function dispatch(string $satellite_root, array $cfg, array $config): void
         $menu_items = [];
     }
 
-    render_header($cfg, $config, ['title' => $title, 'menu_items' => $menu_items]);
+    $lang = (string) ($GLOBALS['_prjcts_lang'] ?? 'nl');
+    $seo  = function_exists('resolve_page_seo')
+        ? resolve_page_seo($satellite_root, $key, $cfg, $lang)
+        : ['title' => ($key === 'home' ? null : $key)];
+
+    $seo['menu_items'] = $menu_items;
+
+    render_header($cfg, $config, $seo);
     require $page_file;
     render_footer($cfg, $config);
 }

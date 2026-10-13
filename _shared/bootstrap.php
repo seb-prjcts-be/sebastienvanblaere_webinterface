@@ -29,54 +29,63 @@ if (session_status() === PHP_SESSION_NONE) {
 
 /**
  * User-preferences die we cross-site willen syncen via ?param=X.
- * Server slaat op in cookie + (waar relevant) sessie, redirect naar schone URL.
  *
- * Server gebruikt 'lang' om content uit nl.md / en.md / fr.md te lezen.
- * 'fontsize' is puur client-side (CSS) — we zetten alleen het cookie zodat
- * de inline init-script in header.php het kan oppikken.
+ * - 'fontsize' is puur client-side (CSS): zet cookie en redirect (302) naar schone URL.
+ * - 'lang' ('nl', 'en', 'fr'):
+ *   - Default taal ('nl'): zet cookie + sessie en redirect (302) naar de canonieke URL zonder ?lang=nl.
+ *   - Niet-default talen ('en', 'fr'): zet cookie + sessie én render direct (HTTP 200 zonder redirect)
+ *     zodat zoekmachines (die geen cookies bewaren) alle Engelse en Franse pagina's via hreflang kunnen indexeren.
  */
-$pref_specs = [
-    'lang'     => ['allowed' => ['nl', 'en', 'fr'],          'cookie' => 'prjcts_lang',     'session' => true],
-    'fontsize' => ['allowed' => ['klein', 'medium', 'groot'], 'cookie' => 'prjcts_fontsize', 'session' => false],
-];
+$allowed_langs = ['nl', 'en', 'fr'];
+$allowed_sizes = ['klein', 'medium', 'groot'];
 
-$pref_changed = false;
-foreach ($pref_specs as $param => $spec) {
-    if (isset($_GET[$param]) && in_array($_GET[$param], $spec['allowed'], true)) {
-        $val = $_GET[$param];
-        if ($spec['session']) {
-            $_SESSION[$param] = $val;
-        }
-        setcookie($spec['cookie'], $val, [
-            'expires'  => time() + 365 * 24 * 60 * 60, // 1 jaar
-            'path'     => '/',
-            'samesite' => 'Lax',
-            'secure'   => $_is_https,
-            // httponly bewust UIT: header.php inline-script en de fontsize-tool
-            // moeten deze cookies via document.cookie kunnen lezen.
-            'httponly' => false,
-        ]);
-        $pref_changed = true;
+$redirect_clean = false;
+
+if (isset($_GET['fontsize']) && in_array($_GET['fontsize'], $allowed_sizes, true)) {
+    setcookie('prjcts_fontsize', $_GET['fontsize'], [
+        'expires'  => time() + 365 * 24 * 60 * 60, // 1 jaar
+        'path'     => '/',
+        'samesite' => 'Lax',
+        'secure'   => $_is_https,
+        // httponly bewust UIT: header.php inline-script en de fontsize-tool lezen document.cookie.
+        'httponly' => false,
+    ]);
+    $redirect_clean = true;
+}
+
+if (isset($_GET['lang']) && in_array($_GET['lang'], $allowed_langs, true)) {
+    $val = $_GET['lang'];
+    $_SESSION['lang'] = $val;
+    setcookie('prjcts_lang', $val, [
+        'expires'  => time() + 365 * 24 * 60 * 60, // 1 jaar
+        'path'     => '/',
+        'samesite' => 'Lax',
+        'secure'   => $_is_https,
+        'httponly' => false,
+    ]);
+    if ($val === 'nl') {
+        $redirect_clean = true;
     }
 }
 
-if ($pref_changed) {
-    // Redirect naar dezelfde URL zonder de pref-params, zodat URLs schoon blijven
+if ($redirect_clean) {
     $uri = strtok($_SERVER['REQUEST_URI'] ?? '/', '?');
     $qs  = $_GET;
-    foreach (array_keys($pref_specs) as $p) unset($qs[$p]);
+    unset($qs['fontsize']);
+    if (($qs['lang'] ?? '') === 'nl') {
+        unset($qs['lang']);
+    }
     $clean = $uri . (!empty($qs) ? '?' . http_build_query($qs) : '');
     header('Location: ' . $clean, true, 302);
     exit;
 }
 
-// Lang ophalen voor server-rendering: sessie > cookie > default
-$allowed_langs = $pref_specs['lang']['allowed'];
-$lang = $_SESSION['lang']
-     ?? $_COOKIE['prjcts_lang']
-     ?? 'nl';
+// Lang ophalen voor server-rendering: expliciete GET > sessie > cookie > default ('nl')
+$lang = (isset($_GET['lang']) && in_array($_GET['lang'], $allowed_langs, true))
+    ? $_GET['lang']
+    : ($_SESSION['lang'] ?? $_COOKIE['prjcts_lang'] ?? 'nl');
 if (!in_array($lang, $allowed_langs, true)) $lang = 'nl';
-if (!isset($_SESSION['lang'])) $_SESSION['lang'] = $lang;
+if (!isset($_SESSION['lang']) || $_SESSION['lang'] !== $lang) $_SESSION['lang'] = $lang;
 
 $GLOBALS['_prjcts_lang'] = $lang;
 

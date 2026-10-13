@@ -292,3 +292,166 @@ function read_writing(string $content_root, string $key, string $lang = 'nl'): ?
         'meta'     => $meta,
     ];
 }
+
+/**
+ * Haal een schone plain-text meta-description (max ~$max_len tekens) uit een Markdown- of HTML-body.
+ */
+function extract_seo_description(string $raw, int $max_len = 160): string
+{
+    $trimmed = trim($raw);
+    if ($trimmed === '') return '';
+    $html = render_md($trimmed);
+    $text = strip_tags($html);
+    $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+    $text = trim((string) preg_replace('/\s+/u', ' ', $text));
+    if ($text === '') return '';
+
+    if (function_exists('mb_strlen') && function_exists('mb_substr')) {
+        if (mb_strlen($text, 'UTF-8') <= $max_len) return $text;
+        $cut = mb_substr($text, 0, $max_len - 1, 'UTF-8');
+        $last_space = mb_strrpos($cut, ' ', 0, 'UTF-8');
+        if ($last_space !== false && $last_space > (int) ($max_len * 0.6)) {
+            $cut = mb_substr($cut, 0, $last_space, 'UTF-8');
+        }
+        return rtrim($cut, " \t\n\r\0\x0B.,;:-") . '…';
+    }
+
+    if (strlen($text) <= $max_len) return $text;
+    $cut = substr($text, 0, $max_len - 3);
+    $last_space = strrpos($cut, ' ');
+    if ($last_space !== false && $last_space > (int) ($max_len * 0.6)) {
+        $cut = substr($cut, 0, $last_space);
+    }
+    return rtrim($cut, " \t\n\r\0\x0B.,;:-") . '...';
+}
+
+/**
+ * Vind het eerste geschikte afbeeldingspad (relatief t.o.v. $satellite_root) uit een lijst works.
+ */
+function first_seo_image(array $works, string $satellite_root): string
+{
+    $img_exts = ['jpg', 'jpeg', 'png', 'webp', 'gif'];
+    $sat_real = realpath($satellite_root);
+    if ($sat_real === false) return '';
+    foreach ($works as $w) {
+        $ext = strtolower((string) ($w['ext'] ?? ''));
+        if (!in_array($ext, $img_exts, true)) continue;
+        $abs = realpath((string) ($w['path'] ?? ''));
+        if ($abs !== false && strncmp($abs, $sat_real . DIRECTORY_SEPARATOR, strlen($sat_real) + 1) === 0) {
+            return '/' . ltrim(str_replace('\\', '/', substr($abs, strlen($sat_real))), '/');
+        }
+    }
+    return '';
+}
+
+/**
+ * Automatische diepe SEO-detectie vóórdat render_header() wordt aangeroepen in dispatch().
+ * Leest (indien beschikbaar) de specifieke about, project of writing voor rijke titels,
+ * meta-descriptions, Open Graph images en JSON-LD schema types.
+ */
+function resolve_page_seo(string $satellite_root, string $page_key, array $cfg, string $lang = 'nl'): array
+{
+    $content_root = $satellite_root . '/content';
+    $seo = [
+        'title'          => $page_key === 'home' ? null : $page_key,
+        'description'    => null,
+        'og_title'       => null,
+        'og_image'       => null,
+        'og_type'        => 'website',
+        'schema_type'    => 'WebPage',
+        'published_time' => null,
+        'is_404'         => ($page_key === '404'),
+    ];
+
+    if ($page_key === '404') {
+        $seo['title'] = '404';
+        return $seo;
+    }
+
+    $sanitize_slug = static fn(string $v): string => (string) preg_replace('/[^a-zA-Z0-9_-]/', '', $v);
+
+    if ($page_key === 'home') {
+        $home_body = read_home_body($content_root, $lang);
+        $excerpt = extract_seo_description($home_body);
+        if ($excerpt !== '') {
+            $seo['description'] = $excerpt;
+        }
+        return $seo;
+    }
+
+    if ($page_key === 'about') {
+        $about_key = $sanitize_slug((string) ($_GET['key'] ?? ''));
+        if ($about_key !== '') {
+            $about = read_about($content_root, $about_key, $lang);
+            if ($about !== null) {
+                $seo['title'] = $about['title'] !== '' ? $about['title'] : $about_key;
+                $desc = extract_seo_description($about['body']);
+                if ($desc !== '') $seo['description'] = $desc;
+                $img = first_seo_image($about['media'], $satellite_root);
+                if ($img !== '') $seo['og_image'] = $img;
+                $seo['schema_type'] = 'AboutPage';
+            }
+        }
+        return $seo;
+    }
+
+    if ($page_key === 'projects') {
+        $artform_key = $sanitize_slug((string) ($_GET['artform'] ?? ''));
+        $project_key = $sanitize_slug((string) ($_GET['project'] ?? ''));
+        if ($artform_key !== '' && $project_key !== '') {
+            $proj = read_project($content_root, $artform_key, $project_key, $lang);
+            if ($proj !== null) {
+                $name = $proj['name'] !== '' ? $proj['name'] : $project_key;
+                $sub  = $proj['subtitle'];
+                $seo['title'] = $sub !== '' ? ($name . ' — ' . $sub) : $name;
+                $desc = extract_seo_description($proj['body']);
+                if ($desc === '' && $sub !== '') $desc = $sub;
+                if ($desc !== '') $seo['description'] = $desc;
+                $img = first_seo_image($proj['works'], $satellite_root);
+                if ($img !== '') $seo['og_image'] = $img;
+                $seo['og_type'] = 'article';
+                $seo['schema_type'] = 'VisualArtwork';
+                if ($proj['date'] !== '') $seo['published_time'] = (string) $proj['date'];
+            }
+        } elseif ($artform_key !== '') {
+            $meta = read_meta($content_root . '/projects/' . $artform_key . '/artform.json');
+            $art_name = localised($meta, 'name', $lang);
+            if ($art_name !== '') $seo['title'] = $art_name;
+            $seo['schema_type'] = 'CollectionPage';
+        }
+        return $seo;
+    }
+
+    if ($page_key === 'writings') {
+        $writing_key = $sanitize_slug((string) ($_GET['key'] ?? ''));
+        if ($writing_key !== '') {
+            $w = read_writing($content_root, $writing_key, $lang);
+            if ($w !== null) {
+                $title = $w['title'] !== '' ? $w['title'] : $writing_key;
+                $sub   = $w['subtitle'];
+                $seo['title'] = $sub !== '' ? ($title . ' — ' . $sub) : $title;
+                $desc = extract_seo_description($w['body']);
+                if ($desc === '' && $sub !== '') $desc = $sub;
+                if ($desc !== '') $seo['description'] = $desc;
+                $img = first_seo_image($w['media'], $satellite_root);
+                if ($img !== '') $seo['og_image'] = $img;
+                $seo['og_type'] = 'article';
+                $seo['schema_type'] = 'Article';
+                if ($w['date'] !== '') $seo['published_time'] = (string) $w['date'];
+            }
+        } else {
+            $seo['schema_type'] = 'CollectionPage';
+        }
+        return $seo;
+    }
+
+    if (in_array($page_key, ['bio', 'contact', 'inspiration', 'guests'], true)) {
+        $body = read_body($content_root . '/' . $page_key, $lang);
+        $desc = extract_seo_description($body);
+        if ($desc !== '') $seo['description'] = $desc;
+        if ($page_key === 'bio') $seo['schema_type'] = 'ProfilePage';
+        if ($page_key === 'contact') $seo['schema_type'] = 'ContactPage';
+    }
+
+    return $seo;
+}

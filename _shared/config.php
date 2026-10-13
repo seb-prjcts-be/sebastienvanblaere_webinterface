@@ -6,15 +6,38 @@ return [
     'hub_root'   => 'sebastienvanblaere.be',  // folder-naam voor de hub-DocumentRoot
 
     // Persoon-hub: linktree-pagina (sebastienvanblaere.be) — niet een satelliet.
-    // Wordt gebruikt voor SEO + Open Graph + page-tagline.
+    // Wordt gebruikt voor SEO + Open Graph + JSON-LD Knowledge Graph + page-tagline.
     'hub' => [
         'title'       => 'Sebastien Vanblaere',
         'tagline'     => "Neurodiverse lover of coffee, art and philosophy.\nPreferably in that order...",
         'description' => 'Explore Sebastien Vanblaere\'s digital art, creative coding libraries and Android apps, alongside audiovisual projects and educational resources.',
-        'keywords'    => ['Sebastien Vanblaere', 'prjcts', 'digital art', 'digitaal kunstenaar', 'creative coding', 'generative art', 'audiovisual art', 'p5.js', 'Processing', 'p5.waves', 'Android apps', 'kunstonderwijs'],
+        'keywords'    => ['Sebastien Vanblaere', 'prjcts', 'kunstmijnoren', 'digital art', 'digitaal kunstenaar', 'creative coding', 'generative art', 'audiovisual art', 'p5.js', 'Processing', 'Three.js', 'p5.waves', 'p5.gysin', 'pen plotter art', 'kunstonderwijs'],
         'author'      => 'Sebastien Vanblaere',
-        'og_title'    => 'Sebastien Vanblaere',
+        'job_title'   => 'Digital Artist, Creative Technologist & Educator',
+        'og_title'    => 'Sebastien Vanblaere — Digital Art, Creative Coding & Libraries',
         'og_image'    => '/assets/og-portrait.jpg',  // relatief; wordt absolute in <meta>
+        'same_as'     => [
+            'https://prjcts.be/',
+            'https://kunstmijnoren.be/',
+            'https://p5waves.org/',
+            'https://github.com/seb-prjcts-be',
+            'https://www.instagram.com/prjcts.be/',
+            'https://www.linkedin.com/in/sebvanb',
+            'https://www.buymeacoffee.com/prjcts',
+        ],
+        'knows_about' => [
+            'Generative Art',
+            'Creative Coding',
+            'Digital Art',
+            'Audiovisual Art',
+            'p5.js',
+            'Processing',
+            'Three.js',
+            'Pen Plotter Art',
+            'Algorithmic Art',
+            'Philosophy',
+            'Art Education',
+        ],
     ],
 
     'satellites' => [

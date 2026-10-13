@@ -214,9 +214,19 @@
             else if (menu && menu.isOpen()) menu.close();
         });
 
-        // Markeer huidige pagina in linker menu — inclusief query (anders matcht /about álle about-links)
+        // Markeer huidige pagina in linker menu — inclusief query (anders matcht /about álle about-links),
+        // maar negeer UI/taal-params (lang, fontsize) bij de vergelijking.
+        function stripUiParams(qs) {
+            if (!qs || qs.length <= 1) return '';
+            var parts = qs.slice(1).split('&').filter(function (kv) {
+                var k = kv.split('=')[0];
+                return k !== '' && k !== 'lang' && k !== 'fontsize';
+            });
+            return parts.length ? '?' + parts.join('&') : '';
+        }
+
         var herePath  = window.location.pathname.replace(/\/$/, '');
-        var hereQuery = window.location.search; // bv. "?key=04-brein"
+        var hereQuery = stripUiParams(window.location.search);
         var here      = herePath + hereQuery;
 
         document.querySelectorAll('.menu-overlay a.menu-link').forEach(function (a) {
@@ -225,7 +235,7 @@
             // Normaliseer trailing slash op het pad-deel
             var qIdx     = full.indexOf('?');
             var fullPath = qIdx >= 0 ? full.slice(0, qIdx) : full;
-            var fullQs   = qIdx >= 0 ? full.slice(qIdx)     : '';
+            var fullQs   = qIdx >= 0 ? stripUiParams(full.slice(qIdx)) : '';
             var compare  = fullPath.replace(/\/$/, '') + fullQs;
 
             if (compare && compare === here) {

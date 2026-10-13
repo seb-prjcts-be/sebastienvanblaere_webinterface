@@ -30,12 +30,12 @@ declare(strict_types=1);
             if ($type === 'sister') continue; // legacy, wordt genegeerd — constellation vervangt sister-buttons
         ?>
             <?php if ($type === 'home'): ?>
-                <a href="<?= e(link_to(null, '', $config)) ?>" class="menu-link home-link">
+                <a href="<?= e(with_lang_url(link_to(null, '', $config))) ?>" class="menu-link home-link">
                     <h1><?= e($item['label'] ?? '') ?></h1>
                 </a>
             <?php elseif ($type === 'header'): ?>
                 <?php if (!empty($item['href'])): ?>
-                    <a href="<?= e($item['href']) ?>" class="menu-link"<?= !empty($item['external']) ? ' target="_blank" rel="noopener"' : '' ?>>
+                    <a href="<?= e(!empty($item['external']) ? $item['href'] : with_lang_url((string) $item['href'])) ?>" class="menu-link"<?= !empty($item['external']) ? ' target="_blank" rel="noopener"' : '' ?>>
                         <h4><?= e($item['label'] ?? '') ?></h4>
                     </a>
                 <?php else: ?>
@@ -47,7 +47,7 @@ declare(strict_types=1);
                 <details class="menu-category-collapse">
                     <summary class="menu-category"><?= e($item['label'] ?? '') ?></summary>
                     <?php foreach (($item['children'] ?? []) as $child): ?>
-                        <a href="<?= e($child['href'] ?? '#') ?>" class="menu-link"><?= e($child['label'] ?? '') ?></a>
+                        <a href="<?= e(with_lang_url((string) ($child['href'] ?? '#'))) ?>" class="menu-link"><?= e($child['label'] ?? '') ?></a>
                     <?php endforeach; ?>
                 </details>
             <?php elseif ($type === 'divider'): ?>
@@ -63,7 +63,7 @@ declare(strict_types=1);
                     // dan '&lang=...' voor cross-satelliet taal-overdracht.
                     $sat_lang = $GLOBALS['_prjcts_lang'] ?? '';
                     $sat_href = link_to($sat['host'], $item['page'] ?? '', $config);
-                    if ($sat_lang) {
+                    if ($sat_lang && $sat_lang !== 'nl') {
                         $sat_href .= (strpos($sat_href, '?') === false ? '?' : '&') . 'lang=' . rawurlencode($sat_lang);
                     }
             ?>
@@ -72,7 +72,7 @@ declare(strict_types=1);
                 </a>
             <?php endif; ?>
             <?php else: /* default = link — href is reeds een complete URL */ ?>
-                <a href="<?= e($item['href'] ?? '#') ?>" class="menu-link">
+                <a href="<?= e(with_lang_url((string) ($item['href'] ?? '#'))) ?>" class="menu-link">
                     <?= e($item['label'] ?? '') ?>
                 </a>
             <?php endif; ?>

@@ -17,11 +17,9 @@ $items   = isset($data['items']) && is_array($data['items']) ? $data['items'] : 
 $socials = isset($profile['socials']) && is_array($profile['socials']) ? $profile['socials'] : [];
 
 $pref_qs_parts = [];
-$current_lang = $GLOBALS['_prjcts_lang'] ?? '';
-if ($current_lang !== '') $pref_qs_parts[] = 'lang=' . rawurlencode($current_lang);
-$current_fs = $_COOKIE['prjcts_fontsize'] ?? '';
-if (in_array($current_fs, ['klein', 'medium', 'groot'], true)) {
-    $pref_qs_parts[] = 'fontsize=' . rawurlencode($current_fs);
+$current_lang = (string) ($GLOBALS['_prjcts_lang'] ?? 'nl');
+if ($current_lang !== '' && $current_lang !== 'nl') {
+    $pref_qs_parts[] = 'lang=' . rawurlencode($current_lang);
 }
 $pref_qs = $pref_qs_parts ? implode('&', $pref_qs_parts) : '';
 

@@ -1,0 +1,44 @@
+# Sebastien Vanblaere
+
+> Digital artist, creative technologist, open-source library author, and educator based in Belgium.
+> Tagline: "Neurodiverse lover of coffee, art and philosophy. Preferably in that order..."
+
+Sebastien Vanblaere (also publishing under **prjcts** and **kunstmijnoren**) creates procedural and generative art, audiovisual installations, pen-plotter drawings, philosophical writings, open-source creative coding libraries for p5.js, Processing, and vanilla JavaScript, and educational courses on creative coding.
+
+## Primary Websites & Artistic Identities
+
+- [Sebastien Vanblaere — Hub](https://sebastienvanblaere.be/): Central portal connecting art projects, open-source libraries, services, and educational courses.
+- [prjcts.be](https://prjcts.be/): Main digital & procedural art portfolio, projects, audiovisual works, writings, and archive (available in Dutch, English, and French).
+- [kunstmijnoren.be](https://kunstmijnoren.be/): Philosophical and existential reflections, etchings, drawings, scans, and photography ("Foliominnend Herwaarderingsfonds - Kunst, mijn oren.").
+
+## Open-Source Creative Coding Libraries
+
+- [p5.waves](https://seb-prjcts-be.github.io/p5.waves/): Wave-formula and oscillation library for p5.js (officially listed in the p5.js Libraries directory).
+- [p5.waves_lab](https://seb-prjcts-be.github.io/p5.waves_lab/): Interactive wave experiments and showcase for p5.waves.
+- [p5.waves_snippets](https://seb-prjcts-be.github.io/p5.waves_snippets/): Ready-to-use code snippets for p5.waves.
+- [processing.waves](https://seb-prjcts-be.github.io/processing.waves/): Wave formulas and procedural oscillation library for Processing (listed in official Processing Contributions).
+- [vanilla.waves](https://seb-prjcts-be.github.io/vanilla.waves/): Zero-dependency JavaScript wave library.
+- [p5.gysin](https://seb-prjcts-be.github.io/p5.gysin/): Permutation and generative text/pattern library for p5.js inspired by Brion Gysin (officially listed in the p5.js Libraries directory).
+- [vanilla.penplotter](https://seb-prjcts-be.github.io/vanilla.penplotter/): Vanilla JavaScript toolkit for pen-plotter generative art and SVG path generation.
+- [p5.penplotter](https://seb-prjcts-be.github.io/p5.penplotter/): p5.js library for plotting and vector path export.
+- [blocks.system](https://seb-prjcts-be.github.io/blocks.system/): Modular grid and block composition library for generative design.
+
+## Creative Tools & Services
+
+- [p5.export](https://prjcts.be/services/p5.export/): High-resolution frame, video, and vector export utility for p5.js sketches.
+- [SVG Converter](https://prjcts.be/services/svg/): Vector conversion utility for creative coding and pen plotters.
+
+## Education & Courses
+
+- [Creative Coding — p5.js](https://sebastienvanblaere.be/services/creative_coding_p5.js/): Comprehensive Dutch/English creative coding manual and course using p5.js.
+- [Creative Coding — Three.js](https://sebastienvanblaere.be/services/creative_coding_three.js/): 3D creative coding course and interactive guide for Three.js.
+- [p5.blocks (concept)](https://prjcts.be/services/p5.blocks/): Visual and conceptual block-based thinking for p5.js education.
+- [Audiovisueel](https://sebastienvanblaere.be/services/audiovisueel/): Educational resources for audiovisual arts and photography.
+
+## Background & Contact
+
+- [Curriculum Vitae](https://sebastienvanblaere.be/services/cv/): Resume, exhibitions, teaching experience, and publications.
+- [GitHub (@seb-prjcts-be)](https://github.com/seb-prjcts-be)
+- [Instagram (@prjcts.be)](https://www.instagram.com/prjcts.be/)
+- [LinkedIn (Sebastien Vanblaere)](https://www.linkedin.com/in/sebvanb)
+- Email: seb@prjcts.be

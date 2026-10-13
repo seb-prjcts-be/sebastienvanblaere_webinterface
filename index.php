@@ -181,12 +181,143 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
     $url = $item['url'] ?? '#';
     return is_string($url) ? $url : '#';
 };
+
+$prod_base = 'https://' . $hub_root;
+$prod_canonical = $prod_base . '/';
+$prod_og_image = $og_image;
+if ($prod_og_image !== '' && !preg_match('#^https?://#', $prod_og_image)) {
+    $prod_og_image = $prod_base . '/' . ltrim((string) ($hub['og_image'] ?? ''), '/');
+}
+
+$same_as = isset($hub['same_as']) && is_array($hub['same_as']) ? array_values(array_map('strval', $hub['same_as'])) : [];
+foreach ($socials as $social) {
+    if (is_array($social) && !empty($social['url'])) {
+        $s_url = (string) $social['url'];
+        if (!in_array($s_url, $same_as, true)) {
+            $same_as[] = $s_url;
+        }
+    }
+}
+
+$knows_about = isset($hub['knows_about']) && is_array($hub['knows_about'])
+    ? array_values(array_map('strval', $hub['knows_about']))
+    : [];
+$job_title = (string) ($hub['job_title'] ?? 'Digital Artist, Creative Technologist & Educator');
+$email = (string) ($profile['email'] ?? '');
+
+// Build ItemList for JSON-LD Knowledge Graph (excluding non-clickable app descriptions).
+$list_elements = [];
+$current_section = '';
+$pos = 1;
+$push_schema_item = static function (array $entry, string $section) use (&$list_elements, &$pos, $prod_canonical, $library_listings): void {
+    $lbl = trim(preg_replace('/\s+/', ' ', (string) ($entry['label'] ?? '')));
+    $u   = (string) ($entry['url'] ?? '');
+    if ($lbl === '' || $u === '' || $u === '#') return;
+    $key = (string) ($entry['key'] ?? '');
+
+    $entity_type = 'CreativeWork';
+    if ($section === 'Libraries') {
+        $entity_type = 'SoftwareSourceCode';
+    } elseif ($section === 'Education') {
+        $entity_type = 'LearningResource';
+    } elseif ($section === 'Art') {
+        $entity_type = 'WebSite';
+    }
+
+    $thing = [
+        '@type'  => $entity_type,
+        'name'   => $lbl,
+        'url'    => $u,
+        'author' => ['@id' => $prod_canonical . '#person'],
+    ];
+    if ($entity_type === 'SoftwareSourceCode') {
+        $thing['programmingLanguage'] = str_starts_with($lbl, 'processing.') ? 'Processing' : 'JavaScript';
+        if (isset($library_listings[$key]['url'])) {
+            $thing['sameAs'] = $library_listings[$key]['url'];
+        }
+    }
+    $list_elements[] = [
+        '@type'    => 'ListItem',
+        'position' => $pos++,
+        'item'     => $thing,
+    ];
+};
+
+foreach ($items as $item) {
+    if (!is_array($item)) continue;
+    $t = (string) ($item['type'] ?? 'link');
+    if ($t === 'header') {
+        $current_section = (string) ($item['label'] ?? '');
+        continue;
+    }
+    if ($t === 'description') continue;
+    if ($t === 'pair') {
+        foreach (($item['items'] ?? []) as $pair_item) {
+            if (is_array($pair_item)) {
+                $push_schema_item($pair_item, $current_section);
+            }
+        }
+        continue;
+    }
+    $push_schema_item($item, $current_section);
+}
+
+$person_node = [
+    '@type'         => 'Person',
+    '@id'           => $prod_canonical . '#person',
+    'name'          => $page_title,
+    'alternateName' => ['Seb Vanblaere', 'prjcts', 'kunstmijnoren'],
+    'jobTitle'      => $job_title,
+    'description'   => $page_desc,
+    'url'           => $prod_canonical,
+    'nationality'   => ['@type' => 'Country', 'name' => 'Belgium'],
+    'knowsLanguage' => ['nl', 'en', 'fr'],
+];
+if ($prod_og_image !== '') $person_node['image'] = $prod_og_image;
+if ($email !== '')         $person_node['email'] = 'mailto:' . $email;
+if ($same_as)              $person_node['sameAs'] = $same_as;
+if ($knows_about)          $person_node['knowsAbout'] = $knows_about;
+
+$json_ld = [
+    '@context' => 'https://schema.org',
+    '@graph'   => [
+        [
+            '@type'      => 'ProfilePage',
+            '@id'        => $prod_canonical . '#profilepage',
+            'url'        => $prod_canonical,
+            'name'       => $og_title,
+            'description'=> $page_desc,
+            'inLanguage' => 'en',
+            'isPartOf'   => ['@id' => $prod_canonical . '#website'],
+            'mainEntity' => ['@id' => $prod_canonical . '#person'],
+        ],
+        [
+            '@type'       => 'WebSite',
+            '@id'         => $prod_canonical . '#website',
+            'url'         => $prod_canonical,
+            'name'        => $page_title,
+            'description' => $page_desc,
+            'inLanguage'  => ['en', 'nl', 'fr'],
+            'publisher'   => ['@id' => $prod_canonical . '#person'],
+        ],
+        $person_node,
+        [
+            '@type'           => 'ItemList',
+            '@id'             => $prod_canonical . '#projects',
+            'name'            => $page_title . ' — Art, Libraries, Services & Education',
+            'numberOfItems'   => count($list_elements),
+            'itemListElement' => $list_elements,
+        ],
+    ],
+];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#faf9f5">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
 <title><?= $esc($page_title) ?></title>
 
 <?php if ($page_desc): ?>
@@ -199,9 +330,11 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
 <meta name="author" content="<?= $esc($page_auth) ?>">
 <?php endif; ?>
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="profile">
 <meta property="og:site_name" content="<?= $esc($page_title) ?>">
 <meta property="og:locale" content="en_GB">
+<meta property="og:locale:alternate" content="nl_BE">
+<meta property="og:locale:alternate" content="fr_BE">
 <meta property="og:url" content="<?= $esc($canonical) ?>">
 <meta property="og:title" content="<?= $esc($og_title) ?>">
 <?php if ($page_desc): ?>
@@ -209,6 +342,7 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
 <?php endif; ?>
 <?php if ($og_image): ?>
 <meta property="og:image" content="<?= $esc($og_image) ?>">
+<meta property="og:image:alt" content="<?= $esc($page_title) ?>">
 <?php endif; ?>
 
 <meta name="twitter:card" content="<?= $og_image ? 'summary_large_image' : 'summary' ?>">
@@ -218,9 +352,15 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
 <?php endif; ?>
 <?php if ($og_image): ?>
 <meta name="twitter:image" content="<?= $esc($og_image) ?>">
+<meta name="twitter:image:alt" content="<?= $esc($page_title) ?>">
 <?php endif; ?>
 
 <link rel="canonical" href="<?= $esc($canonical) ?>">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="LLM Context">
+<?php foreach ($same_as as $me_url): ?>
+<link rel="me" href="<?= $esc($me_url) ?>">
+<?php endforeach; ?>
+<script type="application/ld+json"><?= json_encode($json_ld, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&family=IBM+Plex+Mono:wght@300;400&display=swap">
@@ -343,7 +483,7 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
                 $icon  = preg_replace('/[^a-z0-9-]/i', '', (string) ($social['icon'] ?? 'link-45deg'));
                 $external = !empty($social['external']);
             ?>
-            <a href="<?= $esc($url) ?>"<?= $external ? ' target="_blank" rel="noopener"' : '' ?> aria-label="<?= $esc($label) ?>" title="<?= $esc($label) ?>"><i class="bi bi-<?= $esc((string) $icon) ?>" aria-hidden="true"></i></a>
+            <a href="<?= $esc($url) ?>"<?= $external ? ' target="_blank" rel="me noopener"' : '' ?> aria-label="<?= $esc($label) ?>" title="<?= $esc($label) ?>"><i class="bi bi-<?= $esc((string) $icon) ?>" aria-hidden="true"></i></a>
             <?php endforeach; ?>
         </div>
         <?php endif; ?>
@@ -380,7 +520,6 @@ $item_url = function (array $item) use ($is_local, $site_url): string {
         <?php endforeach; ?>
     </nav>
 
-    <?php $email = (string) ($profile['email'] ?? ''); ?>
     <?php if ($email): ?>
     <footer><a href="mailto:<?= $esc($email) ?>"><?= $esc($email) ?></a></footer>
     <?php endif; ?>
