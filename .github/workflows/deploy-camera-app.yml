@@ -1,0 +1,33 @@
+name: Publish camera app pages
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'apps/a-shot-in-the-dark/**'
+      - '.github/workflows/deploy-camera-app.yml'
+      - '.github/scripts/publish_camera_app.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-camera-app
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install paramiko==3.5.1
+      - name: Locate the public webroot and publish only the app directory
+        run: python .github/scripts/publish_camera_app.py
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASS: ${{ secrets.SFTP_PASS }}
