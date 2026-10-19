@@ -49,20 +49,31 @@ def main():
     )
     try:
         with client.open_sftp() as sftp:
-            candidates = [".", "httpd.www"]
+            candidates = [".", "httpd.www", "public_html", "www", "sebastienvanblaere.be"]
+            root_directories = []
+            for entry in sftp.listdir_attr("."):
+                try:
+                    if stat.S_ISDIR(sftp.stat(entry.filename).st_mode):
+                        root_directories.append(entry.filename)
+                except FileNotFoundError:
+                    continue
+            print("SFTP root directories: " + ", ".join(sorted(root_directories)))
+            candidates.extend(root_directories)
             try:
                 candidates.extend(
                     "webroots/" + entry.filename
                     for entry in sftp.listdir_attr("webroots")
-                    if stat.S_ISDIR(entry.st_mode)
+                    if stat.S_ISDIR(sftp.stat("webroots/" + entry.filename).st_mode)
                 )
             except FileNotFoundError:
                 pass
             matches = []
-            for root in candidates:
+            for root in sorted(set(candidates)):
                 try:
                     with sftp.open(posixpath.join(root, APP, "index.html"), "rb") as source:
-                        if digest(source.read()) == live_hash:
+                        remote_hash = digest(source.read())
+                        print(f"App index found at {root}; matches public page: {remote_hash == live_hash}")
+                        if remote_hash == live_hash:
                             matches.append(sftp.normalize(root))
                 except FileNotFoundError:
                     continue
