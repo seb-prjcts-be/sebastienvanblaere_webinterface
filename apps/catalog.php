@@ -4,8 +4,9 @@ declare(strict_types=1);
 // App descriptions on the homepage; keep the existing projects list independent.
 return [
     [
-        'type' => 'description',
+        'type' => 'link',
         'label' => 'a shot in the dark (Android)',
+        'url' => 'apps/a-shot-in-the-dark/',
         'description' => 'A camera for concerts, theatre and performance.',
     ],
     [

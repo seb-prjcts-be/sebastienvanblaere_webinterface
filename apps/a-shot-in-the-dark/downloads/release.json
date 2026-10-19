@@ -1,11 +1,11 @@
 {
-  "version": "1.0",
-  "versionCode": 1,
+  "version": "1.2",
+  "versionCode": 3,
   "channel": "beta",
-  "publishedDate": "2026-09-16",
+  "publishedDate": "2026-10-19",
   "minimumSupportedAndroid": "10",
-  "file": "ashotinthedark-1.0.apk",
-  "bytes": 16720117,
-  "sha256": "08ddca9d3c32c25f2a74fee94dfb22ebc9b11726d4eada25a0d7734ca0607671",
+  "file": "ashotinthedark-1.2.apk",
+  "bytes": 16736436,
+  "sha256": "dc721626c6ed62ddef1542587061fb9fc43250c760ef0e8603b4eabc0003170e",
   "certificateSha256": "a9b54580f4e7d04e9c48b3cafb6efd2c1d28a9fbcf58c43555bdd02d5263b583"
 }
