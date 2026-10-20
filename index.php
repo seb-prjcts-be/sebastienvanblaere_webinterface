@@ -370,7 +370,7 @@ $json_ld = [
     html, body { min-height: 100%; }
     body {
         background: #faf9f5;
-        color: #121212;
+        color: #080808;
         font-family: 'IBM Plex Mono', 'Courier New', monospace;
         font-weight: 300;
         line-height: 1.6;
@@ -388,7 +388,7 @@ $json_ld = [
         margin-bottom: 0.75rem;
     }
     .tagline {
-        color: #606060;
+        color: #505050;
         font-size: 0.92rem;
         line-height: 1.55;
         max-width: 32ch;
@@ -401,7 +401,7 @@ $json_ld = [
         font-size: 1.4rem;
     }
     .socials a {
-        color: #121212;
+        color: #080808;
         transition: color 0.15s;
     }
     .socials a:hover { color: #ff0000; }
@@ -412,14 +412,14 @@ $json_ld = [
         font-weight: 400;
         letter-spacing: 0.15em;
         text-transform: uppercase;
-        color: #888;
+        color: #777;
         margin-top: 1rem;
         padding-bottom: 0.4rem;
         border-bottom: 1px solid #ddd;
         text-align: center;
     }
     nav a, .app-summary {
-        color: #121212;
+        color: #080808;
         text-decoration: none;
         font-size: 1rem;
         padding: 1rem 1.1rem;
@@ -435,7 +435,7 @@ $json_ld = [
     }
     .project-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
     .project-pair a { font-size: 0.85rem; padding: 0.8rem 0.5rem; overflow-wrap: anywhere; }
-    .app-description { display: block; margin-top: 0.35rem; font-size: 0.75rem; color: #606060; }
+    .app-description { display: block; margin-top: 0.35rem; font-size: 0.75rem; color: #505050; }
     .listed-project {
         border: 1px solid #d0d0d0;
         background: #fdfcf9;
@@ -444,7 +444,7 @@ $json_ld = [
     }
     .listed-project > a { display: block; border: 0; background: transparent; }
     .listed-project > .project-link { padding-bottom: 0.25rem; }
-    .listed-project > .listing-link { padding: 0.25rem 1rem 0.85rem; font-size: 0.65rem; color: #121212; }
+    .listed-project > .listing-link { padding: 0.25rem 1rem 0.85rem; font-size: 0.65rem; color: #080808; }
     .listed-project > .listing-link:hover { color: #ff0000; text-decoration: underline; }
     .listed-project:hover, .listed-project:focus-within {
         border-color: #ff0000;
@@ -459,7 +459,7 @@ $json_ld = [
         margin-top: 2.5rem;
         text-align: center;
         font-size: 0.78rem;
-        color: #909090;
+        color: #808080;
     }
     footer a { color: inherit; text-decoration: none; }
     footer a:hover { color: #ff0000; }
