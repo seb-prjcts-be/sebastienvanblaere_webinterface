@@ -128,6 +128,15 @@ $section_starts = ['prjcts' => 'Art', 'p5waves' => 'Libraries', 'export' => 'Ser
 $grouped_items = [];
 foreach ($items as $item) {
     if (!is_array($item)) continue;
+    if (($item['type'] ?? '') === 'header' && ($item['label'] ?? '') === 'Education') {
+        $grouped_items[] = ['type' => 'header', 'label' => 'Play'];
+        $grouped_items[] = [
+            'key' => 'checkboxdance',
+            'label' => 'Checkboxdance',
+            'url' => 'https://prjcts.be/services/checkboxdance/',
+            'external' => true,
+        ];
+    }
     $section = $section_starts[(string) ($item['key'] ?? '')] ?? null;
     if ($section !== null) {
         $grouped_items[] = ['type' => 'header', 'label' => $section];
