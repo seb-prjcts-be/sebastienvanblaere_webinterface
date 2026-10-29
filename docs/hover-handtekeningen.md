@@ -70,7 +70,7 @@ Elk vak toont een kleine versie van de hero van die library, in de kleuren van d
 | processing.waves | zelfde opbouw, Signal Loom-palet met violet | `#0647ff #ff3d2e #c7ff2d #8e51ff #00bdd6` (processing.waves `sketch.js`, `LOOM`) |
 | vanilla.waves | gestapelde lijnen in koffietinten | espresso → teal → zand (vanilla.waves `docs/waves-demos.js`, `SPECTRUM`) |
 | p5.waves_lab | Binary Field: 30×30 cellen, aan als rij + kolom boven de drempel | zwart op 245 (lab-standaard: seed 13, golven 1 en 14, shift 3 / 1.2, stretch 5 en 2.5, offset 0.4) |
-| p5.waves_snippets | vier halfdoorzichtige pastelbanden, gevuld tot onderaan | perzik `#f6a796`, roze `#f9b7c4`, hemelsblauw `#b8d2ff`, citroen `#f3e679` (snippets `script.js`, `bootHero`) |
+| p5.waves_snippets | het specimen "Live Connector": drie knopen bedraad aan een bewegende knoop B; rustig golft de rand zacht (gentle), hoe sneller B beweegt hoe meer hij mengt naar harsh, een te snelle ruk scheurt de rand (perzik). Zonder labels en knoopnummers | inkt `#111213`, perzik `#f6a796` (snippets `script.js`, specimen `cursor-echo`). Eerst de pastelbanden van de hero geprobeerd, op vraag vervangen |
 
 - Seeds, frequenties en `shift` komen uit de hero-sketches, verkleind tot het vak. De bovenste strook van de hero (waar de titel staat) valt weg.
 - Verandert een hero van kleur, pas dan `P5_COLOURS`, `LOOM_COLOURS` of `COFFEE` aan in `index.php`.

@@ -759,41 +759,73 @@ $json_ld = [
             };
         }
 
-        // The hero of p5.waves_snippets: four pastel bands, filled to the bottom,
-        // with the settings of that page.
-        var PASTEL = [
-            { colour: '#f6a796', alpha: 0.55, freq: 0.0035, speed: 0.45, baseY: 0.32, amp: 0.18, every: 4, morph: 1.8 },
-            { colour: '#f9b7c4', alpha: 0.55, freq: 0.0045, speed: 0.52, baseY: 0.48, amp: 0.22, every: 3, morph: 1.5 },
-            { colour: '#b8d2ff', alpha: 0.6,  freq: 0.003,  speed: 0.4,  baseY: 0.66, amp: 0.2,  every: 5, morph: 2.0 },
-            { colour: '#f3e679', alpha: 0.5,  freq: 0.005,  speed: 0.58, baseY: 0.82, amp: 0.14, every: 6, morph: 2.2 }
-        ];
-        function pastel() {
-            var samplers = null;
+        // p5.waves_snippets: the "Live Connector" specimen. Three nodes are wired to a
+        // moving node B. Calm, the edges ripple with a gentle wave; the faster B moves,
+        // the more they mix towards a harsh wave, and a reckless dart tears them (peach).
+        // Rules and numbers from the specimen in the snippets script.js, scaled to the slot.
+        var CONNECTOR_NODES = [[0.12, 0.2], [0.09, 0.5], [0.13, 0.82]];
+        function connector() {
+            var calm = null;
+            var rush = null;
+            var mix = 0;
+            var snapT = -10;
+            var last = null;
+            function lerp(a, b, u) { return a + (b - a) * u; }
             return function (t) {
-                if (!samplers) {
+                if (!calm) {
                     if (!window.Waves) return;
-                    samplers = PASTEL.map(function (band) {
-                        return Waves.createSampler({
-                            shift: true, shiftInterval: band.every, shiftDuration: band.morph,
-                            group: 'gentle', range: [-1, 1]
-                        });
-                    });
+                    calm = Waves.createSampler({ shift: true, group: 'gentle', range: [-1, 1] });
+                    rush = Waves.createSampler({ shift: true, group: 'harsh', range: [-1, 1] });
                 }
-                var stretch = HERO_WIDTH / size;
-                PASTEL.forEach(function (band, i) {
-                    ctx.globalAlpha = band.alpha;
-                    ctx.fillStyle = band.colour;
-                    ctx.beginPath();
-                    ctx.moveTo(0, size);
-                    for (var x = 0; x <= size; x += 2) {
-                        var v = samplers[i].sample(x * stretch * band.freq, t * band.speed);
-                        ctx.lineTo(x, size * band.baseY + v * size * band.amp);
+                var w = size, h = size;
+                var k = size / 300;   // the specimen's card is about twice the slot
+
+                // Autopilot pointer: cruises, then darts. Its speed is the tension.
+                var px = w * (0.62 + 0.26 * Math.cos(t * 0.7 + Math.sin(t * 0.37) * 2.2));
+                var py = h * (0.45 + 0.3 * Math.sin(t * 1.15 + Math.cos(t * 0.5)));
+                var speed = last ? Math.hypot(px - last[0], py - last[1]) : 0;
+                last = [px, py];
+                mix += (Math.min(1, speed / (14 * k)) - mix) * 0.07;
+                var rejected = t - snapT < 1.2;
+                if (mix > 0.85 && !rejected) { snapT = t; mix = 0.4; }
+
+                var AMP = h * 0.11;
+                function wobble(u, phase) {
+                    return lerp(calm.sample(u * 9 + t * 3 + phase, t), rush.sample(u * 9 + t * 3 + phase, t), mix) * AMP;
+                }
+                function edge(ax, ay, bx, by, phase) {
+                    var len = Math.hypot(bx - ax, by - ay) || 1;
+                    var nx = -(by - ay) / len, ny = (bx - ax) / len;
+                    function strand(u0, u1, pinEnd) {
+                        ctx.beginPath();
+                        for (var i = 0; i <= 36; i++) {
+                            var u = lerp(u0, u1, i / 36);
+                            var env = pinEnd ? Math.sin((u - u0) / (u1 - u0) * Math.PI / 2) : Math.sin(u * Math.PI);
+                            var off = wobble(u, phase) * env;
+                            if (i === 0) ctx.moveTo(lerp(ax, bx, u) + nx * off, lerp(ay, by, u) + ny * off);
+                            else ctx.lineTo(lerp(ax, bx, u) + nx * off, lerp(ay, by, u) + ny * off);
+                        }
+                        ctx.stroke();
                     }
-                    ctx.lineTo(size, size);
-                    ctx.closePath();
-                    ctx.fill();
-                });
-                ctx.globalAlpha = 1;
+                    if (rejected) { strand(0, 0.42, true); strand(1, 0.58, true); }   // torn in two
+                    else strand(0, 1, false);
+                }
+
+                ctx.strokeStyle = rejected || mix > 0.5 ? '#f6a796' : '#111213';
+                ctx.lineWidth = Math.max(1, 1.8 * k);
+                CONNECTOR_NODES.forEach(function (n, i) { edge(w * n[0], h * n[1], px, py, i * 7); });
+
+                // The node cards, without their numbers: too small to read here.
+                ctx.lineWidth = Math.max(1, 1.5 * k);
+                ctx.strokeStyle = '#111213';
+                ctx.fillStyle = '#ffffff';
+                function node(x, y) {
+                    var nw = 28 * k, nh = 18 * k;
+                    ctx.fillRect(x - nw / 2, y - nh / 2, nw, nh);
+                    ctx.strokeRect(x - nw / 2, y - nh / 2, nw, nh);
+                }
+                CONNECTOR_NODES.forEach(function (n) { node(w * n[0], h * n[1]); });
+                node(px, py);
             };
         }
 
@@ -1014,7 +1046,7 @@ $json_ld = [
             processingwaves: ribbons(LOOM_COLOURS),
             vanillawaves: coffee(),
             waves_lab: binaryField(),
-            waves_snippets: pastel(),
+            waves_snippets: connector(),
             gysin: picture('img/vak/p5gysin.webp'),
             'blocks.system': blocks(),
             vanillapenplotter: vanillaPlot(),

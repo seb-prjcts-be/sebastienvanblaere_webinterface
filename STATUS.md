@@ -13,7 +13,7 @@
 - 2026-10-29: blocks.system toont vensters die in een 3×3-raster klikken en verschuiven.
 - 2026-10-29: p5.penplotter toont zijn CGA-hero (GIF); vanilla.penplotter tekent het plot-gedeelte zelf na in zijn 4 CGA-kleuren (de GIF toonde lang een leeg blad).
 - 2026-10-29: p5.gysin toont een uitsnede van zijn eigen hero, als beeld (`img/vak/p5gysin.webp`).
-- 2026-10-29: p5.waves_snippets toont de vier pastelbanden van zijn hero.
+- 2026-10-29: p5.waves_snippets toont het specimen "Live Connector" (eerst de pastelbanden van de hero).
 - 2026-10-29: p5.waves_lab toont een Binary Field met de lab-standaardinstellingen.
 - 2026-10-29: plaatsing gekozen (naast de kaart), lijst met/zonder vak vastgelegd, leeg vak gebouwd in `index.php`.
 - 2026-10-29: vak verfijnd: witte achtergrond (zoals knop-hover), zwart kader 1px, geen tekst, blijft open en glijdt tussen kaarten.
