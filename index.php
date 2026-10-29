@@ -917,6 +917,38 @@ $json_ld = [
             };
         }
 
+        // prjcts.be and kunstmijnoren.be: their own work, one square thumbnail per
+        // project, each fading into the next. The thumbnails come from the site's
+        // own thumb.php, so nothing has to be uploaded here.
+        function work(base, files) {
+            var imgs = [];
+            var HOLD = 2.4;
+            var FADE = 0.6;
+            function get(i) {
+                if (!imgs[i]) {
+                    imgs[i] = new Image();
+                    imgs[i].src = base + files[i];
+                }
+                return imgs[i];
+            }
+            function ready(img) { return img.complete && img.naturalWidth; }
+            return function (t) {
+                var k = Math.floor(t / HOLD);
+                var now = get(k % files.length);
+                var next = get((k + 1) % files.length);   // loads while the current one shows
+                var m = still ? 0 : Math.max(0, (t - k * HOLD - (HOLD - FADE)) / FADE);
+                if (ready(now)) ctx.drawImage(now, 0, 0, size, size);
+                if (m > 0 && ready(next)) {
+                    ctx.globalAlpha = m;
+                    ctx.drawImage(next, 0, 0, size, size);
+                    ctx.globalAlpha = 1;
+                }
+            };
+        }
+
+        var PRJCTS_THUMBS = 'https://prjcts.be/_shared/thumb.php?w=300&h=300&p=content%2Fprojects%2F';
+        var KMO_THUMBS = 'https://kunstmijnoren.be/_shared/thumb.php?w=300&h=300&p=content%2Fprojects%2F01-foliotheek%2F';
+
         // The penplotters have a CGA animation as their hero. A GIF cannot play on the
         // canvas, so it gets its own image, loaded from the library site on first hover.
         // x, y and side give the square crop in the 600 x 400 GIF.
@@ -945,7 +977,29 @@ $json_ld = [
             waves_snippets: pastel(),
             gysin: picture('img/vak/p5gysin.webp'),
             'blocks.system': blocks(),
-            checkboxdance: checkboxdance()
+            checkboxdance: checkboxdance(),
+            // One image per project, works first, then the archive.
+            prjcts: work(PRJCTS_THUMBS, [
+                '01-projects%2F02-form-repetition%2F20191003_graphic02.jpg',
+                '01-projects%2F03-entrench-enshrine%2Fa7_03813.jpg',
+                '01-projects%2F06-das-dunkelheit-prinzip%2F20211211_230936-01.jpeg',
+                '02-archief%2F01-membering-inneren%2F20250329_114925.jpg',
+                '02-archief%2F02-something-from-nothing%2F20180331_swoosh1.jpg',
+                '02-archief%2F03-experiments%2F3a26198_mirror_optimized-1.jpg',
+                '02-archief%2F05-tree%2Fsq1.jpg',
+                '02-archief%2F06-walks%2Fwalks01.jpg'
+            ]),
+            // Zinneroersels and Folio an sich, taking turns.
+            kunstmijnoren: work(KMO_THUMBS, [
+                '01-inner-tremors%2F20250617_170915.jpg',
+                '02-beautyfolio%2F20250620_123337.jpg',
+                '01-inner-tremors%2F20250621_085649.jpg',
+                '02-beautyfolio%2Faltaar.jpg',
+                '01-inner-tremors%2F20250629_180419.jpg',
+                '02-beautyfolio%2Ffam01.jpg',
+                '01-inner-tremors%2F20251012_172006.jpg',
+                '02-beautyfolio%2F20250711_124630-0.jpg'
+            ])
         };
 
         function fit() {

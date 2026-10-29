@@ -105,4 +105,13 @@ Elk vak toont een kleine versie van de hero van die library, in de kleuren van d
 - Niet CGA, zoals eerst gedacht: Checkboxdance is een raster van echte checkboxen. Het vak toont een raster van 7×7 vakjes, vijf aangevinkt (zwart). Die vijf dansen, verbonden door één gesloten curve (zwart, 0,75px, zoals `curveVertex`) met rode punten (`rgb(255,70,70)`).
 - De beweging volgt `Node.update()` uit `services/checkboxdance/sketch.js`, verkleind tot het vak; de zijwaartse uitslag is iets smaller zodat de curve binnen het vak blijft.
 
-Nog te doen: prjcts.be en kunstmijnoren.be.
+### prjcts.be en kunstmijnoren.be (2026-10-29)
+
+- Het vak toont het werk zelf: één vierkante thumbnail per project, die om de 2,4 s overvloeit (0,6 s) in de volgende (`work()` in `index.php`).
+  - prjcts.be ("het werk"): vooral zwart-wit — Form & Repetition, Entrench. Enshrine., Das Dunkelheit Prinzip, en uit het archief Membering | Inneren, Something from nothing, Experiments, Tree, Walks.
+  - kunstmijnoren.be ("foliotheek"): gevonden papier, drukwerk, oude foto's — Zinneroersels en Folio an sich om beurt.
+- De beelden komen van de `thumb.php` van elke site (`w=300&h=300`, vierkant bijgesneden), pas bij hover geladen, telkens het volgende beeld vooraf. Niets te uploaden. Een ander beeld kiezen: de bestandsnaam in de lijst in `index.php` vervangen.
+- Bij `prefers-reduced-motion`: één beeld per beurt, zonder overvloei.
+- Eerst geprobeerd en vervangen: de vallende decoratie-balletjes van beide sites (rode cirkels, oor-balletjes). Te veel decoratie, te weinig werk.
+
+Alle kaarten met een vak hebben nu een beeld.
