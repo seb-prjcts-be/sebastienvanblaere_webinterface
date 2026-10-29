@@ -1,7 +1,13 @@
 ## Volgende stap
-- Niets dringend. Keuzes in `docs/hover-handtekeningen.md`, deploy in `docs/deploy.md`.
+- In Search Console bij "Dubbele pagina zonder ... canonieke versie" op "Oplossing valideren" klikken, na de upload hieronder.
+- In Search Console bij Sitemaps `https://sebastienvanblaere.be/sitemap.php` indienen.
+
+## Blokkades
+- Upload via SFTP uit `C:\server\htdocs\cursus_site_three.js`: `index.html` en `handleiding/index.html` naar `webroots/www/services/creative_coding_three.js/` (zelfde mappen). Ze bevatten de canonical voor de handleiding. Die cursus heeft geen automatische deploy.
 
 ## Gedaan
+- 2026-10-29: three.js-handleiding krijgt een canonical (repo `cursus_site_three.js`, commit `1e5f226`); sitemap noemt de handleiding i.p.v. de doorverwijzing.
+- 2026-10-29: `robots.txt` verwijst live naar `sitemap.php` (sitemap.xml gaf 404).
 - 2026-10-29: ".md blocker for Google Docs" (`google_docs_md_filter`) onder Services, na SVG_converter; linkt naar de GitHub Pages-site. Niet "MD Block": dat leest als een van de blocks-projecten.
 - 2026-10-29: deploy laat `.md` weg en verwijdert de `.md`-bestanden van de repo uit de webroot (waren publiek leesbaar). Nagekeken: alle 11 geven live 404.
 - 2026-10-29: homepage met beeldvak staat live op sebastienvanblaere.be; prjcts.be en kunstmijnoren.be werken nog.
