@@ -957,13 +957,53 @@ $json_ld = [
             p5penplotter: {
                 src: 'https://seb-prjcts-be.github.io/p5.penplotter/docs/images/animations/hero.gif',
                 x: 300, y: 50, side: 300
-            },
-            // Close on the cream A2 sheet where the spiral is plotted; wider, it reads too dark.
-            vanillapenplotter: {
-                src: 'https://seb-prjcts-be.github.io/vanilla.penplotter/docs/images/animations/overview.gif?v=restored-20261003',
-                x: 392, y: 82, side: 172, pixelated: true
             }
         };
+
+        // vanilla.penplotter: the plotting part of its CGA hero, drawn here. In the GIF the
+        // sheet stays empty for the first ten seconds, and the wider frame is dark espresso,
+        // so the slot draws only the sheet: the teal bar and ochre pen plot a spiral, then
+        // start over. Four colours from overview.gif, drawn on a 60 x 60 pixel grid.
+        var VANILLA_CGA = { ink: '#2b1f1a', sheet: '#ecddb8', bar: '#8fa595', pen: '#c4874b' };
+        function vanillaPlot() {
+            var GRID = 60;
+            var DRAW = 6;
+            var HOLD = 1.5;
+            var pixels = document.createElement('canvas');
+            pixels.width = GRID;
+            pixels.height = GRID;
+            var px = pixels.getContext('2d');
+
+            // A wobbly spiral, out from the centre, like the one in the GIF.
+            var path = [];
+            var TURNS = 7, STEPS = 1100;
+            for (var i = 0; i <= STEPS; i++) {
+                var a = i / STEPS * TURNS * Math.PI * 2;
+                var r = 1.5 + a * (20 / (TURNS * Math.PI * 2)) * (1 + 0.1 * Math.sin(6 * a));
+                path.push([Math.round(GRID / 2 + Math.cos(a) * r), Math.round(GRID / 2 + Math.sin(a) * r)]);
+            }
+
+            return function (t) {
+                var p = still ? 1 : Math.min(1, (t % (DRAW + HOLD)) / DRAW);
+                var n = Math.floor(p * STEPS);
+                px.fillStyle = VANILLA_CGA.sheet;
+                px.fillRect(0, 0, GRID, GRID);
+                px.fillStyle = VANILLA_CGA.ink;
+                for (var k = 0; k <= n; k++) px.fillRect(path[k][0], path[k][1], 1, 1);
+                if (p < 1) {
+                    var pen = path[n];
+                    px.fillStyle = VANILLA_CGA.bar;
+                    px.fillRect(0, pen[1] - 1, GRID, 2);
+                    px.fillStyle = VANILLA_CGA.pen;
+                    px.fillRect(pen[0] - 2, pen[1] - 2, 5, 5);
+                    px.fillStyle = VANILLA_CGA.ink;
+                    px.fillRect(pen[0] - 1, pen[1] - 1, 3, 3);
+                }
+                ctx.imageSmoothingEnabled = false;
+                ctx.drawImage(pixels, 0, 0, size, size);
+                ctx.imageSmoothingEnabled = true;
+            };
+        }
         var gif = document.createElement('img');
         gif.alt = '';
         gif.hidden = true;
@@ -977,6 +1017,7 @@ $json_ld = [
             waves_snippets: pastel(),
             gysin: picture('img/vak/p5gysin.webp'),
             'blocks.system': blocks(),
+            vanillapenplotter: vanillaPlot(),
             checkboxdance: checkboxdance(),
             // One image per project, works first, then the archive.
             prjcts: work(PRJCTS_THUMBS, [

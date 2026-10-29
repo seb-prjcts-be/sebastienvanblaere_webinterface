@@ -87,13 +87,10 @@ Elk vak toont een kleine versie van de hero van die library, in de kleuren van d
 
 ### Penplotters (2026-10-29)
 
-- Beide penplotters hebben een CGA-animatie als hero (600×400 GIF, 4 kleuren). Het vak toont die GIF zelf, met een eigen uitsnede per plotter (`x`, `y`, `side` in `GIFS`):
-  - p5.penplotter: 300×300 rond de plotter rechts (x 300, y 50).
-  - vanilla.penplotter: dicht op het crème A2-blad waar de spiraal geplot wordt (x 392, y 82, 172×172, `pixelated`). Ruimer was het beeld te donker door het espresso rondom.
-  - p5.penplotter: zwart, cyaan, magenta, wit — `p5.penplotter/docs/images/animations/hero.gif` (837 kB)
-  - vanilla.penplotter: espresso, teal, oker, crème — `vanilla.penplotter/docs/images/animations/overview.gif` (237 kB)
-- De GIF's laden rechtstreeks van de library-sites, pas bij de eerste hover op die kaart. Niets te uploaden; een nieuwe GIF op de library-site verschijnt vanzelf.
-- Een GIF kan niet op het canvas spelen, dus het vak heeft er een eigen `<img>` voor. Een GIF valt niet te pauzeren: bij `prefers-reduced-motion` blijft het vak leeg.
+- Beide penplotters hebben een CGA-animatie als hero (600×400 GIF, 4 kleuren).
+- p5.penplotter: het vak toont die GIF zelf (zwart, cyaan, magenta, wit — `p5.penplotter/docs/images/animations/hero.gif`, 837 kB), uitgesneden tot 300×300 rond de plotter rechts (`x`, `y`, `side` in `GIFS`). Laadt rechtstreeks van de library-site, pas bij de eerste hover. Een GIF kan niet op het canvas spelen, dus het vak heeft er een eigen `<img>` voor; een GIF valt niet te pauzeren, dus bij `prefers-reduced-motion` blijft het vak leeg.
+- vanilla.penplotter: getekend, niet de GIF (`vanillaPlot()`). Het plot-gedeelte van `overview.gif`: de teal balk en de oker pen plotten een wiebelende spiraal op het crème blad, 6 s tekenen, 1,5 s rust, opnieuw. Op een raster van 60×60 pixels, scherp opgeschaald, in de vier kleuren van de GIF: espresso `#2b1f1a`, crème `#ecddb8`, teal `#8fa595`, oker `#c4874b`.
+  - Waarom niet de GIF: ruim uitgesneden is het beeld te donker (espresso); dicht op het blad is het blad de eerste ~10 van de 23,8 s leeg, omdat de GIF eerst de code op het scherm toont.
 
 ### blocks.system (2026-10-29)
 
