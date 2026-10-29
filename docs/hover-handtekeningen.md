@@ -80,10 +80,8 @@ Elk vak toont een kleine versie van de hero van die library, in de kleuren van d
 
 ### p5.gysin (2026-10-29)
 
-- De gysin-hero is zelf een stilstaande tekening (`noLoop`). Het vak toont een vierkante uitsnede van die echte hero, op wit: het permutatieblok "RUB OUT THE WORD", het raster en het letterveld.
-- Gemaakt met de echte p5.gysin (seed 12071960, hero op 1440×900, uitsnede x 780 · y 60 · 480×480, verkleind tot 300×300). Bestand: `img/vak/p5gysin.webp` (23 kB).
-- Waarom een beeld en geen live tekening: p5.gysin vraagt p5 en drie libraries; een SVG-export van de hero is 950 kB.
-- Afbeeldingen staan niet in git (`.gitignore`): `img/vak/` moet via SFTP naar de server. Ontbreekt het bestand, dan blijft het vak gewoon wit.
+- Het vak toont een foto van een echt geplot blad uit de p5.gysin-repo: "I LOVE YOU", versleten en gepermuteerd, in pen op papier (`https://seb-prjcts-be.github.io/p5.gysin/docs/assets/plotted-sheet-love-you.jpg`, 720×960, 50 kB). Vierkant uitgesneden: x 0, y 240, 720×720. Laadt pas bij hover; niets te uploaden.
+- Eerst geprobeerd: een gerenderde uitsnede van de gysin-hero als `img/vak/p5gysin.webp`. Vervangen, omdat de foto het echte werk toont en al online staat (geen SFTP nodig).
 
 ### Penplotters (2026-10-29)
 

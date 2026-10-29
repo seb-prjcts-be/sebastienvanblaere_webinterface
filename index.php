@@ -829,17 +829,15 @@ $json_ld = [
             };
         }
 
-        // A still crop of a hero that is itself a still drawing. p5.gysin would need p5
-        // and three libraries on the page, so the crop is rendered once as an image.
-        // Images are not in git here: upload img/vak/ by SFTP.
-        function picture(src) {
+        // A still photo, cropped to a square: x, y and side in the photo's own pixels.
+        function picture(src, x, y, side) {
             var img = null;
             return function () {
                 if (!img) {
                     img = new Image();
                     img.src = src;
                 }
-                if (img.complete && img.naturalWidth) ctx.drawImage(img, 0, 0, size, size);
+                if (img.complete && img.naturalWidth) ctx.drawImage(img, x, y, side, side, 0, 0, size, size);
             };
         }
 
@@ -1047,7 +1045,8 @@ $json_ld = [
             vanillawaves: coffee(),
             waves_lab: binaryField(),
             waves_snippets: connector(),
-            gysin: picture('img/vak/p5gysin.webp'),
+            // A real plotted sheet, "I LOVE YOU" worn and permuted, from the p5.gysin site.
+            gysin: picture('https://seb-prjcts-be.github.io/p5.gysin/docs/assets/plotted-sheet-love-you.jpg', 0, 240, 720),
             'blocks.system': blocks(),
             vanillapenplotter: vanillaPlot(),
             checkboxdance: checkboxdance(),

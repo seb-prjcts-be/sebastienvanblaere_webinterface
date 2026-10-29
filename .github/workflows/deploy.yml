@@ -20,6 +20,7 @@ jobs:
           password: ${{ secrets.SFTP_PASS }}
           port: 22
           local_path: './*'
-          remote_path: './'
+          # The public site is served from webroots/www, not from the SFTP home (see docs/deploy.md).
+          remote_path: './webroots/www/'
           delete_remote_files: false
           sftpArgs: '-o ConnectTimeout=10 -o StrictHostKeyChecking=no'
