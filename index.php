@@ -523,12 +523,9 @@ $json_ld = [
             height: 100%;
             transition: opacity 200ms cubic-bezier(0.16, 1, 0.3, 1);
         }
-        /* A 600 x 400 CGA animation, cropped to the 300 x 300 around the plotter. */
+        /* A 600 x 400 CGA animation; the script sets the crop per GIF. */
         .vak img {
             position: absolute;
-            left: -100%;
-            top: -16.667%;
-            width: 200%;
             height: auto;
             transition: opacity 200ms cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -922,9 +919,18 @@ $json_ld = [
 
         // The penplotters have a CGA animation as their hero. A GIF cannot play on the
         // canvas, so it gets its own image, loaded from the library site on first hover.
+        // x, y and side give the square crop in the 600 x 400 GIF.
         var GIFS = {
-            p5penplotter: 'https://seb-prjcts-be.github.io/p5.penplotter/docs/images/animations/hero.gif',
-            vanillapenplotter: 'https://seb-prjcts-be.github.io/vanilla.penplotter/docs/images/animations/overview.gif?v=restored-20261003'
+            // The plotter on the right, with the pen crossing the sheet.
+            p5penplotter: {
+                src: 'https://seb-prjcts-be.github.io/p5.penplotter/docs/images/animations/hero.gif',
+                x: 300, y: 50, side: 300
+            },
+            // Close on the cream A2 sheet where the spiral is plotted; wider, it reads too dark.
+            vanillapenplotter: {
+                src: 'https://seb-prjcts-be.github.io/vanilla.penplotter/docs/images/animations/overview.gif?v=restored-20261003',
+                x: 392, y: 82, side: 172, pixelated: true
+            }
         };
         var gif = document.createElement('img');
         gif.alt = '';
@@ -1005,9 +1011,15 @@ $json_ld = [
             cancelAnimationFrame(raf);
             active = beelden[link.dataset.vak] ? link.dataset.vak : null;
             // A GIF cannot be paused, so with reduced motion the slot stays empty.
-            var gifSrc = still ? '' : (GIFS[link.dataset.vak] || '');
-            gif.hidden = !gifSrc;
-            if (gifSrc && gif.getAttribute('src') !== gifSrc) gif.src = gifSrc;
+            var crop = still ? null : GIFS[link.dataset.vak];
+            gif.hidden = !crop;
+            if (crop && gif.getAttribute('src') !== crop.src) {
+                gif.src = crop.src;
+                gif.style.width = (600 / crop.side * 100) + '%';
+                gif.style.left = (-crop.x / crop.side * 100) + '%';
+                gif.style.top = (-crop.y / crop.side * 100) + '%';
+                gif.style.imageRendering = crop.pixelated ? 'pixelated' : '';
+            }
             if (!size) fit();
             draw(performance.now());
         }

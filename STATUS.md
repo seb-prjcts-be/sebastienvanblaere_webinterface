@@ -3,7 +3,7 @@
 
 ## Volgende stap
 - Volgend beeld: prjcts.be en kunstmijnoren.be.
-- Nog niet gecommit.
+- Gecommit op branch `homepage-beeldvak` (nog niet gepusht, niet op master).
 
 ## Blokkades
 - `img/vak/p5gysin.webp` staat niet in git (afbeeldingen gaan via SFTP). Upload de map `img/vak/` naar de server, naast `index.php`.
