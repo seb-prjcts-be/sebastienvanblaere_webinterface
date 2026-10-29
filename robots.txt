@@ -5,4 +5,4 @@ Disallow: /_shared/thumb.php
 # AI / LLM Context
 # https://sebastienvanblaere.be/llms.txt
 
-Sitemap: https://sebastienvanblaere.be/sitemap.xml
+Sitemap: https://sebastienvanblaere.be/sitemap.php
