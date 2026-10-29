@@ -101,8 +101,9 @@ foreach ($items as $item) {
     // The Chrome extension closes the services, after the SVG converter.
     if (rtrim((string) ($item['url'] ?? ''), '/') === 'https://prjcts.be/services/svg') {
         $expanded_items[] = [
-            'key' => 'mdblock',
-            'label' => 'MD Block for Google Docs',
+            // Not "MD Block": that reads like one of the blocks projects.
+            'key' => 'mdblocker',
+            'label' => '.md blocker for Google Docs',
             'url' => 'https://seb-prjcts-be.github.io/google_docs_md_filter/',
             'external' => true,
         ];

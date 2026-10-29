@@ -2,7 +2,7 @@
 - Niets dringend. Keuzes in `docs/hover-handtekeningen.md`, deploy in `docs/deploy.md`.
 
 ## Gedaan
-- 2026-10-29: MD Block for Google Docs (`google_docs_md_filter`) onder Services toegevoegd, na SVG_converter; linkt naar de GitHub Pages-site.
+- 2026-10-29: ".md blocker for Google Docs" (`google_docs_md_filter`) onder Services, na SVG_converter; linkt naar de GitHub Pages-site. Niet "MD Block": dat leest als een van de blocks-projecten.
 - 2026-10-29: deploy laat `.md` weg en verwijdert de `.md`-bestanden van de repo uit de webroot (waren publiek leesbaar). Nagekeken: alle 11 geven live 404.
 - 2026-10-29: homepage met beeldvak staat live op sebastienvanblaere.be; prjcts.be en kunstmijnoren.be werken nog.
 - 2026-10-29: deploy uploadde naar `./` in plaats van de webroot `webroots/www`; `remote_path` aangepast.
