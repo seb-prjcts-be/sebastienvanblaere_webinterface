@@ -1,12 +1,9 @@
-## Nu bezig
-- Homepage: beeldvak naast de kaart bij mouseover. Alle kaarten met een vak hebben een beeld. Zie `docs/hover-handtekeningen.md`.
-- Deploy wijst nu naar de echte webroot `webroots/www` (2026-10-29). Zie `docs/deploy.md`.
-
 ## Volgende stap
-- Na de deploy nakijken dat de `.md`-bestanden live 404 geven.
+- Niets dringend. Keuzes in `docs/hover-handtekeningen.md`, deploy in `docs/deploy.md`.
 
 ## Gedaan
-- 2026-10-29: deploy laat `.md` weg en verwijdert de `.md`-bestanden van de repo uit de webroot (waren publiek leesbaar).
+- 2026-10-29: MD Block for Google Docs (`google_docs_md_filter`) onder Services toegevoegd, na SVG_converter; linkt naar de GitHub Pages-site.
+- 2026-10-29: deploy laat `.md` weg en verwijdert de `.md`-bestanden van de repo uit de webroot (waren publiek leesbaar). Nagekeken: alle 11 geven live 404.
 - 2026-10-29: homepage met beeldvak staat live op sebastienvanblaere.be; prjcts.be en kunstmijnoren.be werken nog.
 - 2026-10-29: deploy uploadde naar `./` in plaats van de webroot `webroots/www`; `remote_path` aangepast.
 - 2026-10-29: p5.gysin toont een foto van een echt geplot blad ("I LOVE YOU") van de p5.gysin-site; geen SFTP meer nodig.

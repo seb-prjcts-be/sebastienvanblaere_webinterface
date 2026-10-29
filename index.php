@@ -98,6 +98,15 @@ foreach ($items as $item) {
             ['key' => 'p5penplotter', 'label' => 'p5.penplotter', 'url' => 'https://seb-prjcts-be.github.io/p5.penplotter/', 'external' => true],
         ]];
     }
+    // The Chrome extension closes the services, after the SVG converter.
+    if (rtrim((string) ($item['url'] ?? ''), '/') === 'https://prjcts.be/services/svg') {
+        $expanded_items[] = [
+            'key' => 'mdblock',
+            'label' => 'MD Block for Google Docs',
+            'url' => 'https://seb-prjcts-be.github.io/google_docs_md_filter/',
+            'external' => true,
+        ];
+    }
 }
 $items = $expanded_items;
 
