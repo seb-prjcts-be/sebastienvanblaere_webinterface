@@ -3,9 +3,11 @@
 - Deploy wijst nu naar de echte webroot `webroots/www` (2026-10-29). Zie `docs/deploy.md`.
 
 ## Volgende stap
-- Live homepage controleren na de deploy.
+- Na de deploy nakijken dat de `.md`-bestanden live 404 geven.
 
 ## Gedaan
+- 2026-10-29: deploy laat `.md` weg en verwijdert de `.md`-bestanden van de repo uit de webroot (waren publiek leesbaar).
+- 2026-10-29: homepage met beeldvak staat live op sebastienvanblaere.be; prjcts.be en kunstmijnoren.be werken nog.
 - 2026-10-29: deploy uploadde naar `./` in plaats van de webroot `webroots/www`; `remote_path` aangepast.
 - 2026-10-29: p5.gysin toont een foto van een echt geplot blad ("I LOVE YOU") van de p5.gysin-site; geen SFTP meer nodig.
 - 2026-10-29: prjcts.be en kunstmijnoren.be tonen hun eigen werk: één thumbnail per project, overvloeiend (eerst balletjes geprobeerd, vervangen).

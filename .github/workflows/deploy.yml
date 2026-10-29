@@ -12,6 +12,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      # The repo's notes are internal. The server's .htaccess does not refuse .md,
+      # so they are left out of the upload and removed from the webroot (docs/deploy.md).
+      - name: Leave Markdown notes out of the upload
+        run: |
+          git ls-files '*.md' > "$RUNNER_TEMP/markdown.txt"
+          git ls-files -z '*.md' | xargs -0 rm -f
+
       - name: Deploy via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
@@ -24,3 +31,14 @@ jobs:
           remote_path: './webroots/www/'
           delete_remote_files: false
           sftpArgs: '-o ConnectTimeout=10 -o StrictHostKeyChecking=no'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install paramiko==3.5.1
+      - name: Remove Markdown notes from the webroot
+        run: python .github/scripts/remove_public_markdown.py "$RUNNER_TEMP/markdown.txt"
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_USER: ${{ secrets.SFTP_USER }}
+          SFTP_PASS: ${{ secrets.SFTP_PASS }}
