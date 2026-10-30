@@ -34,3 +34,4 @@ Vastgesteld op 2026-10-29.
 - Het adres uit Search Console: `/services/creative_coding_three.js/handleiding/`. De cursus-root (`/services/creative_coding_three.js/`) is alleen een doorverwijzing (`meta refresh`) naar die handleiding.
 - Opgelost in de bron: `cursus_site_three.js` (commit `1e5f226`) zet in `handleiding/index.html` en `index.html` een canonical naar de handleiding. Live pas na upload via SFTP van die twee bestanden naar `webroots/www/services/creative_coding_three.js/`.
 - De sitemap (`_shared/sitemap.php`) noemt nu de handleiding in plaats van de doorverwijzende root.
+- 2026-10-30: de three.js-cursus is van de homepage, uit de sitemap en uit `llms.txt` gehaald (filter in `index.php` en `_shared/sitemap.php`, want `services/constellation.json` staat niet in deze repo). De cursus zelf blijft online.

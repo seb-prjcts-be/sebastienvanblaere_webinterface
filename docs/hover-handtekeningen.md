@@ -111,6 +111,8 @@ Elk vak toont een kleine versie van de hero van die library, in de kleuren van d
 
 Alle kaarten met een vak hebben nu een beeld.
 
-### Kolom links (2026-10-30)
+### Links of rechts (2026-10-30)
 
-- Op een breed scherm met muis (vanaf 900px, `hover: hover`) staat de kolom met de kaarten links (`margin-left: clamp(2rem, 7vw, 7rem)`), niet in het midden. Zo heeft het beeldvak rechts ervan ruimte. Telefoons en aanraakschermen blijven gecentreerd.
+- De kolom blijft gecentreerd. Het vak kiest de kant per kaart: de linkse helft van een rij met twee kaarten (p5.waves_lab, vanilla.penplotter) toont zijn beeld in de linkermarge, alle andere kaarten in de rechtermarge (`isLeftHalf()` en `.vak.is-left` in `index.php`).
+- Wisselt het vak van kant, dan verschijnt het opnieuw aan de andere kant in plaats van over de lijst te glijden.
+- Eerst verkeerd begrepen als "de hele kolom links"; dat is teruggedraaid.

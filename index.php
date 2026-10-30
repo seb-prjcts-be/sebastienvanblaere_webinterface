@@ -83,6 +83,8 @@ foreach ($items as $item) {
         array_push($expanded_items, ...$wave_libraries);
         continue;
     }
+    // The three.js course is no longer listed (Seb, 2026-10-30); it stays online at its own address.
+    if (str_contains((string) ($item['url'] ?? ''), '/services/creative_coding_three.js')) continue;
     // Update the homepage even when services still supplies the older FIDK entry.
     if (rtrim((string) ($item['url'] ?? ''), '/') === 'https://prjcts.be/services/fidk') {
         $item['label'] = 'Audiovisueel';
@@ -497,11 +499,6 @@ $json_ld = [
     footer a { color: inherit; text-decoration: none; }
     footer a:hover { color: #ff0000; }
     nav { position: relative; }
-    /* On a wide screen with a mouse the column sits on the left, so the image
-       slot beside the cards has room. Phones and touch screens stay centred. */
-    @media (min-width: 900px) and (hover: hover) {
-        body { margin-left: clamp(2rem, 7vw, 7rem); margin-right: 0; }
-    }
     .vak { display: none; }
     /* Only with a pointer that can hover. The script sizes the slot to the free
        margin and leaves it hidden when there is not enough room. */
@@ -519,8 +516,9 @@ $json_ld = [
             overflow: hidden;
             opacity: 0;
             pointer-events: none;
-            /* --vak-y is set by the script; the slot glides between cards. */
-            transform: translate(-8px, var(--vak-y, 0px));
+            /* --vak-y is set by the script; the slot glides between cards.
+               --vak-x is the small step it makes out of the list. */
+            transform: translate(var(--vak-x, -8px), var(--vak-y, 0px));
             transition:
                 opacity 150ms cubic-bezier(0.7, 0, 0.84, 0),
                 transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -531,6 +529,8 @@ $json_ld = [
             transition-duration: 200ms, 300ms;
             transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
         }
+        /* The left half of a pair shows its image in the left margin. */
+        .vak.is-ready.is-left { left: auto; right: calc(100% + 2rem); --vak-x: 8px; }
         .vak.no-slide { transition: none; }
         .vak canvas {
             display: block;
@@ -1108,10 +1108,17 @@ $json_ld = [
         var SIDE_MIN = 72;
         var GAP = 32 + 16;   // the 2rem gap beside the list, plus a little air at the window edge
 
-        // How large the slot can be in the margin right of the list; 0 if it does not fit.
+        // How large the slot can be in the margin beside the list; 0 if it does not fit.
+        // Both margins are equal, since the column is centred.
         function room() {
             var side = Math.min(SIDE_MAX, Math.floor(window.innerWidth - nav.getBoundingClientRect().right - GAP));
             return side >= SIDE_MIN ? side : 0;
+        }
+
+        // The left half of a two-card row gets its image on the left; every other card on the right.
+        function isLeftHalf(card) {
+            var row = card.parentElement;
+            return !!row && row.classList.contains('project-pair') && row.firstElementChild === card;
         }
 
         function show(card, link) {
@@ -1119,6 +1126,15 @@ $json_ld = [
             if (!side) {
                 vak.classList.remove('is-ready');
                 return;
+            }
+            var left = isLeftHalf(card);
+            // Switching margins: appear fresh on the other side instead of gliding across the list.
+            if (vak.classList.contains('is-left') !== left) {
+                vak.classList.add('no-slide');
+                vak.classList.remove('is-on');
+                vak.classList.toggle('is-left', left);
+                void vak.offsetWidth;
+                vak.classList.remove('no-slide');
             }
             vak.classList.add('is-ready');
             if (vak.offsetWidth !== side) {
