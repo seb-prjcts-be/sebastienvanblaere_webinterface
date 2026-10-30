@@ -497,6 +497,11 @@ $json_ld = [
     footer a { color: inherit; text-decoration: none; }
     footer a:hover { color: #ff0000; }
     nav { position: relative; }
+    /* On a wide screen with a mouse the column sits on the left, so the image
+       slot beside the cards has room. Phones and touch screens stay centred. */
+    @media (min-width: 900px) and (hover: hover) {
+        body { margin-left: clamp(2rem, 7vw, 7rem); margin-right: 0; }
+    }
     .vak { display: none; }
     /* Only with a pointer that can hover. The script sizes the slot to the free
        margin and leaves it hidden when there is not enough room. */

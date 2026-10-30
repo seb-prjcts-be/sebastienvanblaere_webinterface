@@ -110,3 +110,7 @@ Elk vak toont een kleine versie van de hero van die library, in de kleuren van d
 - Eerst geprobeerd en vervangen: de vallende decoratie-balletjes van beide sites (rode cirkels, oor-balletjes). Te veel decoratie, te weinig werk.
 
 Alle kaarten met een vak hebben nu een beeld.
+
+### Kolom links (2026-10-30)
+
+- Op een breed scherm met muis (vanaf 900px, `hover: hover`) staat de kolom met de kaarten links (`margin-left: clamp(2rem, 7vw, 7rem)`), niet in het midden. Zo heeft het beeldvak rechts ervan ruimte. Telefoons en aanraakschermen blijven gecentreerd.

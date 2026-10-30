@@ -3,9 +3,11 @@
 - In Search Console bij Sitemaps `https://sebastienvanblaere.be/sitemap.php` indienen.
 
 ## Blokkades
+- three.js: blijft Search Console klagen na de upload, dan mag de link naar de three.js-cursus van de homepage (Seb, 2026-10-30).
 - Upload via SFTP uit `C:\server\htdocs\cursus_site_three.js`: `index.html` en `handleiding/index.html` naar `webroots/www/services/creative_coding_three.js/` (zelfde mappen). Ze bevatten de canonical voor de handleiding. Die cursus heeft geen automatische deploy.
 
 ## Gedaan
+- 2026-10-30: homepage-kolom staat links op brede schermen met muis; telefoon blijft gecentreerd.
 - 2026-10-29: three.js-handleiding krijgt een canonical (repo `cursus_site_three.js`, commit `1e5f226`); sitemap noemt de handleiding i.p.v. de doorverwijzing.
 - 2026-10-29: `robots.txt` verwijst live naar `sitemap.php` (sitemap.xml gaf 404).
 - 2026-10-29: ".md blocker for Google Docs" (`google_docs_md_filter`) onder Services, na SVG_converter; linkt naar de GitHub Pages-site. Niet "MD Block": dat leest als een van de blocks-projecten.
