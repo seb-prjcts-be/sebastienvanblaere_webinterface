@@ -31,6 +31,7 @@ Sebastien Vanblaere (also publishing under **prjcts** and **kunstmijnoren**) cre
 ## Education & Courses
 
 - [Creative Coding — p5.js](https://sebastienvanblaere.be/services/creative_coding_p5.js/): Comprehensive Dutch/English creative coding manual and course using p5.js.
+- [Creative Coding — Three.js](https://sebastienvanblaere.be/services/creative_coding_three.js/): 3D creative coding course and interactive guide for Three.js.
 - [p5.blocks (concept)](https://prjcts.be/services/p5.blocks/): Visual and conceptual block-based thinking for p5.js education.
 - [Audiovisueel](https://sebastienvanblaere.be/services/audiovisueel/): Educational resources for audiovisual arts and photography.
 
