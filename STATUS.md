@@ -2,7 +2,7 @@
 - Optioneel: in Search Console bij Sitemaps `https://sebastienvanblaere.be/sitemap.php` indienen, alleen voor het overzicht. Google vindt de sitemap ook zelf via `robots.txt`, dat de autodeploy live zet.
 
 ## Gedaan
-- 2026-10-30: volle kaarten openen naar beneden met het beeld gecentreerd; halve kaarten houden het vak links of rechts.
+- 2026-10-30: volle kaarten schuiven naar beneden met het beeld erboven, gecentreerd en buiten de rand; halve kaarten houden het vak links of rechts.
 - 2026-10-30: three.js-cursus van de homepage, de sitemap en `llms.txt` gehaald (Seb). De cursus blijft online op zijn eigen adres; de canonical in `cursus_site_three.js` uploaden is niet meer nodig.
 - 2026-10-30: kolom weer gecentreerd; de linkse helft van een kaartenpaar toont zijn beeld links, de rest rechts.
 - 2026-10-29: three.js-handleiding krijgt een canonical (repo `cursus_site_three.js`, commit `1e5f226`); sitemap noemt de handleiding i.p.v. de doorverwijzing.

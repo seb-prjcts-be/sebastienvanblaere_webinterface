@@ -499,7 +499,7 @@ $json_ld = [
     footer a { color: inherit; text-decoration: none; }
     footer a:hover { color: #ff0000; }
     nav { position: relative; }
-    .vak { display: none; }
+    .vak, .vak-drawer { display: none; }
     /* Only with a pointer that can hover. The script sizes the slot to the free
        margin and leaves it hidden when there is not enough room. */
     @media (hover: hover) {
@@ -533,6 +533,8 @@ $json_ld = [
         .vak-drawer {
             display: grid;
             grid-template-rows: 0fr;
+            /* Closed, it must not add a gap of its own between the cards. */
+            margin-bottom: -0.75rem;
             transition: grid-template-rows 300ms cubic-bezier(0.16, 1, 0.3, 1);
         }
         .vak-drawer.is-open { grid-template-rows: 1fr; }
@@ -547,7 +549,7 @@ $json_ld = [
             display: block;
             position: relative;
             flex: none;
-            margin: 0.9rem 0 0.1rem;
+            margin: 0 0 0.75rem;
         }
         .vak.in-drawer {
             background: #ffffff;
@@ -1156,14 +1158,21 @@ $json_ld = [
         var openDrawer = null;
         var openTimer = 0;
 
+        // The drawer sits just above the card, outside its border: the card slides down
+        // and the image appears over it. The drawer counts as part of the card for hover.
         function drawerOf(card) {
-            var drawer = card.querySelector(':scope > .vak-drawer');
-            if (!drawer) {
-                drawer = document.createElement('span');
+            var drawer = card.previousElementSibling;
+            if (!drawer || !drawer.classList.contains('vak-drawer')) {
+                drawer = document.createElement('div');
                 drawer.className = 'vak-drawer';
                 drawer.setAttribute('aria-hidden', 'true');
-                drawer.appendChild(document.createElement('span')).className = 'vak-drawer-inner';
-                card.appendChild(drawer);
+                drawer.appendChild(document.createElement('div')).className = 'vak-drawer-inner';
+                card.parentNode.insertBefore(drawer, card);
+                drawer.addEventListener('mouseenter', function () {
+                    clearTimeout(hideTimer);
+                    clearTimeout(openTimer);
+                });
+                drawer.addEventListener('mouseleave', hide);
             }
             return drawer;
         }
