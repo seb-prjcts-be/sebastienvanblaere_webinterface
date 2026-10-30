@@ -85,12 +85,6 @@
     },
     {
       "type": "link",
-      "label": "Creative Coding - three",
-      "url": "https://sebastienvanblaere.be/services/creative_coding_three.js/",
-      "localPath": "/sebastienvanblaere.be/services/creative_coding_three.js/"
-    },
-    {
-      "type": "link",
       "label": "p5.blocks (concept)",
       "url": "https://prjcts.be/services/p5.blocks/",
       "localPath": "/sebastienvanblaere.be/services/p5.blocks/"

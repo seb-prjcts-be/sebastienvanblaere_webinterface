@@ -1,12 +1,8 @@
 ## Volgende stap
-- In Search Console bij "Dubbele pagina zonder ... canonieke versie" op "Oplossing valideren" klikken, na de upload hieronder.
 - In Search Console bij Sitemaps `https://sebastienvanblaere.be/sitemap.php` indienen.
 
-## Blokkades
-- three.js: blijft Search Console klagen na de upload, dan mag de link naar de three.js-cursus van de homepage (Seb, 2026-10-30).
-- Upload via SFTP uit `C:\server\htdocs\cursus_site_three.js`: `index.html` en `handleiding/index.html` naar `webroots/www/services/creative_coding_three.js/` (zelfde mappen). Ze bevatten de canonical voor de handleiding. Die cursus heeft geen automatische deploy.
-
 ## Gedaan
+- 2026-10-30: three.js-cursus van de homepage, de sitemap en `llms.txt` gehaald (Seb). De cursus blijft online op zijn eigen adres; de canonical in `cursus_site_three.js` uploaden is niet meer nodig.
 - 2026-10-30: homepage-kolom staat links op brede schermen met muis; telefoon blijft gecentreerd.
 - 2026-10-29: three.js-handleiding krijgt een canonical (repo `cursus_site_three.js`, commit `1e5f226`); sitemap noemt de handleiding i.p.v. de doorverwijzing.
 - 2026-10-29: `robots.txt` verwijst live naar `sitemap.php` (sitemap.xml gaf 404).

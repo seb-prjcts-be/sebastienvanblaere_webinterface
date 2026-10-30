@@ -155,10 +155,8 @@ foreach ($items as $item) {
     if (rtrim($u, '/') === 'https://prjcts.be/services/fidk') {
         $u = 'https://sebastienvanblaere.be/services/audiovisueel/';
     }
-    // De three.js-cursus stuurt alleen door naar zijn handleiding; neem de handleiding zelf op.
-    if (rtrim($u, '/') === $hub_base . '/services/creative_coding_three.js') {
-        $u = $hub_base . '/services/creative_coding_three.js/handleiding/';
-    }
+    // De three.js-cursus staat niet meer op de homepage (Seb, 2026-10-30), dus ook niet in de sitemap.
+    if (str_contains($u, '/services/creative_coding_three.js')) continue;
     // Neem alleen URLs op het hub-domein zelf op in deze hub-sitemap (exclusief apps).
     if (str_starts_with($u, $hub_base . '/') && !str_contains($u, '/apps/') && !isset($seen[$u])) {
         $seen[$u] = true;

@@ -83,6 +83,8 @@ foreach ($items as $item) {
         array_push($expanded_items, ...$wave_libraries);
         continue;
     }
+    // The three.js course is no longer listed (Seb, 2026-10-30); it stays online at its own address.
+    if (str_contains((string) ($item['url'] ?? ''), '/services/creative_coding_three.js')) continue;
     // Update the homepage even when services still supplies the older FIDK entry.
     if (rtrim((string) ($item['url'] ?? ''), '/') === 'https://prjcts.be/services/fidk') {
         $item['label'] = 'Audiovisueel';
