@@ -529,6 +529,31 @@ $json_ld = [
             transition-duration: 200ms, 300ms;
             transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
         }
+        /* Full-width cards: a drawer under the title slides open, with the image centred. */
+        .vak-drawer {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 300ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .vak-drawer.is-open { grid-template-rows: 1fr; }
+        .vak-drawer-inner {
+            display: flex;
+            justify-content: center;
+            min-height: 0;
+            overflow: hidden;
+        }
+        .vak.in-drawer,
+        .vak-ghost {
+            display: block;
+            position: relative;
+            flex: none;
+            margin: 0.9rem 0 0.1rem;
+        }
+        .vak.in-drawer {
+            background: #ffffff;
+            border: 1px solid #080808;
+            overflow: hidden;
+        }
         /* The left half of a pair shows its image in the left margin. */
         .vak.is-ready.is-left { left: auto; right: calc(100% + 2rem); --vak-x: 8px; }
         .vak.no-slide { transition: none; }
@@ -1115,13 +1140,87 @@ $json_ld = [
             return side >= SIDE_MIN ? side : 0;
         }
 
-        // The left half of a two-card row gets its image on the left; every other card on the right.
-        function isLeftHalf(card) {
+        // The half cards of a two-card row show the slot in the margin: the left half on the
+        // left, the right half on the right. Full-width cards open downward instead and show
+        // the image centred inside the card (a drawer).
+        function isHalf(card) {
             var row = card.parentElement;
-            return !!row && row.classList.contains('project-pair') && row.firstElementChild === card;
+            return !!row && row.classList.contains('project-pair');
+        }
+        function isLeftHalf(card) {
+            return isHalf(card) && card.parentElement.firstElementChild === card;
+        }
+
+        var DRAWER_SIDE = 150;
+        var OPEN_DELAY = 180;   // rest on a card this long before it opens, so passing over does not
+        var openDrawer = null;
+        var openTimer = 0;
+
+        function drawerOf(card) {
+            var drawer = card.querySelector(':scope > .vak-drawer');
+            if (!drawer) {
+                drawer = document.createElement('span');
+                drawer.className = 'vak-drawer';
+                drawer.setAttribute('aria-hidden', 'true');
+                drawer.appendChild(document.createElement('span')).className = 'vak-drawer-inner';
+                card.appendChild(drawer);
+            }
+            return drawer;
+        }
+        function closeDrawer() {
+            if (!openDrawer) return;
+            openDrawer.classList.remove('is-open');
+            openDrawer = null;
+        }
+        // Before the slot leaves a drawer, leave an empty stand-in of the same size behind,
+        // so that drawer can still slide shut instead of snapping closed.
+        function leaveDrawer() {
+            var inner = vak.parentElement;
+            if (!inner || !inner.classList.contains('vak-drawer-inner')) return;
+            var ghost = document.createElement('span');
+            ghost.className = 'vak-ghost';
+            ghost.style.width = vak.offsetWidth + 'px';
+            ghost.style.height = vak.offsetHeight + 'px';
+            inner.appendChild(ghost);
+            setTimeout(function () { ghost.remove(); }, 400);
+        }
+        function setSide(side) {
+            if (vak.offsetWidth !== side) {
+                vak.style.width = side + 'px';
+                vak.style.height = side + 'px';
+                size = 0;
+            }
+        }
+
+        function showInDrawer(card, link) {
+            var drawer = drawerOf(card);
+            if (drawer !== openDrawer) {
+                closeDrawer();
+                if (vak.parentElement !== drawer.firstChild) leaveDrawer();
+                vak.classList.remove('is-ready', 'is-on', 'is-left');
+                vak.classList.add('in-drawer');
+                drawer.firstChild.querySelectorAll('.vak-ghost').forEach(function (g) { g.remove(); });
+                drawer.firstChild.appendChild(vak);
+                drawer.classList.add('is-open');
+                openDrawer = drawer;
+            }
+            setSide(DRAWER_SIDE);
+            paint(link);
         }
 
         function show(card, link) {
+            clearTimeout(hideTimer);
+            clearTimeout(openTimer);
+            if (!isHalf(card)) {
+                openTimer = setTimeout(function () { showInDrawer(card, link); }, OPEN_DELAY);
+                return;
+            }
+            closeDrawer();
+            if (vak.classList.contains('in-drawer')) {
+                leaveDrawer();
+                vak.classList.remove('in-drawer', 'is-on');
+                nav.appendChild(vak);
+            }
             var side = room();
             if (!side) {
                 vak.classList.remove('is-ready');
@@ -1137,15 +1236,10 @@ $json_ld = [
                 vak.classList.remove('no-slide');
             }
             vak.classList.add('is-ready');
-            if (vak.offsetWidth !== side) {
-                vak.style.width = side + 'px';
-                vak.style.height = side + 'px';
-                size = 0;
-            }
+            setSide(side);
             var top = card.getBoundingClientRect().top - nav.getBoundingClientRect().top;
             var y = Math.max(0, top + card.offsetHeight / 2 - side / 2) + 'px';
             var visible = vak.classList.contains('is-on');
-            clearTimeout(hideTimer);
 
             if (visible) {
                 // Already open: glide to the new card, and fade the new image in.
@@ -1163,8 +1257,12 @@ $json_ld = [
                 vak.classList.remove('no-slide');
                 vak.classList.add('is-on');
             }
-            vak.dataset.vak = link.dataset.vak;
+            paint(link);
+        }
 
+        // Start this card's image in the slot, wherever the slot is.
+        function paint(link) {
+            vak.dataset.vak = link.dataset.vak;
             cancelAnimationFrame(raf);
             active = beelden[link.dataset.vak] ? link.dataset.vak : null;
             // A GIF cannot be paused, so with reduced motion the slot stays empty.
@@ -1184,8 +1282,10 @@ $json_ld = [
         var hideTimer = 0;
         function hide() {
             clearTimeout(hideTimer);
+            clearTimeout(openTimer);
             hideTimer = setTimeout(function () {
                 vak.classList.remove('is-on');
+                closeDrawer();
                 cancelAnimationFrame(raf);
             }, 150);
         }

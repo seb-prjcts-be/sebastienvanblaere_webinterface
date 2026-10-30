@@ -116,3 +116,7 @@ Alle kaarten met een vak hebben nu een beeld.
 - De kolom blijft gecentreerd. Het vak kiest de kant per kaart: de linkse helft van een rij met twee kaarten (p5.waves_lab, vanilla.penplotter) toont zijn beeld in de linkermarge, alle andere kaarten in de rechtermarge (`isLeftHalf()` en `.vak.is-left` in `index.php`).
 - Wisselt het vak van kant, dan verschijnt het opnieuw aan de andere kant in plaats van over de lijst te glijden.
 - Eerst verkeerd begrepen als "de hele kolom links"; dat is teruggedraaid.
+- Kaarten over de volle breedte (2026-10-30): die schuiven bij hover naar beneden open, met het beeld gecentreerd in de kaart (een lade, `.vak-drawer`). Alleen de halve kaarten van een paar houden het vak in de marge. Het is één en hetzelfde vak dat van plaats wisselt.
+  - Een kaart opent pas na 180 ms stilstaan (`OPEN_DELAY`), zodat de lijst niet open en dicht springt als je er alleen overheen beweegt.
+  - Dichtschuiven: verhuist het vak naar een andere kaart, dan blijft er even een lege plaatshouder (`.vak-ghost`) achter, zodat de lade glijdend sluit in plaats van dicht te klappen.
+  - De lade heeft geen marge naast de lijst nodig: volle kaarten tonen hun beeld ook in een smal venster, zolang er een muis is.
