@@ -500,7 +500,10 @@ $json_ld = [
     nav a, .app-summary {
         color: #080808;
         text-decoration: none;
-        font-size: 1rem;
+        font-family: 'Oswald', sans-serif;
+        font-weight: 300;
+        font-size: 1.05rem;
+        letter-spacing: 0.02em;
         padding: 1rem 1.1rem;
         border: 1px solid #d0d0d0;
         background: #fdfcf9;
@@ -517,8 +520,8 @@ $json_ld = [
     /* Each half card has a column of its own, so a drawer can open above one half
        while the other half stays where it is. */
     .pair-cell { display: flex; flex-direction: column; gap: 0.75rem; min-width: 0; }
-    .project-pair a { font-size: 0.85rem; padding: 0.8rem 0.5rem; overflow-wrap: anywhere; }
-    .app-description { display: block; margin-top: 0.35rem; font-size: 0.75rem; color: #505050; }
+    .project-pair a { font-size: 0.95rem; padding: 0.8rem 0.5rem; overflow-wrap: anywhere; }
+    .app-description { display: block; margin-top: 0.35rem; font-family: 'IBM Plex Mono', 'Courier New', monospace; font-weight: 300; font-size: 0.75rem; letter-spacing: 0; color: #505050; }
     .listed-project {
         border: 1px solid #d0d0d0;
         background: #fdfcf9;
@@ -527,7 +530,7 @@ $json_ld = [
     }
     .listed-project > a { display: block; border: 0; background: transparent; }
     .listed-project > .project-link { padding-bottom: 0.25rem; }
-    .listed-project > .listing-link { padding: 0.25rem 1rem 0.85rem; font-size: 0.65rem; color: #080808; }
+    .listed-project > .listing-link { padding: 0.25rem 1rem 0.85rem; font-family: 'IBM Plex Mono', 'Courier New', monospace; font-weight: 300; font-size: 0.65rem; letter-spacing: 0; color: #080808; }
     .listed-project > .listing-link:hover { color: #ff0000; text-decoration: underline; }
     .listed-project:hover, .listed-project:focus-within, .listed-project.is-playing {
         border-color: #ff0000;
