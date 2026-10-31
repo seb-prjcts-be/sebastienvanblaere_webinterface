@@ -6,8 +6,8 @@ Tagline: "Neurodiverse lover of coffee, art and philosophy. Preferably in that o
 
 ## Art
 
-- [prjcts.be](https://prjcts.be/): The work: abouts, projects, archive. Code, procedure, entropy. Dutch, English and French.
-- [kunstmijnoren.be](https://kunstmijnoren.be/): The alter ego: a folio collection of scratches, drawings, photos and scans, with the philosophy to go with it. Dutch.
+- [prjcts.be](https://prjcts.be/): A collection of seemingly useless fragments of imagery and small procedural animations. Gentle on the brain and with love for code. Dutch, English and French.
+- [kunstmijnoren.be](https://kunstmijnoren.be/): A folio collection of scratches, drawings, photos and scans, with the philosophy to go with it. Dutch.
 
 ## Libraries
 
