@@ -4,7 +4,7 @@ declare(strict_types=1);
 return [
     'shared_url' => '/_shared',
     'hub_root'   => 'sebastienvanblaere.be',  // folder-naam voor de hub-DocumentRoot
-    'teller'     => '',  // GoatCounter-sitecode (het deel vóór .goatcounter.com); leeg = geen teller
+    'teller'     => 'prjcts',  // GoatCounter-sitecode (het deel vóór .goatcounter.com); leeg = geen teller
 
     // Persoon-hub: linktree-pagina (sebastienvanblaere.be) — niet een satelliet.
     // Wordt gebruikt voor SEO + Open Graph + JSON-LD Knowledge Graph + page-tagline.

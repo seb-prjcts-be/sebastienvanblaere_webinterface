@@ -1,8 +1,9 @@
 ## Volgende stap
-- Bezoekersteller: GoatCounter-account aanmaken op goatcounter.com en de sitecode invullen in `_shared/config.php` onder `teller`. Tot dan laadt niets.
+- Bezoekersteller: na een week kijken op prjcts.goatcounter.com; eigen bezoeken uitsluiten via `#toggle-goatcounter`.
 - Optioneel: in Search Console bij Sitemaps `https://sebastienvanblaere.be/sitemap.php` indienen, alleen voor het overzicht. Google vindt de sitemap ook zelf via `robots.txt`, dat de autodeploy live zet.
 
 ## Gedaan
+- 2026-10-31: bezoekersteller aan: sitecode `prjcts` ingevuld; dashboard op prjcts.goatcounter.com.
 - 2026-10-31: bezoekersteller voorbereid: `_shared/partials/teller.php` (GoatCounter, cookieloos) wordt geladen in `header.php` (satellieten) en `index.php` (hub); sitecode in `config.php` → `teller`, leeg = uit. Aanleiding: nul meting op alle sites; CDN-cijfers tonen wel gebruik van p5.waves (zie dashboard).
 - 2026-10-31: de kaart blijft rood geselecteerd zolang haar lade open is.
 - 2026-10-31: processing.waves toont de "Not So Random Walker" van p5.waves, grof gepixeld (verschilde te weinig van p5.waves).
