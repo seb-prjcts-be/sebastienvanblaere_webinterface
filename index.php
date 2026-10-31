@@ -982,50 +982,103 @@ $json_ld = [
             };
         }
 
-        // blocks.system: windows with a black bar that snap to a 3 x 3 grid and move on
-        // every two seconds: add, span, place. Colours from blocks.system.css.
+        // blocks.system: the home board of its site. A 6 x 4 grid, three windows with a
+        // black bar: the title, the tree, "object.". They start as on that page, then
+        // move every three seconds (add, span, place) and come back. Colours from its CSS.
         var BLOCK_LAYOUTS = [
-            [[0, 0, 2, 1], [2, 0, 1, 1], [1, 2, 2, 1]],
-            [[0, 1, 2, 1], [2, 0, 1, 2], [0, 2, 1, 1]],
-            [[1, 0, 2, 1], [0, 0, 1, 2], [1, 2, 2, 1]],
-            [[0, 2, 3, 1], [1, 0, 1, 1], [2, 0, 1, 2]]
+            [[1, 1, 3, 2], [4, 1, 1, 2], [3, 3, 2, 1]],
+            [[0, 0, 3, 2], [5, 0, 1, 3], [1, 2, 2, 1]],
+            [[2, 2, 3, 2], [0, 0, 1, 3], [3, 0, 2, 1]],
+            [[0, 1, 2, 2], [2, 0, 1, 4], [3, 3, 3, 1]]
         ];
-        var BLOCK_FILLS = ['#efeee8', '#bdbcb6', '#efeee8'];
+        var BLOCK_TREE = 'assets/blocks_tree.jpg';
         function blocks() {
+            // Fetched with the page, so the tree is there on the first frame.
+            var tree = new Image();
+            tree.src = BLOCK_TREE;
+            function window_(x, y, wd, ht, bar) {
+                ctx.fillStyle = '#efeee8';
+                ctx.fillRect(x, y, wd, ht);
+                ctx.fillStyle = '#111';
+                ctx.fillRect(x, y, wd, bar);
+                ctx.strokeStyle = '#111';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(x + 0.5, y + 0.5, wd - 1, ht - 1);
+                // The close box at the right of the bar.
+                var b = Math.max(2, bar - 4);
+                var bx = x + wd - b - 2, by = y + 2;
+                ctx.fillStyle = '#efeee8';
+                ctx.fillRect(bx, by, b, b);
+                if (b >= 6) {
+                    ctx.strokeStyle = '#111';
+                    ctx.beginPath();
+                    ctx.moveTo(bx + 2, by + 2); ctx.lineTo(bx + b - 2, by + b - 2);
+                    ctx.moveTo(bx + b - 2, by + 2); ctx.lineTo(bx + 2, by + b - 2);
+                    ctx.stroke();
+                }
+            }
             return function (t) {
-                var cw = size / 3, ch = high / 3;
-                var hold = 2;
+                var cw = size / 6, ch = high / 4;
+                var hold = 3;
                 var step = Math.floor(t / hold);
                 var from = BLOCK_LAYOUTS[step % BLOCK_LAYOUTS.length];
                 var to = BLOCK_LAYOUTS[(step + 1) % BLOCK_LAYOUTS.length];
-                // Rest for most of the step, then move in the last 0.6 s, easing out.
-                var m = Math.max(0, Math.min(1, (t - step * hold - (hold - 0.6)) / 0.6));
+                var m = Math.max(0, Math.min(1, (t - step * hold - (hold - 0.7)) / 0.7));
                 m = 1 - Math.pow(1 - m, 3);
 
-                ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+                ctx.fillStyle = '#e4e3dd';
+                ctx.fillRect(0, 0, size, high);
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
                 ctx.lineWidth = 1;
                 ctx.beginPath();
-                for (var i = 1; i < 3; i++) {
-                    ctx.moveTo(i * cw, 0);
-                    ctx.lineTo(i * cw, high);
-                    ctx.moveTo(0, i * ch);
-                    ctx.lineTo(size, i * ch);
-                }
+                for (var i = 1; i < 6; i++) { ctx.moveTo(i * cw + 0.5, 0); ctx.lineTo(i * cw + 0.5, high); }
+                for (i = 1; i < 4; i++) { ctx.moveTo(0, i * ch + 0.5); ctx.lineTo(size, i * ch + 0.5); }
                 ctx.stroke();
 
-                var bar = Math.max(3, Math.round(ch * 0.12));
+                var bar = Math.max(4, Math.round(ch * 0.14));
+                var pad = Math.max(1, Math.round(cw * 0.04));
                 from.forEach(function (a, w) {
                     var b = to[w];
-                    var x = (a[0] + (b[0] - a[0]) * m) * cw + 2;
-                    var y = (a[1] + (b[1] - a[1]) * m) * ch + 2;
-                    var wd = (a[2] + (b[2] - a[2]) * m) * cw - 4;
-                    var ht = (a[3] + (b[3] - a[3]) * m) * ch - 4;
-                    ctx.fillStyle = BLOCK_FILLS[w];
-                    ctx.fillRect(x, y, wd, ht);
-                    ctx.fillStyle = '#111';
-                    ctx.fillRect(x, y, wd, bar);
-                    ctx.strokeStyle = '#111';
-                    ctx.strokeRect(x + 0.5, y + 0.5, wd - 1, ht - 1);
+                    var x = (a[0] + (b[0] - a[0]) * m) * cw + pad;
+                    var y = (a[1] + (b[1] - a[1]) * m) * ch + pad;
+                    var wd = (a[2] + (b[2] - a[2]) * m) * cw - pad * 2;
+                    var ht = (a[3] + (b[3] - a[3]) * m) * ch - pad * 2;
+                    window_(x, y, wd, ht, bar);
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.rect(x + 1, y + bar, wd - 2, ht - bar - 1);
+                    ctx.clip();
+                    var ix = x + 1, iy = y + bar, iw = wd - 2, ih = ht - bar - 1;
+                    if (w === 0) {
+                        // "blocks." over "system.", as large as the window allows.
+                        var fs = Math.min(ih * 0.42, iw / 4.2);
+                        ctx.fillStyle = '#111';
+                        ctx.font = '700 ' + fs + 'px Inter, "Helvetica Neue", Arial, sans-serif';
+                        ctx.textBaseline = 'alphabetic';
+                        ctx.fillText('blocks.', ix + fs * 0.12, iy + ih / 2 - fs * 0.05);
+                        ctx.fillText('system.', ix + fs * 0.12, iy + ih / 2 + fs * 0.85);
+                    } else if (w === 1) {
+                        if (tree.complete && tree.naturalWidth) {
+                            var tw = tree.naturalWidth, th = tree.naturalHeight;
+                            var sc = Math.max(iw / tw, ih / th);
+                            var sw = iw / sc, sh = ih / sc;
+                            ctx.drawImage(tree, (tw - sw) / 2, Math.min(th - sh, th * 0.6 - sh / 2), sw, sh, ix, iy, iw, ih);
+                        }
+                    } else {
+                        var small = Math.max(3, Math.min(ih * 0.14, iw / 40));
+                        ctx.fillStyle = '#111';
+                        ctx.font = '400 ' + small + 'px "IBM Plex Mono", monospace';
+                        ctx.textBaseline = 'top';
+                        ctx.fillText('YOUR CONTENT BECOMES AN', ix + small, iy + small);
+                        ctx.textAlign = 'right';
+                        ctx.fillText('add · span · place', ix + iw - small, iy + small);
+                        ctx.textAlign = 'left';
+                        var big = Math.min(ih * 0.5, iw / 5);
+                        ctx.font = '700 ' + big + 'px Inter, "Helvetica Neue", Arial, sans-serif';
+                        ctx.textBaseline = 'alphabetic';
+                        ctx.fillText('object.', ix + small, iy + ih - big * 0.25);
+                    }
+                    ctx.restore();
                 });
             };
         }
