@@ -554,6 +554,9 @@ $json_ld = [
         * { transition: none !important; }
     }
 </style>
+<?php if (!empty($config['teller'])): ?>
+<script data-goatcounter="https://<?= $esc((string) $config['teller']) ?>.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<?php endif; ?>
 </head>
 <body>
     <header>

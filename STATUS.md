@@ -1,7 +1,9 @@
 ## Volgende stap
+- Bezoekersteller: GoatCounter-account aanmaken op goatcounter.com en de sitecode invullen in `_shared/config.php` onder `teller`. Tot dan laadt niets.
 - Optioneel: in Search Console bij Sitemaps `https://sebastienvanblaere.be/sitemap.php` indienen, alleen voor het overzicht. Google vindt de sitemap ook zelf via `robots.txt`, dat de autodeploy live zet.
 
 ## Gedaan
+- 2026-10-31: bezoekersteller voorbereid: `_shared/partials/teller.php` (GoatCounter, cookieloos) wordt geladen in `header.php` (satellieten) en `index.php` (hub); sitecode in `config.php` → `teller`, leeg = uit. Aanleiding: nul meting op alle sites; CDN-cijfers tonen wel gebruik van p5.waves (zie dashboard).
 - 2026-10-31: de kaart blijft rood geselecteerd zolang haar lade open is.
 - 2026-10-31: processing.waves toont de "Not So Random Walker" van p5.waves, grof gepixeld (verschilde te weinig van p5.waves).
 - 2026-10-31: .md blocker for Google Docs krijgt een lade met zijn eerste CGA-GIF (`overview.gif`).

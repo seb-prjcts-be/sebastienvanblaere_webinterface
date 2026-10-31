@@ -219,6 +219,7 @@ if (is_file($site_css_file)):
 <link rel="stylesheet" href="<?= e($site_css_path) ?>">
 <?php endif; ?>
 <style>:root { <?= $style_vars ?> }</style>
+<?php include __DIR__ . '/teller.php'; ?>
 </head>
 <body data-register="<?= e($cfg['register']) ?>" data-satellite="<?= e($cfg['key']) ?>">
 
