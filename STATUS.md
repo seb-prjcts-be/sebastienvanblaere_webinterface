@@ -2,6 +2,7 @@
 - Optioneel: in Search Console bij Sitemaps `https://sebastienvanblaere.be/sitemap.php` indienen, alleen voor het overzicht. Google vindt de sitemap ook zelf via `robots.txt`, dat de autodeploy live zet.
 
 ## Gedaan
+- 2026-10-31: de kaart blijft rood geselecteerd zolang haar lade open is.
 - 2026-10-31: processing.waves toont de "Not So Random Walker" van p5.waves, grof gepixeld (verschilde te weinig van p5.waves).
 - 2026-10-31: .md blocker for Google Docs krijgt een lade met zijn eerste CGA-GIF (`overview.gif`).
 - 2026-10-31: elke kaart opent een lade boven zich, even breed als de kaart, 3:2, trager (700 ms); bij een halve kaart blijft de buur staan; penplotters tonen hun volledige eerste CGA-GIF. Vakjes opzij vervallen.

@@ -464,7 +464,8 @@ $json_ld = [
         text-align: center;
         transition: border-color 0.15s, color 0.15s, background 0.15s;
     }
-    nav a:hover {
+    /* .is-playing: the card stays selected while its drawer shows the animation. */
+    nav a:hover, nav a.is-playing {
         color: #ff0000;
         border-color: #ff0000;
         background: #ffffff;
@@ -485,11 +486,11 @@ $json_ld = [
     .listed-project > .project-link { padding-bottom: 0.25rem; }
     .listed-project > .listing-link { padding: 0.25rem 1rem 0.85rem; font-size: 0.65rem; color: #080808; }
     .listed-project > .listing-link:hover { color: #ff0000; text-decoration: underline; }
-    .listed-project:hover, .listed-project:focus-within {
+    .listed-project:hover, .listed-project:focus-within, .listed-project.is-playing {
         border-color: #ff0000;
         background: #ffffff;
     }
-    .listed-project:hover > a, .listed-project:focus-within > a { color: #ff0000; }
+    .listed-project:hover > a, .listed-project:focus-within > a, .listed-project.is-playing > a { color: #ff0000; }
     a:focus-visible {
         outline: 2px solid #ff0000;
         outline-offset: 3px;
@@ -1172,6 +1173,7 @@ $json_ld = [
         function closeDrawer() {
             if (!openDrawer) return;
             openDrawer.classList.remove('is-open');
+            openDrawer.nextElementSibling.classList.remove('is-playing');
             openDrawer = null;
         }
         // Before the slot leaves a drawer, leave an empty stand-in of the same size behind,
@@ -1204,6 +1206,7 @@ $json_ld = [
                 drawer.firstChild.querySelectorAll('.vak-ghost').forEach(function (g) { g.remove(); });
                 drawer.firstChild.appendChild(vak);
                 drawer.classList.add('is-open');
+                card.classList.add('is-playing');
                 openDrawer = drawer;
             }
             setSize(card.offsetWidth, card.offsetWidth * WIDE);
