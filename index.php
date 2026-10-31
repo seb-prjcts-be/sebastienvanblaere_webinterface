@@ -493,8 +493,7 @@ $json_ld = [
         text-transform: uppercase;
         color: #080808;
         margin-top: 1.6rem;
-        padding-bottom: 0.45rem;
-        border-bottom: 1px solid #080808;
+        padding-bottom: 0.2rem;
         text-align: center;
     }
     nav a, .app-summary {
