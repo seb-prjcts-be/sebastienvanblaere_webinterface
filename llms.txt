@@ -18,7 +18,7 @@ Tagline: "Neurodiverse lover of coffee, art and philosophy. Preferably in that o
 - [vanilla.waves](https://seb-prjcts-be.github.io/vanilla.waves/): The same 35 waves for plain HTML: they drive a bar's height, a colour or a position.
 - [p5.gysin](https://seb-prjcts-be.github.io/p5.gysin/): Worn words, permuted language and plotter-ready SVG and HPGL, after Brion Gysin. Listed in the p5.js libraries directory.
 - [vanilla.penplotter](https://seb-prjcts-be.github.io/vanilla.penplotter/): Paths in millimetres, plotted straight from the browser. No SVG, no Inkscape. Tested on an iDraw HSE / A2.
-- [p5.penplotter](https://seb-prjcts-be.github.io/p5.penplotter/): Write plot.line() instead of line() and the same line goes to the pen. Straight from the sketch, no SVG, no Inkscape.
+- [p5.penplotter](https://seb-prjcts-be.github.io/p5.penplotter/): Try penplotting 2D primitives straight from the p5 editor.
 - [blocks.system](https://seb-prjcts-be.github.io/blocks.system/): A small browser core that gives every part of a page its own address. No dependencies.
 
 All libraries: MIT licence, source on GitHub, loaded with one script tag from jsDelivr.
