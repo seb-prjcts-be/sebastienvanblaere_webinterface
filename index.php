@@ -306,6 +306,9 @@ $push_schema_item = static function (array $entry, string $section) use (&$list_
         'url'    => $u,
         'author' => ['@id' => $prod_canonical . '#person'],
     ];
+    if (!empty($entry['description'])) {
+        $thing['description'] = (string) $entry['description'];
+    }
     if ($entity_type === 'SoftwareSourceCode') {
         $thing['programmingLanguage'] = str_starts_with($lbl, 'processing.') ? 'Processing' : 'JavaScript';
         if (isset($library_listings[$key]['url'])) {

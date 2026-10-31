@@ -3,6 +3,7 @@
 - Optioneel: in Search Console bij Sitemaps `https://sebastienvanblaere.be/sitemap.php` indienen, alleen voor het overzicht. Google vindt de sitemap ook zelf via `robots.txt`, dat de autodeploy live zet.
 
 ## Gedaan
+- 2026-10-31: dezelfde regels in de JSON-LD (`description` per item) en in `llms.txt`, dat herschreven is in seb-lib-voice (geen grootspraak, geen em dashes; de oude tekst beschreef blocks.system en p5.export fout).
 - 2026-10-31: elke kaart op de homepage krijgt één regel uitleg (`$descriptions` in `index.php`, op key of url; ook de halve kaarten). Aanleiding: de home was een inhoudstafel zonder uitleg; het dashboard toont dat p5.waves wel gebruikt wordt maar niemand iets terugzegt.
 - 2026-10-31: bezoekersteller aan: sitecode `prjcts` ingevuld; dashboard op prjcts.goatcounter.com.
 - 2026-10-31: bezoekersteller voorbereid: `_shared/partials/teller.php` (GoatCounter, cookieloos) wordt geladen in `header.php` (satellieten) en `index.php` (hub); sitecode in `config.php` → `teller`, leeg = uit. Aanleiding: nul meting op alle sites; CDN-cijfers tonen wel gebruik van p5.waves (zie dashboard).
