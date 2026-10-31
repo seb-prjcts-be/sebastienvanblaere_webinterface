@@ -963,6 +963,84 @@ $json_ld = [
             };
         }
 
+        // p5.gysin: the hero of its site. Paper, a pencil grid, and "RUB OUT THE WORD"
+        // typed line after line in its permutations; older lines climb and are rubbed
+        // out letter by letter. One word in the site's red.
+        var GYSIN_WORDS = ['RUB', 'OUT', 'THE', 'WORD'];
+        function gysinPermutation(n) {
+            var w = GYSIN_WORDS.slice();
+            var out = [];
+            var k = n % 24;
+            for (var f = 4; f > 0; f--) {
+                var i = k % f;
+                k = Math.floor(k / f);
+                out.push(w.splice(i, 1)[0]);
+            }
+            return out.join(' ');
+        }
+        function gysinNoise(a, b) {
+            var x = Math.sin(a * 127.1 + b * 311.7) * 43758.5453;
+            return x - Math.floor(x);
+        }
+        function gysin() {
+            return function (t) {
+                var lineTime = 1.1;                     // one new line every 1.1 s
+                var typeTime = 0.6;                     // typed within the first 0.6 s
+                var rows = 7;
+                var fs = Math.max(8, Math.min(high / (rows + 2.5), size / 14));
+                var lh = fs * 1.35;
+                var left = size * 0.12;
+                var cur = Math.floor(t / lineTime);
+
+                ctx.fillStyle = '#f4f2ec';
+                ctx.fillRect(0, 0, size, high);
+                ctx.strokeStyle = 'rgba(17, 17, 17, 0.12)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                for (var gx = left - fs; gx < size; gx += fs * 3.6) { ctx.moveTo(Math.round(gx) + 0.5, 0); ctx.lineTo(Math.round(gx) + 0.5, high); }
+                for (var gy = high * 0.1; gy < high; gy += lh * 2) { ctx.moveTo(0, Math.round(gy) + 0.5); ctx.lineTo(size, Math.round(gy) + 0.5); }
+                ctx.stroke();
+
+                ctx.font = '400 ' + fs + 'px "IBM Plex Mono", monospace';
+                ctx.textBaseline = 'alphabetic';
+                var cw = ctx.measureText('M').width;
+                var base = high - lh * 0.9;
+
+                for (var r = 0; r < rows; r++) {
+                    var n = cur - r;
+                    if (n < 0) continue;
+                    var text = gysinPermutation(n);
+                    var age = t - n * lineTime;
+                    var shown = r === 0 ? Math.max(0, Math.min(text.length, Math.floor((age - 0.3) / typeTime * text.length) + 1)) : text.length;
+                    // The last line rises for a moment, then stands; the rest have settled.
+                    var rise = r === 0 ? 0 : Math.min(1, (age - lineTime) / 0.3);
+                    var y = base - r * lh + (r === 0 ? 0 : (1 - rise) * lh);
+                    var wear = Math.max(0, (r - 1) / (rows - 1));      // 0 for the two lowest lines
+                    var redWord = Math.floor(gysinNoise(n, 9) * 4);
+                    var wordIdx = 0;
+                    for (var c = 0; c < shown; c++) {
+                        var ch = text[c];
+                        if (ch === ' ') { wordIdx++; continue; }
+                        var g = gysinNoise(n, c);
+                        if (g < wear * 0.9) continue;                  // rubbed out
+                        var jitter = wear * fs * 0.08;
+                        var dx = (gysinNoise(c, n + 3) - 0.5) * jitter;
+                        var dy = (gysinNoise(c + 7, n) - 0.5) * jitter;
+                        var ink = 1 - wear * 0.75;
+                        ctx.fillStyle = wordIdx === redWord && r < 3 ? 'rgba(179, 34, 20, ' + ink + ')' : 'rgba(17, 17, 17, ' + ink + ')';
+                        ctx.fillText(ch, left + c * cw + dx, y + dy);
+                        if (g > 0.93 && wear > 0.3) {                   // a double strike, as a typewriter does
+                            ctx.fillText(ch, left + c * cw + dx + fs * 0.06, y + dy);
+                        }
+                    }
+                    if (r === 0 && shown < text.length) {              // the cursor
+                        ctx.fillStyle = '#111';
+                        ctx.fillRect(left + shown * cw, y - fs * 0.8, Math.max(1, cw * 0.12), fs);
+                    }
+                }
+            };
+        }
+
         // A still photo, cropped to the slot's shape around a point (cx, cy, as fractions
         // of the photo), as large as the photo allows.
         function picture(src, cx, cy) {
@@ -1201,7 +1279,7 @@ $json_ld = [
             waves_lab: binaryField(),
             waves_snippets: connector(),
             // A real plotted sheet, "I LOVE YOU" worn and permuted, from the p5.gysin site.
-            gysin: picture('https://seb-prjcts-be.github.io/p5.gysin/docs/assets/plotted-sheet-love-you.jpg', 0.5, 0.62),
+            gysin: gysin(),
             'blocks.system': blocks(),
             checkboxdance: checkboxdance(),
             // One image per project, works first, then the archive.
