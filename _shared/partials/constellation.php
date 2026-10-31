@@ -45,7 +45,7 @@ $item_url = function (array $item) use ($config, $mode_now, $pref_qs): string {
     return $url;
 };
 ?>
-<button class="constellation-toggler" aria-label="Sebastien Vanblaere — links" aria-expanded="false" aria-controls="prjcts-constellation">
+<button class="constellation-toggler" aria-label="Sebastien Vanblaere: links" aria-expanded="false" aria-controls="prjcts-constellation">
     <i class="bi bi-arrow-down-left icon-closed" aria-hidden="true"></i>
     <i class="bi bi-arrow-down-right icon-open" aria-hidden="true"></i>
 </button>
