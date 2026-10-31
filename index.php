@@ -1,6 +1,6 @@
 <?php
 /**
- * sebastienvanblaere.be — landing / linktree.
+ * sebastienvanblaere.be : landing / linktree.
  * De zichtbare inhoud komt uit services/constellation.json.
  */
 declare(strict_types=1);
@@ -383,7 +383,7 @@ $json_ld = [
         [
             '@type'           => 'ItemList',
             '@id'             => $prod_canonical . '#projects',
-            'name'            => $page_title . ' — Art, Libraries, Services & Education',
+            'name'            => $page_title . ': Art, Libraries, Services & Education',
             'numberOfItems'   => count($list_elements),
             'itemListElement' => $list_elements,
         ],

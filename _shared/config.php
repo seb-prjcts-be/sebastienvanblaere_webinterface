@@ -15,7 +15,7 @@ return [
         'keywords'    => ['Sebastien Vanblaere', 'prjcts', 'kunstmijnoren', 'digital art', 'digitaal kunstenaar', 'creative coding', 'generative art', 'audiovisual art', 'p5.js', 'Processing', 'Three.js', 'p5.waves', 'p5.gysin', 'pen plotter art', 'kunstonderwijs'],
         'author'      => 'Sebastien Vanblaere',
         'job_title'   => 'Digital Artist, Creative Technologist & Educator',
-        'og_title'    => 'Sebastien Vanblaere — Digital Art, Creative Coding & Libraries',
+        'og_title'    => 'Sebastien Vanblaere: Digital Art, Creative Coding and Libraries',
         'og_image'    => '/assets/og-portrait.jpg',  // relatief; wordt absolute in <meta>
         'same_as'     => [
             'https://prjcts.be/',
