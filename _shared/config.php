@@ -6,7 +6,7 @@ return [
     'hub_root'   => 'sebastienvanblaere.be',  // folder-naam voor de hub-DocumentRoot
     'teller'     => 'prjcts',  // GoatCounter-sitecode (het deel vóór .goatcounter.com); leeg = geen teller
 
-    // Persoon-hub: linktree-pagina (sebastienvanblaere.be) — niet een satelliet.
+    // Persoon-hub: linktree-pagina (sebastienvanblaere.be), niet een satelliet.
     // Wordt gebruikt voor SEO + Open Graph + JSON-LD Knowledge Graph + page-tagline.
     'hub' => [
         'title'       => 'Sebastien Vanblaere',
@@ -46,7 +46,7 @@ return [
             'host'        => 'prjcts.be',
             'title'       => 'prjcts',
             'home_label'  => 'prjcts.be',
-            'description' => 'het werk — abouts, projecten, archief',
+            'description' => 'het werk: abouts, projecten, archief',
             'register'    => 'meta',
             'density'     => 0.3,
             'accent'      => '#ff0000',
@@ -72,7 +72,7 @@ return [
             'host'        => 'kunstmijnoren.be',
             'title'       => 'kunstmijnoren',
             'home_label'  => 'Kunst, mijn oren.',
-            'description' => 'alter ego — foliotheek',
+            'description' => 'alter ego: foliotheek',
             'register'    => 'meta',
             'density'     => 0.3,
             'accent'      => '#ff0000',
@@ -84,7 +84,7 @@ return [
             'og_title'    => '@kunstmijnoren',
             'og_image'    => '/assets/ear.png',  // relatief vanaf site-root → wordt absolute URL
             'fb_app_id'   => '746058895106767',
-            // p5-decoratie — 2 oren in clipped circles, één gespiegeld;
+            // p5-decoratie: 2 oren in clipped circles, één gespiegeld;
             // cursor-bal duwt content maar is onzichtbaar (zoals origineel kunstmijnoren).
             'decoration'  => [
                 'count'         => 2,
@@ -113,7 +113,7 @@ return [
             'register'     => 'technical',
             'density'      => 0.7,
             'accent'       => '#ff0000',
-            // External: geen lokale folder/satelliet — geserveerd via GitHub Pages
+            // External: geen lokale folder/satelliet, geserveerd via GitHub Pages
             'external_url' => 'https://seb-prjcts-be.github.io/p5.waves/',
         ],
         'waves_lab' => [
