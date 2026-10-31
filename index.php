@@ -486,15 +486,15 @@ $json_ld = [
     .socials a:hover { color: #ff0000; }
     nav { display: flex; flex-direction: column; gap: 0.75rem; width: 100%; }
     .nav-header {
-        font-family: 'IBM Plex Mono', 'Courier New', monospace;
-        font-size: 0.7rem;
+        font-family: 'Oswald', sans-serif;
+        font-size: 0.85rem;
         font-weight: 400;
-        letter-spacing: 0.15em;
+        letter-spacing: 0.22em;
         text-transform: uppercase;
-        color: #777;
-        margin-top: 1rem;
-        padding-bottom: 0.4rem;
-        border-bottom: 1px solid #ddd;
+        color: #080808;
+        margin-top: 1.6rem;
+        padding-bottom: 0.45rem;
+        border-bottom: 1px solid #080808;
         text-align: center;
     }
     nav a, .app-summary {

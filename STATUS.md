@@ -3,6 +3,7 @@
 - Optioneel: in Search Console bij Sitemaps `https://sebastienvanblaere.be/sitemap.php` indienen, alleen voor het overzicht. Google vindt de sitemap ook zelf via `robots.txt`, dat de autodeploy live zet.
 
 ## Gedaan
+- 2026-10-31: sectiekoppen (Art, Libraries, ...) in Oswald 400, zwart, met zwarte lijn eronder; waren Plex Mono 11 px in grijs en vielen weg naast de nieuwe titels.
 - 2026-10-31: kaarttitels in Oswald 300 (klein en licht, zoals de naam bovenaan); de regel eronder en de directory-link blijven IBM Plex Mono 300. Geen extra font geladen.
 - 2026-10-31: p5.gysin-lade is geen foto meer maar typografie, naar de hero van zijn site: op licht papier met potloodraster wordt "RUB OUT THE WORD" regel na regel getypt in zijn 24 permutaties; oudere regels schuiven op en worden letter voor letter weggewreven; één woord per regel in het rood van de site.
 - 2026-10-31: blocks.system-lade volgt nu het home board van zijn site: 6×4-raster, drie vensters (titel, de boom, "object."), start in de opstelling van de site en schuift daarna elke 3 s. De boom komt van de blocks.system-site zelf (`docs/img/home_tree_small.jpg`, 400×640, zwart-wit, 37 KB; dezelfde foto als op die site). Niet in deze repo: afbeeldingen staan in `.gitignore`.
