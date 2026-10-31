@@ -991,7 +991,7 @@ $json_ld = [
             [[2, 2, 3, 2], [0, 0, 1, 3], [3, 0, 2, 1]],
             [[0, 1, 2, 2], [2, 0, 1, 4], [3, 3, 3, 1]]
         ];
-        var BLOCK_TREE = 'assets/blocks_tree.jpg';
+        var BLOCK_TREE = 'https://seb-prjcts-be.github.io/blocks.system/docs/img/home_tree_small.jpg';
         function blocks() {
             // Fetched with the page, so the tree is there on the first frame.
             var tree = new Image();

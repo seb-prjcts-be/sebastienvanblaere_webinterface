@@ -3,7 +3,7 @@
 - Optioneel: in Search Console bij Sitemaps `https://sebastienvanblaere.be/sitemap.php` indienen, alleen voor het overzicht. Google vindt de sitemap ook zelf via `robots.txt`, dat de autodeploy live zet.
 
 ## Gedaan
-- 2026-10-31: blocks.system-lade volgt nu het home board van zijn site: 6×4-raster, drie vensters (titel, de boom, "object."), start in de opstelling van de site en schuift daarna elke 3 s. De boom staat als `assets/blocks_tree.jpg` (400×640, zwart-wit, 37 KB; foto Peter Dyllong via Pexels, dezelfde als op de site).
+- 2026-10-31: blocks.system-lade volgt nu het home board van zijn site: 6×4-raster, drie vensters (titel, de boom, "object."), start in de opstelling van de site en schuift daarna elke 3 s. De boom komt van de blocks.system-site zelf (`docs/img/home_tree_small.jpg`, 400×640, zwart-wit, 37 KB; dezelfde foto als op die site). Niet in deze repo: afbeeldingen staan in `.gitignore`.
 - 2026-10-31: dezelfde regels in de JSON-LD (`description` per item) en in `llms.txt`, dat herschreven is in seb-lib-voice (geen grootspraak, geen em dashes; de oude tekst beschreef blocks.system en p5.export fout).
 - 2026-10-31: elke kaart op de homepage krijgt één regel uitleg (`$descriptions` in `index.php`, op key of url; ook de halve kaarten). Aanleiding: de home was een inhoudstafel zonder uitleg; het dashboard toont dat p5.waves wel gebruikt wordt maar niemand iets terugzegt.
 - 2026-10-31: bezoekersteller aan: sitecode `prjcts` ingevuld; dashboard op prjcts.goatcounter.com.
