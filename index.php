@@ -640,7 +640,7 @@ $json_ld = [
             document.head.appendChild(script);
         }
 
-        // The hero of p5.waves and processing.waves: grey silhouettes under five
+        // The hero of p5.waves: grey silhouettes under five
         // coloured ribbons. Same seeds and settings as those pages, scaled to the slot.
         var HERO_BG = [
             { yPct: 0.60, amp: 0.10,  freq: 0.006, phase: 0,   seed: 10, gray: 225, alpha: 18 },
@@ -659,7 +659,6 @@ $json_ld = [
         var HERO_WIDTH = 1440;   // the slot shows the full width of a desktop hero
         var HERO_TOP = 0.4;      // skip the empty band where the hero has its title
         var P5_COLOURS = ['#174cff', '#ff3b2f', '#d7ff22', '#ff4fb3', '#00c7ff'];
-        var LOOM_COLOURS = ['#0647ff', '#ff3d2e', '#c7ff2d', '#8e51ff', '#00bdd6'];
 
         function heroSampler(layer, i) {
             return Waves.createSampler({
@@ -708,6 +707,73 @@ $json_ld = [
                     ctx.fill();
                 });
                 ctx.globalAlpha = 1;
+            };
+        }
+
+        // processing.waves: the "Not So Random Walker" from the p5.waves site. Fifteen walkers
+        // in the p5.waves colours, steered by a cold and a warm pair of samplers, leave block
+        // trails on near-black. Drawn on a coarse 48 x 32 grid and enlarged without smoothing,
+        // so it sits with the CGA animations. Speeds and fades converted from the demo
+        // (30 fps, 8 px cells) to this grid at 60 fps.
+        var WALK_COLOURS = [[23, 76, 255], [255, 59, 47], [215, 255, 34], [255, 79, 179], [0, 199, 255]];
+        var WALK_COLD = [true, false, false, false, true];
+        function cgaWalker() {
+            var COLS = 48, ROWS = 32, PER_COLOUR = 3;
+            var grid = document.createElement('canvas');
+            grid.width = COLS;
+            grid.height = ROWS;
+            var g = grid.getContext('2d');
+            var coldX = null, coldY, warmX, warmY;
+            var wx = [], wy = [];
+            var tt = 0;
+
+            function step() {
+                g.fillStyle = 'rgba(15, 15, 15, 0.02)';
+                g.fillRect(0, 0, COLS, ROWS);
+                tt += 0.0125;
+                for (var i = 0; i < WALK_COLOURS.length * PER_COLOUR; i++) {
+                    var ci = Math.floor(i / PER_COLOUR), vi = i % PER_COLOUR;
+                    var phase = ci * 6.7 + vi * 1.3;
+                    var vx = (WALK_COLD[ci] ? coldX : warmX).sample(tt * 1.8 + phase, tt);
+                    var vy = (WALK_COLD[ci] ? coldY : warmY).sample(tt * 2.1 + phase * 1.3, tt);
+                    var px = wx[i], py = wy[i];
+                    wx[i] = (wx[i] + vx / 20 + COLS) % COLS;
+                    wy[i] = (wy[i] + vy / 20 + ROWS) % ROWS;
+                    if (Math.abs(wx[i] - px) > COLS / 2 || Math.abs(wy[i] - py) > ROWS / 2) continue;
+                    var brush = 1 + Math.round((Math.abs(vx) + Math.abs(vy)) * 0.25);
+                    var c = WALK_COLOURS[ci];
+                    g.fillStyle = 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',0.82)';
+                    g.fillRect(Math.floor(wx[i]), Math.floor(wy[i]), brush, brush);
+                }
+            }
+
+            return function () {
+                if (!coldX) {
+                    if (!window.Waves) return;
+                    function sampler(freq, seed) {
+                        return Waves.createSampler({
+                            shift: true, shiftInterval: 7, shiftDuration: 1.5, group: 'gentle',
+                            amplitude: 5, frequency: freq, seed: seed
+                        });
+                    }
+                    coldX = sampler(0.4, 0);
+                    coldY = sampler(0.3, 77);
+                    warmX = sampler(0.4, 311);
+                    warmY = sampler(0.3, 488);
+                    g.fillStyle = '#0f0f0f';
+                    g.fillRect(0, 0, COLS, ROWS);
+                    for (var i = 0; i < WALK_COLOURS.length * PER_COLOUR; i++) {
+                        var a = Math.PI * 2 * Math.floor(i / PER_COLOUR) / WALK_COLOURS.length + (i % PER_COLOUR - 1) * 0.14;
+                        wx[i] = COLS / 2 + Math.cos(a) * 6;
+                        wy[i] = ROWS / 2 + Math.sin(a) * 6;
+                    }
+                    // Pre-run ten seconds, so the trails are already there when the drawer opens.
+                    for (var f = 0; f < 600; f++) step();
+                }
+                if (!still) step();
+                ctx.imageSmoothingEnabled = false;
+                ctx.drawImage(grid, 0, 0, size, high);
+                ctx.imageSmoothingEnabled = true;
             };
         }
 
@@ -1030,7 +1096,7 @@ $json_ld = [
 
         var beelden = {
             p5waves: ribbons(P5_COLOURS),
-            processingwaves: ribbons(LOOM_COLOURS),
+            processingwaves: cgaWalker(),
             vanillawaves: coffee(),
             waves_lab: binaryField(),
             waves_snippets: connector(),
