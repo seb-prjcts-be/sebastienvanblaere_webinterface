@@ -157,6 +157,46 @@ foreach ($items as $item) {
 }
 $items = $grouped_items;
 
+// One line under each card: what you find there. Keyed by key, or by url for cards without one.
+$descriptions = [
+    'prjcts'            => 'The work: abouts, projects, archive. Code, procedure, entropy.',
+    'kunstmijnoren'     => 'The alter ego: a folio collection of scratches, drawings, photos and scans, with the philosophy to go with it.',
+    'p5waves'           => '35 wave shapes for p5.js. Pass a number in, get a number back. Motion, patterns, morphing.',
+    'waves_lab'         => 'Turn the knobs, watch the wave. The fastest way to see what the library does.',
+    'waves_snippets'    => 'Small copy-paste sketches, one wave call each. Open any of them in the p5 editor.',
+    'processingwaves'   => 'The same 35 waves for Processing 4. One call, one float.',
+    'vanillawaves'      => 'The same waves without p5: they drive a bar\'s height, a colour or a position in plain HTML.',
+    'gysin'             => 'Worn words, permuted language and plotter-ready SVG and HPGL, after Brion Gysin.',
+    'vanillapenplotter' => 'Build paths in millimetres, let the engine plan the route, send the drawing to the pen. No p5 needed.',
+    'p5penplotter'      => 'Write plot.line() instead of line() and the same line lands on the canvas and on paper.',
+    'blocks.system'     => 'A small browser core that gives every part of a page its own address. No dependencies.',
+    'export'            => 'Lossless capture of a p5 sketch, one call. From the editor, a zip or a folder.',
+    'mdblocker'         => 'A Chrome extension that hides the Markdown files your coding tools leave in Drive. Docs again looks like Docs.',
+    'checkboxdance'     => 'A grid of checkboxes and one curve that dances through the ones you tick.',
+    'p5'                => 'The p5.js course I teach at KHSL, in Dutch, with a live editor on every page. Take what you can use.',
+    'https://prjcts.be/services/svg'                          => 'A black-and-white image in, a halftone, sawtooth or isotope SVG out, sized for a 0.4 mm pen.',
+    'https://prjcts.be/services/p5.blocks'                    => 'Visual programming for p5.js: blocks in, running sketch out. A concept, not a product.',
+    'https://sebastienvanblaere.be/services/audiovisueel'     => 'Notes and research on photography, film, image and sound. A notebook, in Dutch.',
+    'https://www.youtube.com/playlist?list=PLbJ6hUkwmWttjtUlWWRQKycCGI6iFxFP0' => 'A playlist of the things I keep coming back to.',
+    'https://sebastienvanblaere.be/services/cv'               => 'Who I am on paper.',
+];
+$describe = static function (array $item) use ($descriptions): array {
+    if (!empty($item['description'])) return $item;
+    $key = (string) ($item['key'] ?? '');
+    $url = rtrim((string) ($item['url'] ?? ''), '/');
+    $text = $descriptions[$key] ?? $descriptions[$url] ?? '';
+    if ($text !== '') $item['description'] = $text;
+    return $item;
+};
+foreach ($items as $i => $item) {
+    if (!is_array($item)) continue;
+    if (($item['type'] ?? '') === 'pair') {
+        $items[$i]['items'] = array_map($describe, $item['items'] ?? []);
+    } else {
+        $items[$i] = $describe($item);
+    }
+}
+
 $library_listings = [
     'p5waves' => ['label' => 'Listed in p5.js Libraries', 'url' => 'https://p5js.org/libraries/directory/'],
     'gysin' => ['label' => 'Listed in p5.js Libraries', 'url' => 'https://p5js.org/libraries/directory/'],
@@ -590,7 +630,7 @@ $json_ld = [
                 <div class="project-pair">
                     <?php foreach (($item['items'] ?? []) as $pair_item):
                         if (!is_array($pair_item)) continue; ?>
-                    <div class="pair-cell"><a href="<?= $esc($item_url($pair_item)) ?>"<?= !empty($pair_item['external']) ? ' target="_blank" rel="noopener"' : '' ?><?= $vak_attr($pair_item) ?>><?= $render_label((string) ($pair_item['label'] ?? '')) ?></a></div>
+                    <div class="pair-cell"><a href="<?= $esc($item_url($pair_item)) ?>"<?= !empty($pair_item['external']) ? ' target="_blank" rel="noopener"' : '' ?><?= $vak_attr($pair_item) ?>><?= $render_label((string) ($pair_item['label'] ?? '')) ?><?php if (!empty($pair_item['description'])): ?><span class="app-description"><?= $esc((string) $pair_item['description']) ?></span><?php endif; ?></a></div>
                     <?php endforeach; ?>
                 </div>
             <?php elseif ($type === 'description'): ?>
