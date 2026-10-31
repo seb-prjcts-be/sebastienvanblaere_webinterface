@@ -120,3 +120,18 @@ Alle kaarten met een vak hebben nu een beeld.
   - Een kaart opent pas na 180 ms stilstaan (`OPEN_DELAY`), zodat de lijst niet open en dicht springt als je er alleen overheen beweegt.
   - Dichtschuiven: verhuist het vak naar een andere kaart, dan blijft er even een lege plaatshouder (`.vak-ghost`) achter, zodat de lade glijdend sluit in plaats van dicht te klappen.
   - De lade heeft geen marge naast de lijst nodig: volle kaarten tonen hun beeld ook in een smal venster, zolang er een muis is.
+
+### Brede lade en volledige GIF (2026-10-31)
+
+- De lade van een volle kaart is nu even breed als de kaart, in 3:2 (zoals een CGA-animatie van 600×400), en schuift trager open: 700 ms. Bewust trager dan de rest: de kaart maakt plaats voor het beeld.
+- Alle tekeningen werken met een breedte (`size`) en een hoogte (`high`): de linten en koffielijnen vullen de brede strook, blocks.system rekt zijn 3×3-raster, Checkboxdance krijgt meer kolommen, de gysin-foto wordt in 3:2 uitgesneden, en prjcts.be/kunstmijnoren vragen hun thumbnails op als 600×400.
+- Alleen de penplotters hebben een CGA-GIF. Ze blijven halve kaarten met hun vak opzij, maar tonen nu hun eerste GIF volledig (niet uitgesneden), in een vak van 3:2 (150×100): `hero.gif` en `overview.gif`. De zelfgetekende vanilla-spiraal is daarmee vervallen.
+- De andere halve kaarten (lab, snippets) houden hun vierkant vak.
+
+### Ook de halve kaarten (2026-10-31, vervangt de vakjes opzij)
+
+- Elke kaart met een beeld werkt nu hetzelfde: boven de kaart schuift een lade open, even breed als de kaart, in 3:2, en de kaart schuift naar beneden.
+- Bij een halve kaart opent de lade in haar eigen kolom (`.pair-cell` in `index.php`); de andere helft van de rij blijft op haar plaats.
+- De vakjes in de marge (links/rechts) zijn weg. Daardoor werkt alles ook in een smal venster, zolang er een muis is.
+- lab (Binary Field: 30 cellen breed, zoveel rijen als de hoogte toelaat) en snippets (Live Connector) tekenen nu ook in 3:2. De penplotters tonen hun volledige eerste CGA-GIF.
+- .md blocker for Google Docs (Services, 2026-10-31): de enige service met een lade. Toont zijn eerste CGA-GIF volledig: `google_docs_md_filter/docs/images/overview.gif` (600×400, 104 kB), het Docs-beginscherm waarop Markdown- en Word-bestanden een voor een verdwijnen.

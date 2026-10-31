@@ -193,12 +193,13 @@ if ($og_image !== '' && !preg_match('#^https?://#', $og_image)) {
 $esc = static fn(string $s): string => htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $render_label = static fn(string $s): string => nl2br($esc($s), false);
 
-// Projects with their own visual language get an image slot beside the card on hover.
-// Services, education, apps and the CV keep the plain hover. See docs/hover-handtekeningen.md.
+// Projects with their own visual language open an image drawer above the card on hover.
+// Education, apps, the CV and most services keep the plain hover. See docs/hover-handtekeningen.md.
 $vak_keys = [
     'prjcts', 'kunstmijnoren',
     'p5waves', 'waves_lab', 'waves_snippets', 'processingwaves', 'vanillawaves',
     'gysin', 'vanillapenplotter', 'p5penplotter', 'blocks.system',
+    'mdblocker',
     'checkboxdance',
 ];
 $vak_attr = static function (array $item) use ($vak_keys, $esc): string {
@@ -468,7 +469,10 @@ $json_ld = [
         border-color: #ff0000;
         background: #ffffff;
     }
-    .project-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .project-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; align-items: start; }
+    /* Each half card has a column of its own, so a drawer can open above one half
+       while the other half stays where it is. */
+    .pair-cell { display: flex; flex-direction: column; gap: 0.75rem; min-width: 0; }
     .project-pair a { font-size: 0.85rem; padding: 0.8rem 0.5rem; overflow-wrap: anywhere; }
     .app-description { display: block; margin-top: 0.35rem; font-size: 0.75rem; color: #505050; }
     .listed-project {
@@ -500,42 +504,16 @@ $json_ld = [
     footer a:hover { color: #ff0000; }
     nav { position: relative; }
     .vak, .vak-drawer { display: none; }
-    /* Only with a pointer that can hover. The script sizes the slot to the free
-       margin and leaves it hidden when there is not enough room. */
+    /* Only with a pointer that can hover: a drawer above the hovered card slides open,
+       as wide as the card, 3:2. Slower than the rest (700 ms), on purpose: the card
+       makes way for the image. */
     @media (hover: hover) {
-        .vak.is-ready {
-            display: block;
-            position: absolute;
-            left: calc(100% + 2rem);
-            top: 0;
-            width: 150px;
-            height: 150px;
-            /* White, like a card on hover; the drawings leave it showing. */
-            background: #ffffff;
-            border: 1px solid #080808;
-            overflow: hidden;
-            opacity: 0;
-            pointer-events: none;
-            /* --vak-y is set by the script; the slot glides between cards.
-               --vak-x is the small step it makes out of the list. */
-            transform: translate(var(--vak-x, -8px), var(--vak-y, 0px));
-            transition:
-                opacity 150ms cubic-bezier(0.7, 0, 0.84, 0),
-                transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .vak.is-on {
-            opacity: 1;
-            transform: translate(0, var(--vak-y, 0px));
-            transition-duration: 200ms, 300ms;
-            transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        /* Full-width cards: a drawer under the title slides open, with the image centred. */
         .vak-drawer {
             display: grid;
             grid-template-rows: 0fr;
             /* Closed, it must not add a gap of its own between the cards. */
             margin-bottom: -0.75rem;
-            transition: grid-template-rows 300ms cubic-bezier(0.16, 1, 0.3, 1);
+            transition: grid-template-rows 700ms cubic-bezier(0.22, 1, 0.36, 1);
         }
         .vak-drawer.is-open { grid-template-rows: 1fr; }
         .vak-drawer-inner {
@@ -544,36 +522,32 @@ $json_ld = [
             min-height: 0;
             overflow: hidden;
         }
-        .vak.in-drawer,
+        .vak-drawer .vak,
         .vak-ghost {
             display: block;
             position: relative;
             flex: none;
             margin: 0 0 0.75rem;
         }
-        .vak.in-drawer {
+        .vak-drawer .vak {
+            /* White, like a card on hover; the drawings leave it showing. */
             background: #ffffff;
             border: 1px solid #080808;
             overflow: hidden;
         }
-        /* The left half of a pair shows its image in the left margin. */
-        .vak.is-ready.is-left { left: auto; right: calc(100% + 2rem); --vak-x: 8px; }
-        .vak.no-slide { transition: none; }
         .vak canvas {
             display: block;
             width: 100%;
             height: 100%;
-            transition: opacity 200ms cubic-bezier(0.16, 1, 0.3, 1);
         }
-        /* A 600 x 400 CGA animation; the script sets the crop per GIF. */
+        /* A penplotter's whole 600 x 400 CGA animation, filling the 3:2 slot. */
         .vak img {
             position: absolute;
-            height: auto;
-            transition: opacity 200ms cubic-bezier(0.16, 1, 0.3, 1);
+            inset: 0;
+            width: 100%;
+            height: 100%;
         }
         .vak img[hidden] { display: none; }
-        .vak.is-swapping canvas,
-        .vak.is-swapping img { opacity: 0; transition: none; }
     }
     @media (prefers-reduced-motion: reduce) {
         * { transition: none !important; }
@@ -612,7 +586,7 @@ $json_ld = [
                 <div class="project-pair">
                     <?php foreach (($item['items'] ?? []) as $pair_item):
                         if (!is_array($pair_item)) continue; ?>
-                    <a href="<?= $esc($item_url($pair_item)) ?>"<?= !empty($pair_item['external']) ? ' target="_blank" rel="noopener"' : '' ?><?= $vak_attr($pair_item) ?>><?= $render_label((string) ($pair_item['label'] ?? '')) ?></a>
+                    <div class="pair-cell"><a href="<?= $esc($item_url($pair_item)) ?>"<?= !empty($pair_item['external']) ? ' target="_blank" rel="noopener"' : '' ?><?= $vak_attr($pair_item) ?>><?= $render_label((string) ($pair_item['label'] ?? '')) ?></a></div>
                     <?php endforeach; ?>
                 </div>
             <?php elseif ($type === 'description'): ?>
@@ -645,7 +619,10 @@ $json_ld = [
         var canvas = vak.querySelector('canvas');
         var ctx = canvas.getContext('2d');
         var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        // The drawing area: square beside a half card, 3:2 in a full card's drawer.
+        // size is its width, high its height.
         var size = 0;
+        var high = 0;
         var active = null;
         var raf = 0;
 
@@ -702,18 +679,18 @@ $json_ld = [
                 }
                 var heroT = t * 0.54;   // the hero adds 0.018 per frame at 30 fps
                 var stretch = HERO_WIDTH / size * 0.4;
-                var k = size / (1 - HERO_TOP);
+                var k = high / (1 - HERO_TOP);
                 function baseY(yPct) { return (yPct - HERO_TOP) * k; }
                 var x;
 
                 HERO_BG.forEach(function (b, i) {
                     ctx.fillStyle = 'rgba(' + b.gray + ',' + b.gray + ',' + b.gray + ',' + (b.alpha / 255) + ')';
                     ctx.beginPath();
-                    ctx.moveTo(0, size);
+                    ctx.moveTo(0, high);
                     for (x = 0; x <= size; x += 2) {
                         ctx.lineTo(x, baseY(b.yPct) + back[i].sample(x * stretch, heroT) * b.amp * k);
                     }
-                    ctx.lineTo(size, size);
+                    ctx.lineTo(size, high);
                     ctx.closePath();
                     ctx.fill();
                 });
@@ -750,12 +727,12 @@ $json_ld = [
                 var steps = 60;
                 ctx.lineWidth = 1.3;
                 for (var r = 0; r < rows; r++) {
-                    var base = size * (0.12 + r * 0.76 / (rows - 1));
+                    var base = high * (0.12 + r * 0.76 / (rows - 1));
                     ctx.strokeStyle = COFFEE[Math.round(r / (rows - 1) * (COFFEE.length - 1))];
                     ctx.beginPath();
                     for (var i = 0; i <= steps; i++) {
                         var v = Math.max(-1.2, Math.min(1.2, sampler.sample((i / steps) * 46 + r * 7, t + r * 0.35)));
-                        var y = base + v * size * 0.06;
+                        var y = base + v * high * 0.06;
                         if (i === 0) ctx.moveTo(0, y); else ctx.lineTo((i / steps) * size, y);
                     }
                     ctx.stroke();
@@ -782,12 +759,14 @@ $json_ld = [
                     });
                 }
                 // Draw in device pixels, so neighbouring cells meet without seams.
+                // 30 square cells across, as many rows as the height holds.
                 var cell = canvas.width / CELLS;
+                var rows = Math.round(canvas.height / cell);
                 var offset = t * 0.4;
                 ctx.save();
                 ctx.setTransform(1, 0, 0, 1, 0, 0);
                 ctx.fillStyle = '#000';
-                for (var r = 0; r < CELLS; r++) {
+                for (var r = 0; r < rows; r++) {
                     var rv = rowS.sample(r * 5 + offset, t);
                     var y0 = Math.round(r * cell);
                     var y1 = Math.round((r + 1) * cell);
@@ -819,8 +798,8 @@ $json_ld = [
                     calm = Waves.createSampler({ shift: true, group: 'gentle', range: [-1, 1] });
                     rush = Waves.createSampler({ shift: true, group: 'harsh', range: [-1, 1] });
                 }
-                var w = size, h = size;
-                var k = size / 300;   // the specimen's card is about twice the slot
+                var w = size, h = high;
+                var k = size / 450;   // the specimen's card is about twice as wide as a half drawer
 
                 // Autopilot pointer: cruises, then darts. Its speed is the tension.
                 var px = w * (0.62 + 0.26 * Math.cos(t * 0.7 + Math.sin(t * 0.37) * 2.2));
@@ -871,15 +850,22 @@ $json_ld = [
             };
         }
 
-        // A still photo, cropped to a square: x, y and side in the photo's own pixels.
-        function picture(src, x, y, side) {
+        // A still photo, cropped to the slot's shape around a point (cx, cy, as fractions
+        // of the photo), as large as the photo allows.
+        function picture(src, cx, cy) {
             var img = null;
             return function () {
                 if (!img) {
                     img = new Image();
                     img.src = src;
                 }
-                if (img.complete && img.naturalWidth) ctx.drawImage(img, x, y, side, side, 0, 0, size, size);
+                if (!img.complete || !img.naturalWidth) return;
+                var iw = img.naturalWidth, ih = img.naturalHeight;
+                var scale = Math.min(iw / size, ih / high);
+                var w = size * scale, h = high * scale;
+                var x = Math.max(0, Math.min(iw - w, iw * cx - w / 2));
+                var y = Math.max(0, Math.min(ih - h, ih * cy - h / 2));
+                ctx.drawImage(img, x, y, w, h, 0, 0, size, high);
             };
         }
 
@@ -894,7 +880,7 @@ $json_ld = [
         var BLOCK_FILLS = ['#efeee8', '#bdbcb6', '#efeee8'];
         function blocks() {
             return function (t) {
-                var cell = size / 3;
+                var cw = size / 3, ch = high / 3;
                 var hold = 2;
                 var step = Math.floor(t / hold);
                 var from = BLOCK_LAYOUTS[step % BLOCK_LAYOUTS.length];
@@ -907,20 +893,20 @@ $json_ld = [
                 ctx.lineWidth = 1;
                 ctx.beginPath();
                 for (var i = 1; i < 3; i++) {
-                    ctx.moveTo(i * cell, 0);
-                    ctx.lineTo(i * cell, size);
-                    ctx.moveTo(0, i * cell);
-                    ctx.lineTo(size, i * cell);
+                    ctx.moveTo(i * cw, 0);
+                    ctx.lineTo(i * cw, high);
+                    ctx.moveTo(0, i * ch);
+                    ctx.lineTo(size, i * ch);
                 }
                 ctx.stroke();
 
-                var bar = Math.max(3, Math.round(cell * 0.12));
+                var bar = Math.max(3, Math.round(ch * 0.12));
                 from.forEach(function (a, w) {
                     var b = to[w];
-                    var x = (a[0] + (b[0] - a[0]) * m) * cell + 2;
-                    var y = (a[1] + (b[1] - a[1]) * m) * cell + 2;
-                    var wd = (a[2] + (b[2] - a[2]) * m) * cell - 4;
-                    var ht = (a[3] + (b[3] - a[3]) * m) * cell - 4;
+                    var x = (a[0] + (b[0] - a[0]) * m) * cw + 2;
+                    var y = (a[1] + (b[1] - a[1]) * m) * ch + 2;
+                    var wd = (a[2] + (b[2] - a[2]) * m) * cw - 4;
+                    var ht = (a[3] + (b[3] - a[3]) * m) * ch - 4;
                     ctx.fillStyle = BLOCK_FILLS[w];
                     ctx.fillRect(x, y, wd, ht);
                     ctx.fillStyle = '#111';
@@ -937,18 +923,25 @@ $json_ld = [
         function checkboxdance() {
             var N = 7;
             return function (t) {
-                var cell = size / N;
+                // N rows of square cells; as many columns as the width holds, centred.
+                var cell = high / N;
+                var cols = Math.max(N, Math.floor(size / cell));
+                var left = (size - cols * cell) / 2;
+                var shift = Math.floor((cols - N) / 2);   // the dancers keep their place in the middle
                 var box = Math.max(4, Math.round(cell * 0.38));
                 var i;
 
                 ctx.lineWidth = 1;
                 ctx.strokeStyle = '#8a8a8a';
                 ctx.fillStyle = '#111';
-                for (i = 0; i < N * N; i++) {
-                    var gx = Math.round((i % N + 0.5) * cell - box / 2);
-                    var gy = Math.round((Math.floor(i / N) + 0.5) * cell - box / 2);
+                for (i = 0; i < cols * N; i++) {
+                    var c = i % cols, r = Math.floor(i / cols);
+                    var gx = Math.round(left + (c + 0.5) * cell - box / 2);
+                    var gy = Math.round((r + 0.5) * cell - box / 2);
                     ctx.strokeRect(gx + 0.5, gy + 0.5, box, box);
-                    if (DANCERS.indexOf(i) >= 0) ctx.fillRect(gx, gy, box + 1, box + 1);
+                    if (DANCERS.indexOf(r * N + c - shift) >= 0 && c >= shift && c < shift + N) {
+                        ctx.fillRect(gx, gy, box + 1, box + 1);
+                    }
                 }
 
                 // Same sines as the sketch, scaled from its canvas to the slot.
@@ -1009,73 +1002,27 @@ $json_ld = [
                 var now = get(k % files.length);
                 var next = get((k + 1) % files.length);   // loads while the current one shows
                 var m = still ? 0 : Math.max(0, (t - k * HOLD - (HOLD - FADE)) / FADE);
-                if (ready(now)) ctx.drawImage(now, 0, 0, size, size);
+                if (ready(now)) ctx.drawImage(now, 0, 0, size, high);
                 if (m > 0 && ready(next)) {
                     ctx.globalAlpha = m;
-                    ctx.drawImage(next, 0, 0, size, size);
+                    ctx.drawImage(next, 0, 0, size, high);
                     ctx.globalAlpha = 1;
                 }
             };
         }
 
-        var PRJCTS_THUMBS = 'https://prjcts.be/_shared/thumb.php?w=300&h=300&p=content%2Fprojects%2F';
-        var KMO_THUMBS = 'https://kunstmijnoren.be/_shared/thumb.php?w=300&h=300&p=content%2Fprojects%2F01-foliotheek%2F';
+        // thumb.php crops to the size asked: 3:2, like the drawer.
+        var PRJCTS_THUMBS = 'https://prjcts.be/_shared/thumb.php?w=600&h=400&p=content%2Fprojects%2F';
+        var KMO_THUMBS = 'https://kunstmijnoren.be/_shared/thumb.php?w=600&h=400&p=content%2Fprojects%2F01-foliotheek%2F';
 
-        // The penplotters have a CGA animation as their hero. A GIF cannot play on the
-        // canvas, so it gets its own image, loaded from the library site on first hover.
-        // x, y and side give the square crop in the 600 x 400 GIF.
+        // Projects with a CGA animation as their first image (600 x 400) show that GIF whole
+        // in the 3:2 drawer. A GIF cannot play on the canvas, so it gets its own image,
+        // loaded from the project's site on first hover.
         var GIFS = {
-            // The plotter on the right, with the pen crossing the sheet.
-            p5penplotter: {
-                src: 'https://seb-prjcts-be.github.io/p5.penplotter/docs/images/animations/hero.gif',
-                x: 300, y: 50, side: 300
-            }
+            p5penplotter: 'https://seb-prjcts-be.github.io/p5.penplotter/docs/images/animations/hero.gif',
+            vanillapenplotter: 'https://seb-prjcts-be.github.io/vanilla.penplotter/docs/images/animations/overview.gif?v=restored-20261003',
+            mdblocker: 'https://seb-prjcts-be.github.io/google_docs_md_filter/docs/images/overview.gif'
         };
-
-        // vanilla.penplotter: the plotting part of its CGA hero, drawn here. In the GIF the
-        // sheet stays empty for the first ten seconds, and the wider frame is dark espresso,
-        // so the slot draws only the sheet: the teal bar and ochre pen plot a spiral, then
-        // start over. Four colours from overview.gif, drawn on a 60 x 60 pixel grid.
-        var VANILLA_CGA = { ink: '#2b1f1a', sheet: '#ecddb8', bar: '#8fa595', pen: '#c4874b' };
-        function vanillaPlot() {
-            var GRID = 60;
-            var DRAW = 6;
-            var HOLD = 1.5;
-            var pixels = document.createElement('canvas');
-            pixels.width = GRID;
-            pixels.height = GRID;
-            var px = pixels.getContext('2d');
-
-            // A wobbly spiral, out from the centre, like the one in the GIF.
-            var path = [];
-            var TURNS = 7, STEPS = 1100;
-            for (var i = 0; i <= STEPS; i++) {
-                var a = i / STEPS * TURNS * Math.PI * 2;
-                var r = 1.5 + a * (20 / (TURNS * Math.PI * 2)) * (1 + 0.1 * Math.sin(6 * a));
-                path.push([Math.round(GRID / 2 + Math.cos(a) * r), Math.round(GRID / 2 + Math.sin(a) * r)]);
-            }
-
-            return function (t) {
-                var p = still ? 1 : Math.min(1, (t % (DRAW + HOLD)) / DRAW);
-                var n = Math.floor(p * STEPS);
-                px.fillStyle = VANILLA_CGA.sheet;
-                px.fillRect(0, 0, GRID, GRID);
-                px.fillStyle = VANILLA_CGA.ink;
-                for (var k = 0; k <= n; k++) px.fillRect(path[k][0], path[k][1], 1, 1);
-                if (p < 1) {
-                    var pen = path[n];
-                    px.fillStyle = VANILLA_CGA.bar;
-                    px.fillRect(0, pen[1] - 1, GRID, 2);
-                    px.fillStyle = VANILLA_CGA.pen;
-                    px.fillRect(pen[0] - 2, pen[1] - 2, 5, 5);
-                    px.fillStyle = VANILLA_CGA.ink;
-                    px.fillRect(pen[0] - 1, pen[1] - 1, 3, 3);
-                }
-                ctx.imageSmoothingEnabled = false;
-                ctx.drawImage(pixels, 0, 0, size, size);
-                ctx.imageSmoothingEnabled = true;
-            };
-        }
         var gif = document.createElement('img');
         gif.alt = '';
         gif.hidden = true;
@@ -1088,9 +1035,8 @@ $json_ld = [
             waves_lab: binaryField(),
             waves_snippets: connector(),
             // A real plotted sheet, "I LOVE YOU" worn and permuted, from the p5.gysin site.
-            gysin: picture('https://seb-prjcts-be.github.io/p5.gysin/docs/assets/plotted-sheet-love-you.jpg', 0, 240, 720),
+            gysin: picture('https://seb-prjcts-be.github.io/p5.gysin/docs/assets/plotted-sheet-love-you.jpg', 0.5, 0.62),
             'blocks.system': blocks(),
-            vanillapenplotter: vanillaPlot(),
             checkboxdance: checkboxdance(),
             // One image per project, works first, then the archive.
             prjcts: work(PRJCTS_THUMBS, [
@@ -1119,47 +1065,28 @@ $json_ld = [
         function fit() {
             var ratio = window.devicePixelRatio || 1;
             size = canvas.clientWidth;
+            high = canvas.clientHeight;
             canvas.width = size * ratio;
-            canvas.height = size * ratio;
+            canvas.height = high * ratio;
             ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
         }
 
         function draw(now) {
-            ctx.clearRect(0, 0, size, size);
+            ctx.clearRect(0, 0, size, high);
             if (!active) return;
             beelden[active](now / 1000);
             if (!still) raf = requestAnimationFrame(draw);
         }
 
-        var SIDE_MAX = 150;
-        var SIDE_MIN = 72;
-        var GAP = 32 + 16;   // the 2rem gap beside the list, plus a little air at the window edge
-
-        // How large the slot can be in the margin beside the list; 0 if it does not fit.
-        // Both margins are equal, since the column is centred.
-        function room() {
-            var side = Math.min(SIDE_MAX, Math.floor(window.innerWidth - nav.getBoundingClientRect().right - GAP));
-            return side >= SIDE_MIN ? side : 0;
-        }
-
-        // The half cards of a two-card row show the slot in the margin: the left half on the
-        // left, the right half on the right. Full-width cards open downward instead and show
-        // the image centred inside the card (a drawer).
-        function isHalf(card) {
-            var row = card.parentElement;
-            return !!row && row.classList.contains('project-pair');
-        }
-        function isLeftHalf(card) {
-            return isHalf(card) && card.parentElement.firstElementChild === card;
-        }
-
-        var DRAWER_SIDE = 150;
+        // Every card with an image opens a drawer just above itself, outside its border:
+        // the card slides down and the image appears over it, as wide as the card, 3:2.
+        // For a half card the drawer opens in its own column; the other half stays put.
+        var WIDE = 2 / 3;       // 3:2, like a CGA animation
         var OPEN_DELAY = 180;   // rest on a card this long before it opens, so passing over does not
         var openDrawer = null;
         var openTimer = 0;
 
-        // The drawer sits just above the card, outside its border: the card slides down
-        // and the image appears over it. The drawer counts as part of the card for hover.
+        // The drawer counts as part of the card for hover.
         function drawerOf(card) {
             var drawer = card.previousElementSibling;
             if (!drawer || !drawer.classList.contains('vak-drawer')) {
@@ -1191,82 +1118,36 @@ $json_ld = [
             ghost.style.width = vak.offsetWidth + 'px';
             ghost.style.height = vak.offsetHeight + 'px';
             inner.appendChild(ghost);
-            setTimeout(function () { ghost.remove(); }, 400);
+            setTimeout(function () { ghost.remove(); }, 750);
         }
-        function setSide(side) {
-            if (vak.offsetWidth !== side) {
-                vak.style.width = side + 'px';
-                vak.style.height = side + 'px';
+        function setSize(w, h) {
+            w = Math.round(w);
+            h = Math.round(h);
+            if (vak.offsetWidth !== w || vak.offsetHeight !== h) {
+                vak.style.width = w + 'px';
+                vak.style.height = h + 'px';
                 size = 0;
             }
         }
 
-        function showInDrawer(card, link) {
+        function open(card, link) {
             var drawer = drawerOf(card);
             if (drawer !== openDrawer) {
                 closeDrawer();
                 if (vak.parentElement !== drawer.firstChild) leaveDrawer();
-                vak.classList.remove('is-ready', 'is-on', 'is-left');
-                vak.classList.add('in-drawer');
                 drawer.firstChild.querySelectorAll('.vak-ghost').forEach(function (g) { g.remove(); });
                 drawer.firstChild.appendChild(vak);
                 drawer.classList.add('is-open');
                 openDrawer = drawer;
             }
-            setSide(DRAWER_SIDE);
+            setSize(card.offsetWidth, card.offsetWidth * WIDE);
             paint(link);
         }
 
         function show(card, link) {
             clearTimeout(hideTimer);
             clearTimeout(openTimer);
-            if (!isHalf(card)) {
-                openTimer = setTimeout(function () { showInDrawer(card, link); }, OPEN_DELAY);
-                return;
-            }
-            closeDrawer();
-            if (vak.classList.contains('in-drawer')) {
-                leaveDrawer();
-                vak.classList.remove('in-drawer', 'is-on');
-                nav.appendChild(vak);
-            }
-            var side = room();
-            if (!side) {
-                vak.classList.remove('is-ready');
-                return;
-            }
-            var left = isLeftHalf(card);
-            // Switching margins: appear fresh on the other side instead of gliding across the list.
-            if (vak.classList.contains('is-left') !== left) {
-                vak.classList.add('no-slide');
-                vak.classList.remove('is-on');
-                vak.classList.toggle('is-left', left);
-                void vak.offsetWidth;
-                vak.classList.remove('no-slide');
-            }
-            vak.classList.add('is-ready');
-            setSide(side);
-            var top = card.getBoundingClientRect().top - nav.getBoundingClientRect().top;
-            var y = Math.max(0, top + card.offsetHeight / 2 - side / 2) + 'px';
-            var visible = vak.classList.contains('is-on');
-
-            if (visible) {
-                // Already open: glide to the new card, and fade the new image in.
-                vak.style.setProperty('--vak-y', y);
-                if (vak.dataset.vak !== link.dataset.vak) {
-                    vak.classList.add('is-swapping');
-                    void vak.offsetWidth;
-                    vak.classList.remove('is-swapping');
-                }
-            } else {
-                // Coming from hidden: appear beside the card, without sliding in from elsewhere.
-                vak.classList.add('no-slide');
-                vak.style.setProperty('--vak-y', y);
-                void vak.offsetWidth;
-                vak.classList.remove('no-slide');
-                vak.classList.add('is-on');
-            }
-            paint(link);
+            openTimer = setTimeout(function () { open(card, link); }, OPEN_DELAY);
         }
 
         // Start this card's image in the slot, wherever the slot is.
@@ -1275,15 +1156,9 @@ $json_ld = [
             cancelAnimationFrame(raf);
             active = beelden[link.dataset.vak] ? link.dataset.vak : null;
             // A GIF cannot be paused, so with reduced motion the slot stays empty.
-            var crop = still ? null : GIFS[link.dataset.vak];
-            gif.hidden = !crop;
-            if (crop && gif.getAttribute('src') !== crop.src) {
-                gif.src = crop.src;
-                gif.style.width = (600 / crop.side * 100) + '%';
-                gif.style.left = (-crop.x / crop.side * 100) + '%';
-                gif.style.top = (-crop.y / crop.side * 100) + '%';
-                gif.style.imageRendering = crop.pixelated ? 'pixelated' : '';
-            }
+            var src = still ? '' : (GIFS[link.dataset.vak] || '');
+            gif.hidden = !src;
+            if (src && gif.getAttribute('src') !== src) gif.src = src;
             if (!size) fit();
             draw(performance.now());
         }
@@ -1293,15 +1168,10 @@ $json_ld = [
             clearTimeout(hideTimer);
             clearTimeout(openTimer);
             hideTimer = setTimeout(function () {
-                vak.classList.remove('is-on');
                 closeDrawer();
                 cancelAnimationFrame(raf);
             }, 150);
         }
-        // A narrower window must never get a sideways scroll from the hidden slot.
-        window.addEventListener('resize', function () {
-            if (vak.offsetWidth > room()) vak.classList.remove('is-ready');
-        });
         nav.addEventListener('mouseenter', loadWaves);
         nav.addEventListener('focusin', loadWaves);
         nav.querySelectorAll('a[data-vak]').forEach(function (link) {
