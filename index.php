@@ -160,7 +160,7 @@ $items = $grouped_items;
 // One line under each card: what you find there. Keyed by key, or by url for cards without one.
 $descriptions = [
     'prjcts'            => 'A collection of seemingly useless fragments of imagery and small procedural animations. Gentle on the brain and with love for code.',
-    'kunstmijnoren'     => 'A folio collection of scratches, drawings, photos and scans, with the philosophy to go with it.',
+    'kunstmijnoren'     => 'A folio collection of scratches, drawings, photos, scans and halftones, with the philosophy to go with it.',
     'p5waves'           => '35 wave shapes for p5.js. Pass a number in, get a number back. Motion, patterns, morphing.',
     'waves_lab'         => 'Turn the knobs, watch the wave. The fastest way to see what the library does.',
     'waves_snippets'    => 'Small copy-paste sketches, one wave call each. Open any of them in the p5 editor.',
